@@ -1,0 +1,48 @@
+@import "src/styles/styleConstants";
+
+.container {
+  display: grid;
+  grid-template-columns: auto 140px;
+  grid-template-areas: "content rightMenu";
+
+  .content {
+    //grid-area: content;
+    //
+    //display: grid;
+    //grid-template-columns: auto minmax(100px, 1fr);
+    //grid-template-rows: auto auto auto;
+    //grid-template-areas: "titleContainer" ;
+
+    .titleContainer {
+      grid-area: titleContainer;
+
+      .title {
+        border: none;
+        outline: none;
+
+        background-color: transparent;
+
+        color: $lightText;
+        font-size: 24px;
+        font-weight: 700;
+      }
+
+      .columnName {
+        color: $lightText;
+        font-size: 12px;
+        cursor: default;
+      }
+    }
+
+  }
+
+  .rightMenu {
+    grid-area: rightMenu;
+  }
+
+  .menuButton {
+    background-color: #b0b0b0;
+    color: $lightText;
+    font-weight: 500;
+  }
+}

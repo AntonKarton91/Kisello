@@ -1,0 +1,29 @@
+@import "src/styles/styleConstants";
+
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background-size: cover !important;
+
+  display: grid;
+  grid-template-rows: 50px minmax(200px, 1fr);
+  grid-template-areas: "header" "content";
+}
+
+.header {
+  width: 100%;
+
+  grid-area: header;
+
+  display: grid;
+
+  background-color: rgba($mainGray, 0.8);
+}
+
+.content {
+  grid-area: content;
+}

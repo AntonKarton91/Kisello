@@ -1,0 +1,57 @@
+@import "src/styles/styleConstants";
+
+.columnWrapper {
+  height: 100%;
+  max-width: 280px;
+  min-width: 100px;
+}
+
+.container {
+  padding: 8px;
+
+  max-height: 100%;
+
+  background-color: $columnTone;
+
+  border-radius: 8px;
+
+  gap: 5px;
+
+  display: grid;
+  grid-template-rows: 20px 1fr auto;
+  grid-template-areas: "columnName" "cardList" "addMenu";
+
+  ::-webkit-scrollbar {
+    width: 0;
+  }
+}
+
+.columnName {
+  grid-area: columnName;
+
+  .columnNameInput {
+    font-size: 16px;
+    font-weight: bold;
+    outline: none;
+    color: $lightText;
+    background: none;
+    border: none;
+  }
+}
+
+.cartListContainer {
+  grid-area: cardList;
+  //position: relative;
+  padding: 0 1px 1px 0;
+
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.addMenuContainer {
+  width: 100%;
+
+  grid-area: addMenu;
+}

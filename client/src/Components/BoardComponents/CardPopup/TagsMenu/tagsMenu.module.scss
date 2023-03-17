@@ -1,0 +1,27 @@
+@import "src/styles/styleConstants";
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+
+  background-color: #eb5a46;
+}
+
+.buttonContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background-color: $buttonsGray;
+
+  width: 25px;
+  height: 25px;
+}
+
+.addIcon {
+  fill: #5B5B5B!important;
+  width: 17px!important;
+  height: 17px!important;
+}

@@ -1,0 +1,39 @@
+@import "src/styles/styleConstants";
+
+.container {
+  display: grid;
+  align-items: center;
+  grid-template-columns: minmax(0, 30px) auto minmax(0, 30px) auto 1fr auto minmax(0, 30px);
+  grid-template-areas: ". logo . navigation . ava .";
+}
+
+.logo {
+  grid-area: logo;
+}
+
+.navigation {
+  display: flex;
+  gap: 20px;
+  grid-area: navigation;
+
+  .navItem {
+    color: white;
+    cursor: pointer;
+    transition: 0.3s all;
+  }
+
+  .navItem:hover {
+    color: #c2c2c2;
+  }
+}
+
+.ava {
+  cursor: pointer;
+  grid-area: ava;
+  img {
+    box-sizing: border-box;
+  }
+  img:hover {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+}

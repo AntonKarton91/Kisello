@@ -1,0 +1,42 @@
+@import "src/styles/styleConstants";
+
+
+.container {
+}
+
+.prev {
+  overflow-wrap: break-word;
+  hyphens: manual;
+  font-size: 15px;
+  color: $lightText;
+
+  position: relative;
+}
+
+.visible{
+  display: none;
+}
+
+.editInput textarea {
+  width: 100%;
+
+  resize:none;
+  border: none;
+  outline: none;
+  background-color: transparent;
+
+  font-size: 15px;
+  color: $lightText;
+}
+
+.editButton {
+  padding: 0!important;
+  z-index: 999;
+  position: absolute;
+  right: -20px;
+  top: -1px;
+  & svg {
+    width: 12px;
+    height: 12px;
+  }
+}

@@ -1,0 +1,17 @@
+.container {
+  position: relative;
+}
+
+.tooltip{
+  position: fixed;
+
+  white-space: nowrap;
+
+  padding: 5px;
+
+  border-radius: 3px;
+
+  background-color: #e8e8e8;
+
+  z-index: 999!important;
+}

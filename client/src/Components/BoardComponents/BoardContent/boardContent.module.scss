@@ -1,0 +1,35 @@
+@import "src/styles/styleConstants";
+
+.container {
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  grid-template-columns: 10px 1fr;
+  grid-template-areas: "leftMenu field";
+  transition: 0.5s;
+}
+
+//.field {
+//  scrollbar-width: none; /* firefox */
+//}
+//.field::-webkit-scrollbar { /* webkit */
+//  width: 0;
+//  height: 0;
+//}
+
+.open {
+  grid-template-columns: 200px 1fr;
+}
+
+.leftMenu {
+  grid-area: leftMenu;
+  height: 100%;
+}
+
+.field {
+  box-sizing: border-box;
+  overflow-x: auto;
+  grid-area: field;
+}
+

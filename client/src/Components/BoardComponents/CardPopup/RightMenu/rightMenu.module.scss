@@ -1,0 +1,9 @@
+@import "src/styles/styleConstants";
+
+.container {
+  padding-top: 30px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

@@ -1,0 +1,41 @@
+@import "src/styles/styleConstants";
+
+.form {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: auto auto;
+  grid-template-rows: 48px repeat(4, 40px);
+  grid-template-areas: "title title" "email email" "password password" "submit submit" "option1 option2";
+
+  .title {
+    cursor: default;
+    grid-area: title;
+    text-align: center;
+    font-weight: 600;
+    color: #5e6c84;
+    font-size: 16px;
+    letter-spacing: -0.01em;
+    line-height: 28px;
+  }
+  .email {
+    grid-area: email;
+  }
+  .password {
+    grid-area: password;
+  }
+  .submit {
+    background-color: $green!important;
+    margin-top: 8px;
+    grid-area: submit;
+  }
+  .option1 {
+    font-size: 12px;
+    grid-area: option1;
+    align-items: end;
+  }
+  .option2 {
+    font-size: 12px;
+    grid-area: option2;
+    align-items: end;
+  }
+}

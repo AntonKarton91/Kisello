@@ -1,0 +1,38 @@
+{
+  "columns": [
+    {
+      "id": "1",
+      "name": "Задачи Антона",
+      "completed": true,
+      "cardList": ["1"]
+    }
+  ],
+
+  "cards": [
+    {
+      "id": "1",
+      "title": "Задача 1",
+      "tagList": ["1", "2"],
+      "date": "2012-04-23T18:25:43.511Z",
+      "participants": ["string", "string1"]
+    }
+  ],
+  "cardTags": [
+    {"id": "1", "title": "Срочно", "color": "red"},
+    {"id": "2", "title": "Выдано в работу", "color": "blue"}
+  ],
+  "users": [
+    {
+      "id": "string",
+      "name": "Антон",
+      "surname": "Киселев",
+      "avatar": "http://localhost:3000/images/ava1.webp"
+    },
+    {
+      "id": "string1",
+      "name": "Иван",
+      "surname": "Петров",
+      "avatar": "http://localhost:3000/images/ava1.webp"
+    }
+  ]
+}
