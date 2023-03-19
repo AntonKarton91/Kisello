@@ -1,8 +1,16 @@
 export interface IUser {
     id: string
     name: string
-    surname: string
     avatar: string
+}
+
+export enum TypeEmployerPosition {
+    Engineer,
+    Designer,
+    Sales_manager,
+    Department_Head,
+    Supply,
+    Worker
 }
 
 export interface IColumn {

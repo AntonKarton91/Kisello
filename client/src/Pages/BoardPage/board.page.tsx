@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import LayoutComponent from "../../Layout/layout.component";
 import {BoardContentComponent} from "../../Components/BoardComponents/BoardContent/boardContent.component";
 
+
 const BoardPage = () => {
+
+
+
     return (
         <LayoutComponent>
             <BoardContentComponent/>

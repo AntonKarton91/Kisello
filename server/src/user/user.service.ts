@@ -1,8 +1,9 @@
-import {Injectable} from '@nestjs/common';
+import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model, ObjectId} from 'mongoose';
-import {User, UserDocument, UserRoleType} from './schemas/user.schema';
+import {User, UserDocument} from './schemas/user.schema';
 import {CreateUserDto} from './dto/createUser.dto';
+import {TypeEmployerPosition, UserRoleType} from "./schemas/types";
 
 @Injectable()
 export class UserService {
@@ -24,8 +25,22 @@ export class UserService {
   }
 
   async getUserByEmail(email: string){
-    const user = await this.userModel.findOne({ email });
-    return user;
+    return this.userModel.findOne({ email });
+  }
+
+  async getUserExtraData(id: string){
+    const user = await this.getUserById(id)
+    if (user) {
+      return  {
+        surname: user.surname,
+        position: user.position,
+        phoneNumber: user.phoneNumber
+      }
+    } else {
+      throw new HttpException("Нет такого пользователя", HttpStatus.BAD_REQUEST)
+    }
+
+
   }
 
   async getUserById(id: string): Promise<User> {

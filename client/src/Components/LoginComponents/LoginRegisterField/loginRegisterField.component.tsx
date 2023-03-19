@@ -15,7 +15,7 @@ export const LoginRegisterFieldComponent = ({}: AddCardProps): React.ReactElemen
 
     return (
         <div className={styles.container}>
-            <ImageComponent height={43} width={200}/>
+            <ImageComponent height={50} width={200} src={'http://localhost:3000/images/kisello.png'}/>
             <Paper classes={{root: styles.paper}}>
                 {
                     way === "login"

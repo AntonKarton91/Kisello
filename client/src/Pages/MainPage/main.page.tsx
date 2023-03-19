@@ -1,13 +1,12 @@
 import React from 'react';
-import LayoutComponent from "../../Layout/layout.component";
+import {MainFieldComponent} from "../../Components/MainPageComponents/MainField/mainField.component";
 
 const MainPage = () => {
+
     return (
-        <LayoutComponent>
             <div>
-                MainPage
+                <MainFieldComponent/>
             </div>
-        </LayoutComponent>
     );
 };
 

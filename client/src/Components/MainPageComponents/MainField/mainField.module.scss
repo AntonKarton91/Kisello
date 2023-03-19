@@ -1,0 +1,18 @@
+@import "src/styles/styleConstants";
+
+.container {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  grid-template-areas: "leftMenu content";
+
+  width: 100%;
+  height: 100vh;
+}
+
+.leftMenu {
+  grid-area: leftMenu;
+}
+
+.content {
+  grid-area: content;
+}

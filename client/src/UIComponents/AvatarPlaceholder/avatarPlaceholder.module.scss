@@ -1,0 +1,16 @@
+@import "src/styles/styleConstants";
+
+
+.container {
+  background-color: #c2c2c2;
+  color: #eb5a46;
+  font-weight: 502;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle {
+  border-radius: 50%;
+}

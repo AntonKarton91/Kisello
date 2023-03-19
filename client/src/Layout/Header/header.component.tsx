@@ -10,7 +10,7 @@ const HeaderComponent = ({children}: HeaderProps): React.ReactElement => {
         <div className={styles.container}>
             <div className={styles.logo}>
                 <ImageComponent
-                    src={'http://localhost:3000/images/Kisello.png'}
+                    src={'http://localhost:3000/images/KiselloBoard.png'}
                     height={22.08}
                     width={80}
                 />

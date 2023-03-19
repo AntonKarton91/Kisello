@@ -4,6 +4,7 @@ import * as bcrypt from "bcrypt"
 import {CreateUserDto} from "../user/dto/createUser.dto";
 import {TokenService} from "../token/token.service";
 import {Request, Response} from "express";
+import {User} from "../user/schemas/user.schema";
 
 
 @Injectable()
@@ -16,10 +17,13 @@ export class AuthService {
 
     async login(res: Response, dto: CreateUserDto) {
         const user = await this.validateUser(dto)
-        return await this.tokenService.generateToken(user)
-        // await this.tokenService.saveToken(user, token)
-        // res.cookie('accessToken', token, {maxAge: 30 * 60 * 60 * 1000, httpOnly: true})
-        // return token
+        const accessToken = await this.tokenService.generateToken(user)
+        return {
+            id: user._id,
+            email: user.email,
+            password: user.password,
+            accessToken
+        }
     }
 
     async  register(res: Response, dto: CreateUserDto) {
@@ -34,9 +38,9 @@ export class AuthService {
             id: user._id,
             email: user.email,
             password: user.password,
+            avatar: user.avatar,
             accessToken
         }
-
     }
 
     async logout(refreshToken) {
@@ -55,12 +59,12 @@ export class AuthService {
     //     }
     // }
 
-    private async validateUser(dto: CreateUserDto) {
+    private async validateUser(dto: CreateUserDto){
         const user = await this.userService.getUserByEmail(dto.email)
 
         const passEquals = await bcrypt.compare(dto.password, user.password)
         if (user && passEquals) {
-            return user._id
+            return user
         }
         throw new UnauthorizedException({message: "Проверьте имя пользователя и пароль"})
     }

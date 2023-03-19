@@ -23,7 +23,7 @@ export interface AddCardProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivEl
 
 
 export const RegisterComponent = ({toLogin}: AddCardProps): React.ReactElement => {
-    const { columns, loading } = useAppSelector(state => state.board)
+    const { loading, error } = useAppSelector(state => state.user)
     const dispatch = useAppDispatch()
 
     const schema = yup.object().shape({
@@ -104,12 +104,14 @@ export const RegisterComponent = ({toLogin}: AddCardProps): React.ReactElement =
                     size={"small"}
                     classes={{root: styles.password}}/>
                 <Button
+                    disabled={loading}
                     type={"submit"}
                     color="success"
                     variant="contained"
                     classes={{root: styles.submit}}
                 >Зарегистрироваться
                 </Button>
+                { error && <div style={{color: "red"}}>{error}</div>}
             </form>
             <Button
                 onClick={e => toLoginHandler(e)}

@@ -1,13 +1,27 @@
 @import "src/styles/styleConstants";
 
-.form {
+.container {
   display: grid;
   gap: 10px;
   grid-template-columns: auto auto;
-  grid-template-rows: 48px repeat(4, 40px);
-  grid-template-areas: "title title" "email email" "password password" "submit submit" "option1 option2";
+  justify-content: center;
+  align-items: center;
+  grid-template-rows: auto auto;
+  grid-template-areas: "form form" "option1 option2";
+}
+
+.form {
+  margin-bottom: 10px;
+  width: 100%;
+  grid-area: form;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
 
   .title {
+    width: 100%;
     cursor: default;
     grid-area: title;
     text-align: center;
@@ -18,24 +32,30 @@
     line-height: 28px;
   }
   .email {
+    width: 100%;
     grid-area: email;
   }
   .password {
+    width: 100%;
     grid-area: password;
   }
   .submit {
+    width: 100%;
     background-color: $green!important;
     margin-top: 8px;
     grid-area: submit;
   }
-  .option1 {
-    font-size: 12px;
-    grid-area: option1;
-    align-items: end;
-  }
-  .option2 {
-    font-size: 12px;
-    grid-area: option2;
-    align-items: end;
-  }
+}
+.option1 {
+  margin-top: 10px;
+  font-size: 12px!important;
+  grid-area: option1;
+  align-items: end;
+}
+.option2 {
+  white-space: nowrap;
+  margin-top: 10px;
+  font-size: 12px!important;
+  grid-area: option2;
+  align-items: end;
 }

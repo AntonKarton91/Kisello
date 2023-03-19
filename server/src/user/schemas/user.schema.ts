@@ -2,11 +2,9 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import {HydratedDocument, ObjectId} from 'mongoose';
 import mongoose from "mongoose";
 import {Board} from "../../board/schemas/board.schema";
+import {TypeEmployerPosition, UserRoleType} from "./types";
 
-export enum UserRoleType  {
-    "ADMIN"="Administrator",
-    "WORKER"="Worker",
-}
+
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -27,6 +25,17 @@ export class User {
     @Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'boards'}]})
     boards: Board[];
 
+    @Prop({required: true, default: ""})
+    surname: string
+
+    @Prop({required: true, default: TypeEmployerPosition.Worker})
+    position: TypeEmployerPosition
+
+    @Prop({required: true, default: ""})
+    phoneNumber: string
+
+    @Prop({required: true, default: ""})
+    avatar: string
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

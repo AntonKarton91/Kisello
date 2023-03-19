@@ -1,8 +1,12 @@
 import * as React from "react";
-import {DetailedHTMLProps, HTMLAttributes, useRef, useState} from "react";
+import {DetailedHTMLProps, HTMLAttributes} from "react";
 import styles from "./login.module.scss"
-import {ImageComponent} from "../../../UIComponents";
-import {Button, Paper, TextField} from "@mui/material";
+import {Button,TextField} from "@mui/material";
+import {useAppDispatch, useAppSelector} from "../../../Store/hooks";
+import * as yup from "yup";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {loginUser} from "../../../Store/Reducers/user/thunks";
 
 export interface AddCardProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     toRegister: ()=>void
@@ -10,36 +14,78 @@ export interface AddCardProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivEl
 
 
 export const LoginComponent = ({toRegister}: AddCardProps): React.ReactElement => {
+    const { loading, error } = useAppSelector(state => state.user)
+    const dispatch = useAppDispatch()
+
+    const schema = yup.object().shape({
+        email: yup
+            .string()
+            .required("Email обязателен")
+            .email('Неверный формат почты'),
+        password: yup
+            .string()
+            .required("Пароль обязателен")
+    }).required();
+
+    const {
+        register,
+        formState: {
+            errors,
+        },
+        handleSubmit
+    } = useForm({
+        resolver: yupResolver(schema),
+        mode: "onSubmit"
+    })
+
+    const onSubmit = async (data) => {
+        dispatch(loginUser(data))
+    }
+
     const toRegisterHandler = (e: React.MouseEvent) => {
         e.preventDefault()
         setTimeout(()=>toRegister(), 300)
     }
 
     return (
-        <form className={styles.form}>
+        <div className={styles.container}>
+            <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
                     <div className={styles.title}>Вход в Kisello</div>
-                    <TextField
-                        autoComplete={"o"}
-                        id="email"
-                        label="Email"
-                        variant="outlined"
-                        size={"small"}
-                        classes={{root: styles.email}}
-                    />
-                    <TextField
-                        autoComplete={"o"}
-                        id="password"
-                        label="Пароль"
-                        variant="outlined"
-                        size={"small"}
-                        classes={{root: styles.password}}/>
-                    <Button
-                        type={"submit"}
-                        color="success"
-                        variant="contained"
-                        classes={{root: styles.submit}}
-                    >Войти
-                    </Button>
+                <TextField
+                    {...register("email", {
+                        required: "Поле обязательно",
+                    })}
+                    error={!!errors.email}
+                    autoComplete={"off"}
+                    label="Email"
+                    variant="outlined"
+                    size={"small"}
+                    // @ts-ignore
+                    helperText={errors?.email?.message}
+                    classes={{root: styles.email}}
+                />
+
+                <TextField
+                    {...register("password", {
+                        required: "Поле обязательно"
+                    })}
+                    error={!!errors.password}
+                    autoComplete={"off"}
+                    label="Пароль"
+                    type={"password"}
+                    variant="outlined"
+                    size={"small"}
+                    classes={{root: styles.password}}/>
+                        <Button
+                            disabled={loading}
+                            type={"submit"}
+                            color="success"
+                            variant="contained"
+                            classes={{root: styles.submit}}
+                        >Войти
+                        </Button>
+                        { error && <div style={{color: "red"}}>{error}</div>}
+                    </form>
                     <Button
                         classes={{root: styles.option1}}
                         size={"small"}
@@ -55,7 +101,7 @@ export const LoginComponent = ({toRegister}: AddCardProps): React.ReactElement =
                     >
                         Зарегистрировать аккаунт
                     </Button>
-                </form>
+        </div>
     );
 };
 

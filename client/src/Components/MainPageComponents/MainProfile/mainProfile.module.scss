@@ -1,0 +1,51 @@
+@import "src/styles/styleConstants";
+
+
+.container {
+  padding: 20px;
+
+  height: 100%;
+
+  display: grid;
+  grid-template-columns: auto 10px minmax(200px, 1fr) auto 1fr;
+  grid-template-areas: "name . . submit ." "email . . . ." ". . . . ." "avatar . info info ." ". . info info .";
+  grid-template-rows: auto auto 20px auto 1fr;
+
+}
+.submit {
+  grid-area: submit;
+}
+
+.name {
+  grid-area: name;
+  color: #0770B2;
+  font-weight: 501;
+  font-size: 25px;
+}
+
+.email {
+  grid-area: email;
+  color: $lightText;
+  font-size: 15px;
+}
+
+.avatarContainer {
+  grid-area: avatar;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.uploadButton{
+  height: 30px!important;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+}
+
+.content {
+  grid-area: info;
+}

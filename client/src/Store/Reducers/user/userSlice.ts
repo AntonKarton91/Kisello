@@ -1,14 +1,20 @@
 import {createSlice} from '@reduxjs/toolkit'
 import {IUserState} from "./types";
-import {registerUser} from "./thunks";
+import {fetchExtraUser, loginUser, registerUser} from "./thunks";
+import {TypeEmployerPosition} from "../../../models/models";
 
 
-const initialState: IUserState = {
+const initialState: IUserState= {
     id: null,
-    name: null,
-    email: null,
-    accessToken: null
-
+    name: "",
+    surname: "",
+    email: "",
+    avatar: "",
+    accessToken: null,
+    loading: false,
+    error: null,
+    position: TypeEmployerPosition.Worker,
+    phoneNumber: ""
 }
 
 
@@ -19,10 +25,43 @@ export const userSlice = createSlice({
 
     },
     extraReducers: (builder) => {
-        builder
-            .addCase(registerUser.fulfilled, (state, action) => {
-                state = {...action.payload}
-            })
+        builder.addCase(registerUser.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        builder.addCase(registerUser.rejected, (state, action) => {
+            state.error = action.payload as string;
+        })
+        .addCase(registerUser.fulfilled, (state, action) => {
+            state = {...state, ...action.payload}
+            state.loading = false
+        })
+
+
+        .addCase(loginUser.fulfilled, (state, action) => {
+            state = {...state, ...action.payload}
+            state.loading = false
+        })
+        builder.addCase(loginUser.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        builder.addCase(loginUser.rejected, (state, action) => {
+            state.error = action.payload as string;
+        })
+
+
+        .addCase(fetchExtraUser.fulfilled, (state, action) => {
+            state = {...state, ...action.payload};
+            state.loading = false;
+        })
+        builder.addCase(fetchExtraUser.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        builder.addCase(fetchExtraUser.rejected, (state, action) => {
+            state.error = action.payload as string;
+        })
     }
 })
 

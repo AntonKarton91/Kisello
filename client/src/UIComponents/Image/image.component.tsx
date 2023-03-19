@@ -6,7 +6,7 @@ import {TooltipComponent} from "../Tooltip/tooltip.component";
 
 export interface ImageProps extends DetailedHTMLProps<HTMLAttributes<HTMLImageElement>, HTMLImageElement> {
     src?: string
-    height: number
+    height?: number
     width: number
     circle?: boolean
     alt?: string
@@ -46,7 +46,7 @@ export const ImageComponent = ({className, src, height, width, circle, alt, desc
                 alt={alt}
                 src={src}
                 width={width}
-                height={height}
+                height={!height ? "auto" : height}
                 className={classes}
                 {...attrs}
             />
