@@ -42,8 +42,8 @@ export const MainProfileComponent = ({}: MainProfileProps): React.ReactElement =
 
     return (
         <div className={styles.container} >
-            <div className={styles.name}>{"Антон"} {"Киселев"}</div>
-            <div className={styles.email}>{"anton.karton91@mail.ru"}</div>
+            <div className={styles.name}>{name} {surname}</div>
+            <div className={styles.email}>{email}</div>
             <div className={styles.avatarContainer}>
                     {
                         avatar || selectedImage

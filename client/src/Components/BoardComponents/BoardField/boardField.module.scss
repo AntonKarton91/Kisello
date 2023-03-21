@@ -9,5 +9,35 @@
   gap: 8px;
 }
 
+.addColumnButton {
+  min-width: 205px;
+  height: 32px;
+  padding: 3px 8px 3px 4px;
+
+  background-color: rgba(114, 112, 112, 0.4);
+
+  border-radius: 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 4px;
+
+  cursor: pointer;
+
+  div {
+    font-size: 13px;
+    color: white;
+  }
+
+  svg {
+    width: 20px;
+    fill: white;
+  }
+
+  &:hover {
+    background-color: rgba(155, 153, 153, 0.4);
+  }
+}
 
 

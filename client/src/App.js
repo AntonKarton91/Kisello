@@ -4,13 +4,23 @@ import {store} from "./Store/store";
 import {Provider} from "react-redux";
 import LoginPage from "./Pages/LoginPage/login.page";
 import MainPage from "./Pages/MainPage/main.page";
+import {useEffect} from "react";
+import {useAppDispatch} from "./Store/hooks";
+import {fetchUserByToken} from "./Store/Reducers/user/thunks";
 
 function App() {
-let token = localStorage.getItem("accessToken")
-token = true
+    const dispatch = useAppDispatch()
+    let token = localStorage.getItem("accessToken")
+    // token = true
+
+    useEffect(()=>{
+        if (token) {
+            dispatch(fetchUserByToken(token))
+        }
+    }, [])
 
     return (
-        <Provider store={store}>
+
             <BrowserRouter>
                 <Routes>
                     <Route
@@ -23,7 +33,7 @@ token = true
                     />
                     <Route path='login' element={<LoginPage />} />
                     <Route
-                        path='/board'
+                        path='/board/:id'
                         element={
                             !token
                                 ? (<Navigate replace to="/login" />)
@@ -32,7 +42,6 @@ token = true
                     />
                 </Routes>
             </BrowserRouter>
-        </Provider>
     );
 }
 

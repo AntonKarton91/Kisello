@@ -6,8 +6,11 @@ import {fetchBoardData} from "./thunks";
 
 
 const initialState: IBoardState = {
+    id: "",
+    title: '',
+    users: [],
     columns: [],
-    cards: [],
+    cardList: [],
     cardTags: [],
     loading: false,
     error: null
@@ -19,14 +22,12 @@ export const boardSlice = createSlice({
     initialState,
     reducers: {
         addColumn: (state, action: PayloadAction<IColumn>) => {
-            console.log(action.payload)
-            const a: IColumn = {...action.payload, cardList: []}
             state.columns.push({...action.payload, cardList: []})
         },
 
         addCard: (state, action: PayloadAction<{newCard: ICartPrev, columnId: string}>) => {
-            state.cards.push(action.payload.newCard)
-            state.columns.find(c=> c.id === action.payload.columnId)?.cardList.push(action.payload.newCard.id)
+            state.cardList.push(action.payload.newCard)
+            state.columns.find(c=> c._id === action.payload.columnId)?.cardList.push(action.payload.newCard.id)
         },
     },
     extraReducers: (builder) => {
@@ -36,9 +37,9 @@ export const boardSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchBoardData.fulfilled, (state, action) => {
-                state.columns = action.payload.columnsData;
-                // state.cards = action.payload.cardsData;
-                // state.cardTags = action.payload.cardTagsData;
+                state.title = action.payload.title
+                state.id = action.payload.id
+                state.columns = action.payload.columns
                 state.loading = false;
             })
     }

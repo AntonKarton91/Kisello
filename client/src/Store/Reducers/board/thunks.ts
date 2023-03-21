@@ -1,24 +1,18 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {IResponse} from "./types";
+import axios from "axios";
 
 
-export const fetchBoardData = createAsyncThunk<IResponse, undefined, {rejectValue: string}>(
-    'board/fetchColumnList',
-    async function (_, { rejectWithValue }) {
-        const columns = await fetch("http://localhost:5000/column");
-        // const cards = await fetch("http://localhost:5000/cards");
-        // const cardTags = await fetch("http://localhost:5000/cardTags");
-        // if (!columns || !cards || !cardTags) {
-        //     return rejectWithValue('Server Error!');
-        // }
-        const columnsData = await columns.json();
-        console.log(columnsData)
-        // const cardsData = await cards.json();
-        // const cardTagsData = await cardTags.json();
+export const fetchBoardData = createAsyncThunk<IResponse, string, {rejectValue: string}>(
+    'board/fetchBoardData',
+    async function (boardId, { rejectWithValue }) {
+        const { data: board } = await axios(`http://localhost:5000/board/${boardId}`);
+        const { data: columns } = await axios.post("http://localhost:5000/column/getbyboardid", {boardId});
         return {
-            columnsData,
-            // cardsData,
-            // cardTagsData
+            id: board._id,
+            title: board.title,
+            columns
         };
     }
 );
+

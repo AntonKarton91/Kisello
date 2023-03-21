@@ -1,5 +1,5 @@
 import * as React from "react";
-import {DetailedHTMLProps, HTMLAttributes} from "react";
+import {DetailedHTMLProps, HTMLAttributes, useEffect} from "react";
 import styles from "./avatarPlaceholder.module.scss"
 import cn from "classnames"
 
@@ -13,6 +13,7 @@ export interface AvatarPlaceholderProps extends DetailedHTMLProps<HTMLAttributes
 
 
 export const AvatarPlaceholderComponent = ({size, className, circle, title, fontSize}: AvatarPlaceholderProps): React.ReactElement => {
+
 
     const extraStyles = {
         width: size + "px",
@@ -28,7 +29,11 @@ export const AvatarPlaceholderComponent = ({size, className, circle, title, font
 
     return (
         <div style={extraStyles} className={classes}>
-            <div>{title[0].toUpperCase()}</div>
+            {
+                title.length>1
+                    ? <div>{title[0].toUpperCase()}</div>
+                    : <div></div>
+            }
         </div>
     )
 };

@@ -3,6 +3,7 @@ import {ICartPrev, IColumn, ITagList, TypeEmployerPosition} from "../../../model
 
 export interface CreateUserDto {
     name: string
+    surname: string
     email: string
     password: string
 }
@@ -16,14 +17,20 @@ export interface LoginUserDto {
 export interface IAuthDataResponse {
     id: string
     name: string
+    surname: string
     email: string
     accessToken: string
 }
 
-export interface IExtraUserResponse{
-    surname: string
+export interface IUserResponse{
+    id: string,
+    name: string,
+    surname: string,
+    email: string,
+    avatar: string,
+    phoneNumber: string,
+    boards: string[],
     position: TypeEmployerPosition
-    phoneNumber: string
 }
 
 export interface IUserState{
@@ -35,6 +42,7 @@ export interface IUserState{
     position: TypeEmployerPosition
     phoneNumber: string | null
     accessToken: string | null
+    boards: string[]
     loading: boolean
     error: string | null
 }

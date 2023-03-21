@@ -1,5 +1,5 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {CreateUserDto, IAuthDataResponse, IExtraUserResponse, LoginUserDto} from "./types";
+import {CreateUserDto, IAuthDataResponse, IUserResponse, LoginUserDto} from "./types";
 import axios from "axios";
 
 
@@ -40,16 +40,20 @@ export const loginUser = createAsyncThunk<IAuthDataResponse, LoginUserDto, {reje
     }
 );
 
-export const fetchExtraUser = createAsyncThunk<IExtraUserResponse, string, {rejectValue: string}>(
-    'user/getExtraUser',
-    async function (userId, { rejectWithValue }) {
+export const fetchUserByToken = createAsyncThunk<IUserResponse, string, {rejectValue: string}>(
+    'user/fetchUserByToken',
+    async function (token, { rejectWithValue }) {
         try {
-            const {data} = await axios.get("http://localhost:5000/user/getExtraUser", {params: {id: userId}});
+            const {data} = await axios.post("http://localhost:5000/auth/getbytoken", {token});
             return {
                 ...data
             };
         } catch (e) {
             if (e instanceof Error){
+                // @ts-ignore
+                if (e.response.status === 400) {
+                    localStorage.removeItem("accessToken")
+                }
                 return rejectWithValue(e.message);
             }
         }

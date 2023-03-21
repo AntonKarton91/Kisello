@@ -14,7 +14,7 @@ export enum TypeEmployerPosition {
 }
 
 export interface IColumn {
-    id: string
+    _id: string
     name: string
     cardList: string[]
 }

@@ -30,6 +30,9 @@ export const RegisterComponent = ({toLogin}: AddCardProps): React.ReactElement =
         name: yup
             .string()
             .required("Имя обязательно"),
+        surname: yup
+            .string()
+            .required("Фамилия обязательна"),
         email: yup
             .string()
             .required("Email обязателен")
@@ -76,7 +79,20 @@ export const RegisterComponent = ({toLogin}: AddCardProps): React.ReactElement =
                     size={"small"}
                     // @ts-ignore
                     helperText={errors?.name?.message}
-                    classes={{root: styles.name}}
+                    classes={{root: styles.input}}
+                />
+                <TextField
+                    {...register("surname", {
+                        required: "Поле обязательно",
+                    })}
+                    error={!!errors.surname}
+                    autoComplete={"off"}
+                    label="Имя"
+                    variant="outlined"
+                    size={"small"}
+                    // @ts-ignore
+                    helperText={errors?.surname?.message}
+                    classes={{root: styles.input}}
                 />
                 <TextField
                     {...register("email", {
@@ -89,7 +105,7 @@ export const RegisterComponent = ({toLogin}: AddCardProps): React.ReactElement =
                     size={"small"}
                     // @ts-ignore
                     helperText={errors?.email?.message}
-                    classes={{root: styles.email}}
+                    classes={{root: styles.input}}
                 />
 
                 <TextField
@@ -102,7 +118,7 @@ export const RegisterComponent = ({toLogin}: AddCardProps): React.ReactElement =
                     type={"password"}
                     variant="outlined"
                     size={"small"}
-                    classes={{root: styles.password}}/>
+                    classes={{root: styles.input}}/>
                 <Button
                     disabled={loading}
                     type={"submit"}
