@@ -29,9 +29,14 @@ export declare class ColumnController {
     private columnService;
     constructor(columnService: ColumnService);
     getAllColumns(): Promise<import("./schemas/column.schema").Column[]>;
-    createColumn(dto: CreateColumnDto): Promise<import("mongoose").Document<unknown, any, import("./schemas/column.schema").Column> & Omit<import("./schemas/column.schema").Column & {
+    createColumn(dto: CreateColumnDto): Promise<{
+        id: any;
+        name: string;
+        cardList: import("mongoose").Schema.Types.ObjectId[];
+    }>;
+    getByBoardId(id: string): Promise<(import("mongoose").Document<unknown, any, import("./schemas/column.schema").Column> & Omit<import("./schemas/column.schema").Column & {
         _id: import("mongoose").Types.ObjectId;
     }, never> & Required<{
         _id: import("mongoose").Types.ObjectId;
-    }>>;
+    }>)[]>;
 }

@@ -9,8 +9,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TokenModule = void 0;
 const common_1 = require("@nestjs/common");
 const token_service_1 = require("./token.service");
-const mongoose_1 = require("@nestjs/mongoose");
-const token_schema_1 = require("./token.schema");
 const jwt_1 = require("@nestjs/jwt");
 let TokenModule = class TokenModule {
 };
@@ -18,7 +16,6 @@ TokenModule = __decorate([
     (0, common_1.Module)({
         providers: [token_service_1.TokenService],
         imports: [
-            mongoose_1.MongooseModule.forFeature([{ name: token_schema_1.Token.name, schema: token_schema_1.TokenSchema }]),
             jwt_1.JwtModule.register({
                 secret: process.env.PRIVATE_KEY || 'SECRET',
                 signOptions: {

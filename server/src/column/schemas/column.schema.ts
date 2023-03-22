@@ -7,11 +7,11 @@ export type ColumnDocument = HydratedDocument<Column>;
 
 @Schema()
 export class Column {
-    @Prop({required: true})
+    @Prop({default: "Новая колонка"})
     name: string;
 
     @Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'cards'}]})
-    cards: ObjectId[];
+    cardList: ObjectId[];
 
     board: ObjectId
 }

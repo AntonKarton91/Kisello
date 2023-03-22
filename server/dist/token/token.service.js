@@ -8,58 +8,35 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TokenService = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
-const mongoose_1 = require("@nestjs/mongoose");
-const user_schema_1 = require("../user/schemas/user.schema");
-const mongoose_2 = require("mongoose");
-const token_schema_1 = require("./token.schema");
 let TokenService = class TokenService {
-    constructor(tokenModel, jwtService) {
-        this.tokenModel = tokenModel;
+    constructor(jwtService) {
         this.jwtService = jwtService;
     }
     async generateToken(user) {
         const payload = {
-            email: user.userEmail,
-            password: user.userPassword,
-            role: user_schema_1.UserRoleType.WORKER,
+            email: user.email,
+            password: user.password,
         };
-        const accessToken = this.jwtService.sign(payload, { expiresIn: '30m' });
-        return accessToken;
+        return this.jwtService.sign(payload);
     }
-    async saveToken(userId, refreshToken) {
-        const tokenData = await this.tokenModel.findOne({ userId });
-        if (tokenData) {
-            tokenData.refreshToken = refreshToken;
-            tokenData.save();
-            return tokenData;
+    async verifyToken(token) {
+        try {
+            return this.jwtService.verify(token);
         }
-        const token = await this.tokenModel.create({
-            userId: userId,
-            refreshToken,
-        });
-        return token;
-    }
-    async deleteToken(refreshToken) {
-        const token = await this.tokenModel.findOneAndDelete({ refreshToken });
-        return token;
-    }
-    async refreshToken(refreshToken) {
-        const token = await this.tokenModel.findOneAndUpdate({ refreshToken }, { refreshToken });
-        return token;
+        catch (e) {
+            if (e instanceof Error) {
+                throw new common_1.HttpException("Неверный токен", common_1.HttpStatus.BAD_REQUEST);
+            }
+        }
     }
 };
 TokenService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)(token_schema_1.Token.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model,
-        jwt_1.JwtService])
+    __metadata("design:paramtypes", [jwt_1.JwtService])
 ], TokenService);
 exports.TokenService = TokenService;
 //# sourceMappingURL=token.service.js.map

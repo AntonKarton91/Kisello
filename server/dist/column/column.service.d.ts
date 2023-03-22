@@ -22,8 +22,7 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Model } from 'mongoose';
-import { CreateColumnDto } from './dto/createColumn.dto';
+import { Model, ObjectId } from 'mongoose';
 import { Column, ColumnDocument } from "./schemas/column.schema";
 import { BoardService } from "../board/board.service";
 export declare class ColumnService {
@@ -31,9 +30,19 @@ export declare class ColumnService {
     private columnModel;
     constructor(boardService: BoardService, columnModel: Model<ColumnDocument>);
     findAll(): Promise<Column[]>;
-    create(dto: CreateColumnDto): Promise<import("mongoose").Document<unknown, any, Column> & Omit<Column & {
+    getByBoardId(id: any): Promise<(import("mongoose").Document<unknown, any, Column> & Omit<Column & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never> & Required<{
+        _id: import("mongoose").Types.ObjectId;
+    }>)[]>;
+    getByBoardIdAndRename(id: ObjectId, name: string): Promise<import("mongoose").Document<unknown, any, Column> & Omit<Column & {
         _id: import("mongoose").Types.ObjectId;
     }, never> & Required<{
         _id: import("mongoose").Types.ObjectId;
     }>>;
+    create(boardId: any): Promise<{
+        id: any;
+        name: string;
+        cardList: import("mongoose").Schema.Types.ObjectId[];
+    }>;
 }

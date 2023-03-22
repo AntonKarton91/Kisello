@@ -21,16 +21,24 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
-/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
 import { ConfigService } from "@nestjs/config";
 import { BoardService } from "./board.service";
 import { CreateBoardDto } from "./dto/createBoard.dto";
+import { ObjectId } from "mongoose";
 export declare class BoardController {
     private readonly configService;
     private boardService;
     constructor(configService: ConfigService, boardService: BoardService);
     createProduct(dto: CreateBoardDto): Promise<import("mongoose").Document<unknown, any, import("./schemas/board.schema").Board> & Omit<import("./schemas/board.schema").Board & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never> & Required<{
+        _id: import("mongoose").Types.ObjectId;
+    }>>;
+    fetchBoardList(userId: {
+        userId: ObjectId;
+    }): Promise<import("./schemas/board.schema").Board[]>;
+    findExtraData(params: any): Promise<import("mongoose").Document<unknown, any, import("./schemas/board.schema").Board> & Omit<import("./schemas/board.schema").Board & {
         _id: import("mongoose").Types.ObjectId;
     }, never> & Required<{
         _id: import("mongoose").Types.ObjectId;

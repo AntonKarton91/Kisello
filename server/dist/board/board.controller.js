@@ -25,6 +25,12 @@ let BoardController = class BoardController {
     createProduct(dto) {
         return this.boardService.create(dto);
     }
+    fetchBoardList(userId) {
+        return this.boardService.getBoardList(userId.userId);
+    }
+    async findExtraData(params) {
+        return await this.boardService.findById(params.id);
+    }
 };
 __decorate([
     (0, common_1.Post)('/create'),
@@ -33,6 +39,20 @@ __decorate([
     __metadata("design:paramtypes", [createBoard_dto_1.CreateBoardDto]),
     __metadata("design:returntype", void 0)
 ], BoardController.prototype, "createProduct", null);
+__decorate([
+    (0, common_1.Post)('/fetchboardlist'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], BoardController.prototype, "fetchBoardList", null);
+__decorate([
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], BoardController.prototype, "findExtraData", null);
 BoardController = __decorate([
     (0, common_1.Controller)('board'),
     __metadata("design:paramtypes", [config_1.ConfigService,

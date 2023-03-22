@@ -7,12 +7,14 @@ import {
     WebSocketServer
 } from "@nestjs/websockets";
 import { Server, Socket } from "socket.io"
-import {OnModuleInit} from "@nestjs/common";
-import {CreateColumnDto} from "../column/dto/createColumn.dto";
+import { ObjectId } from "mongoose";
+import { ColumnService } from "../column/column.service";
 
 
 @WebSocketGateway({ cors: true })
 export class BoardGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect{
+    constructor(private columnService: ColumnService) {
+    }
     //
     // @WebSocketServer()
     // server: Server
@@ -38,9 +40,20 @@ export class BoardGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
     @WebSocketServer() server: Server;
 
     @SubscribeMessage('addNewColumn')
-    async handleSendMessage(client: Socket, payload: CreateColumnDto): Promise<void> {
-        console.log(payload)
-        this.server.emit('addNewColumn', payload);
+    async handleSendMessage(client: Socket, payload: ObjectId): Promise<void> {
+        const newColumn = await this.columnService.create(payload)
+        this.server.emit('addNewColumn', newColumn);
+    }
+
+    @SubscribeMessage('changeColumnName')
+    async handleChangeColumnName(client: Socket, payload: {columnName: string, columnId:ObjectId}): Promise<void> {
+        try {
+            await this.columnService.getByBoardIdAndRename(payload.columnId, payload.columnName)
+            this.server.emit('changeColumnName', payload);
+        } catch (e) {
+            this.server.emit('changeColumnName', "error");
+        }
+
     }
 
     afterInit(server: Server) {

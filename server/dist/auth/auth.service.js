@@ -21,7 +21,18 @@ let AuthService = class AuthService {
     }
     async login(res, dto) {
         const user = await this.validateUser(dto);
-        return await this.tokenService.generateToken(user);
+        const accessToken = await this.tokenService.generateToken(user);
+        return {
+            id: user._id,
+            name: user.name,
+            surname: user.surname,
+            email: user.email,
+            password: user.password,
+            avatar: user.avatar,
+            phoneNumber: user.phoneNumber,
+            boards: user.boards,
+            accessToken
+        };
     }
     async register(res, dto) {
         const candidate = await this.userService.getUserByEmail(dto.email);
@@ -33,20 +44,41 @@ let AuthService = class AuthService {
         const accessToken = await this.tokenService.generateToken(user);
         return {
             id: user._id,
+            name: user.name,
+            surname: user.surname,
             email: user.email,
             password: user.password,
+            avatar: user.avatar,
+            phoneNumber: user.phoneNumber,
             accessToken
         };
     }
     async logout(refreshToken) {
-        const token = await this.tokenService.deleteToken(refreshToken);
-        return token;
+    }
+    async getUserByToken(res, token) {
+        const { email } = await this.tokenService.verifyToken(token.token);
+        const user = await this.userService.getUserByEmail(email);
+        if (user) {
+            return {
+                id: user.id,
+                name: user.name,
+                surname: user.surname,
+                email: user.email,
+                avatar: user.avatar,
+                phoneNumber: user.phoneNumber,
+                boards: user.boards,
+                position: user.position
+            };
+        }
     }
     async validateUser(dto) {
+        console.log(dto.password);
         const user = await this.userService.getUserByEmail(dto.email);
-        const passEquals = await bcrypt.compare(dto.password, user.password);
-        if (user && passEquals) {
-            return user._id;
+        if (user) {
+            const passEquals = await bcrypt.compare(dto.password, user.password);
+            if (passEquals) {
+                return user;
+            }
         }
         throw new common_1.UnauthorizedException({ message: "Проверьте имя пользователя и пароль" });
     }

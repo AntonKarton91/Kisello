@@ -18,16 +18,28 @@ export class ColumnService {
         return this.columnModel.find();
     }
 
-    async create(dto: CreateColumnDto) {
+    async getByBoardId(id){
+        return this.columnModel.find({board: id}).select("id name cardList");
+    }
+
+    async getByBoardIdAndRename(id: ObjectId, name: string){
+        return this.columnModel.findByIdAndUpdate(id, {name: name})
+    }
+
+    async create(boardId) {
         const newColumn = await this.columnModel.create({
-            ...dto,
-            cards: [],
+            board: boardId,
+            cardList: [],
         });
         if (!newColumn) {
             throw new HttpException("Ошибка сервера", HttpStatus.INTERNAL_SERVER_ERROR)
         }
-        await this.boardService.findAndUpdate(dto.boardId, {$push: {columns: newColumn.id}})
-        return newColumn
+        await this.boardService.findAndUpdate(boardId, {$push: {columns: newColumn.id}})
+        return {
+            id: newColumn.id,
+            name: newColumn.name,
+            cardList: newColumn.cardList
+        }
     }
 
 }

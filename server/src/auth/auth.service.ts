@@ -4,7 +4,7 @@ import * as bcrypt from "bcrypt"
 import {CreateUserDto} from "../user/dto/createUser.dto";
 import {TokenService} from "../token/token.service";
 import {Request, Response} from "express";
-import {User} from "../user/schemas/user.schema";
+
 
 
 @Injectable()
@@ -20,11 +20,17 @@ export class AuthService {
         const accessToken = await this.tokenService.generateToken(user)
         return {
             id: user._id,
+            name: user.name,
+            surname: user.surname,
             email: user.email,
             password: user.password,
+            avatar: user.avatar,
+            phoneNumber: user.phoneNumber,
+            boards: user.boards,
             accessToken
         }
     }
+
 
     async  register(res: Response, dto: CreateUserDto) {
         const candidate = await this.userService.getUserByEmail(dto.email)
@@ -36,16 +42,34 @@ export class AuthService {
         const accessToken = await this.tokenService.generateToken(user)
         return {
             id: user._id,
+            name: user.name,
+            surname: user.surname,
             email: user.email,
             password: user.password,
             avatar: user.avatar,
+            phoneNumber: user.phoneNumber,
             accessToken
         }
     }
 
     async logout(refreshToken) {
-        const token = await this.tokenService.deleteToken(refreshToken)
-        return token
+    }
+
+    async getUserByToken(res: Response, token: { token: string }) {
+        const { email } = await this.tokenService.verifyToken(token.token)
+        const user = await this.userService.getUserByEmail(email)
+        if (user) {
+            return {
+                id: user.id,
+                name: user.name,
+                surname: user.surname,
+                email: user.email,
+                avatar: user.avatar,
+                phoneNumber: user.phoneNumber,
+                boards: user.boards,
+                position: user.position
+            }
+        }
     }
 
     // async refresh(req: Request, res: Response) {
@@ -59,12 +83,14 @@ export class AuthService {
     //     }
     // }
 
-    private async validateUser(dto: CreateUserDto){
+    private async validateUser(dto: Partial<CreateUserDto>){
+        console.log(dto.password);
         const user = await this.userService.getUserByEmail(dto.email)
-
-        const passEquals = await bcrypt.compare(dto.password, user.password)
-        if (user && passEquals) {
-            return user
+        if (user) {
+            const passEquals = await bcrypt.compare(dto.password, user.password)
+            if (passEquals) {
+                return user
+            }
         }
         throw new UnauthorizedException({message: "Проверьте имя пользователя и пароль"})
     }

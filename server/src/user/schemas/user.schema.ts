@@ -19,7 +19,7 @@ export class User {
     @Prop({required: true})
     password: string
 
-    @Prop({required: true})
+    @Prop({required: true, default: UserRoleType.WORKER})
     role: UserRoleType
 
     @Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'boards'}]})
@@ -31,10 +31,10 @@ export class User {
     @Prop({required: true, default: TypeEmployerPosition.Worker})
     position: TypeEmployerPosition
 
-    @Prop({required: true, default: ""})
+    @Prop({default: ""})
     phoneNumber: string
 
-    @Prop({required: true, default: ""})
+    @Prop({default: ""})
     avatar: string
 }
 

@@ -4,11 +4,14 @@ import {Model, ObjectId} from 'mongoose';
 import {User, UserDocument} from './schemas/user.schema';
 import {CreateUserDto} from './dto/createUser.dto';
 import {TypeEmployerPosition, UserRoleType} from "./schemas/types";
+import {Response} from "express";
+import {TokenService} from "../token/token.service";
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
+    private tokenService: TokenService
   ) {}
 
   async createUser(dto: CreateUserDto) {
@@ -39,9 +42,10 @@ export class UserService {
     } else {
       throw new HttpException("Нет такого пользователя", HttpStatus.BAD_REQUEST)
     }
-
-
   }
+
+
+
 
   async getUserById(id: string): Promise<User> {
     return this.userModel.findById(id);

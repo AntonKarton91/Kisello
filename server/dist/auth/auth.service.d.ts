@@ -31,17 +31,39 @@ export declare class AuthService {
     private userService;
     private tokenService;
     constructor(userService: UserService, tokenService: TokenService);
-    login(res: Response, dto: CreateUserDto): Promise<string>;
-    register(res: Response, dto: CreateUserDto): Promise<{
+    login(res: Response, dto: CreateUserDto): Promise<{
         id: import("mongoose").Types.ObjectId;
+        name: string;
+        surname: string;
         email: string;
         password: string;
+        avatar: string;
+        phoneNumber: string;
+        boards: import("../board/schemas/board.schema").Board[];
         accessToken: string;
     }>;
-    logout(refreshToken: any): Promise<import("mongoose").Document<unknown, any, import("../token/token.schema").Token> & Omit<import("../token/token.schema").Token & {
-        _id: import("mongoose").Types.ObjectId;
-    }, never> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }>>;
+    register(res: Response, dto: CreateUserDto): Promise<{
+        id: import("mongoose").Types.ObjectId;
+        name: string;
+        surname: string;
+        email: string;
+        password: string;
+        avatar: string;
+        phoneNumber: string;
+        accessToken: string;
+    }>;
+    logout(refreshToken: any): Promise<void>;
+    getUserByToken(res: Response, token: {
+        token: string;
+    }): Promise<{
+        id: any;
+        name: string;
+        surname: string;
+        email: string;
+        avatar: string;
+        phoneNumber: string;
+        boards: import("../board/schemas/board.schema").Board[];
+        position: import("../user/schemas/types").TypeEmployerPosition;
+    }>;
     private validateUser;
 }

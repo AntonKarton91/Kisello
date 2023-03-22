@@ -1,5 +1,6 @@
-import {Body, Controller, Get, Param, Res} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post, Res} from '@nestjs/common';
 import {UserService} from "./user.service";
+
 
 @Controller('user')
 export class UserController {
@@ -10,4 +11,6 @@ export class UserController {
     async findExtraData(@Param() params) {
         return await this.userService.getUserExtraData(params.id)
     }
+
+
 }

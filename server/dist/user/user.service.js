@@ -17,20 +17,35 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const user_schema_1 = require("./schemas/user.schema");
+const types_1 = require("./schemas/types");
+const token_service_1 = require("../token/token.service");
 let UserService = class UserService {
-    constructor(userModel) {
+    constructor(userModel, tokenService) {
         this.userModel = userModel;
+        this.tokenService = tokenService;
     }
     async createUser(dto) {
-        return await this.userModel.create(Object.assign(Object.assign({}, dto), { role: user_schema_1.UserRoleType.WORKER, boards: [] }));
+        return await this.userModel.create(Object.assign(Object.assign({}, dto), { role: types_1.UserRoleType.WORKER, boards: [] }));
     }
     async getAllUsers() {
         const userList = await this.userModel.find();
         return userList;
     }
     async getUserByEmail(email) {
-        const user = await this.userModel.findOne({ email });
-        return user;
+        return this.userModel.findOne({ email });
+    }
+    async getUserExtraData(id) {
+        const user = await this.getUserById(id);
+        if (user) {
+            return {
+                surname: user.surname,
+                position: user.position,
+                phoneNumber: user.phoneNumber
+            };
+        }
+        else {
+            throw new common_1.HttpException("Нет такого пользователя", common_1.HttpStatus.BAD_REQUEST);
+        }
     }
     async getUserById(id) {
         return this.userModel.findById(id);
@@ -42,7 +57,8 @@ let UserService = class UserService {
 UserService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(user_schema_1.User.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __metadata("design:paramtypes", [mongoose_2.Model,
+        token_service_1.TokenService])
 ], UserService);
 exports.UserService = UserService;
 //# sourceMappingURL=user.service.js.map

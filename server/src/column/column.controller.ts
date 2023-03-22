@@ -19,5 +19,8 @@ export class ColumnController {
         return this.columnService.create(dto)
     }
 
-
+    @Post("/getbyboardid")
+    async getByBoardId(@Body() id: string) {
+        return this.columnService.getByBoardId(id)
+    }
 }

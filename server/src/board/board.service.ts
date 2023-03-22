@@ -31,4 +31,12 @@ export class BoardService {
   async findAndUpdate(id: ObjectId, update): Promise<Board> {
     return this.boardModel.findOneAndUpdate({id}, update);
   }
+
+  async findById(id: ObjectId) {
+    return this.boardModel.findById(id);
+  }
+
+  async getBoardList(userId: ObjectId): Promise<Board[]> {
+    return this.boardModel.find({users : {$elemMatch: {$eq: userId} }}).select("_id title");
+  }
 }

@@ -1,51 +1,29 @@
-import {
-  Injectable,
-} from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument, UserRoleType } from '../user/schemas/user.schema';
-import { Model } from 'mongoose';
-import { Token, TokenDocument } from './token.schema';
+import {HttpException, HttpStatus, Injectable,} from '@nestjs/common';
+import {JwtService} from '@nestjs/jwt';
+import {InjectModel} from '@nestjs/mongoose';
+import {Model} from 'mongoose';
 
 @Injectable()
 export class TokenService {
   constructor(
-      @InjectModel(Token.name) private tokenModel: Model<TokenDocument>,
       private jwtService: JwtService,
-  ) {
-  }
+  ) {}
 
   async generateToken(user) {
     const payload = {
-      email: user.userEmail,
-      password: user.userPassword,
-      role: UserRoleType.WORKER,
+      email: user.email,
+      password: user.password,
     };
-    const accessToken = this.jwtService.sign(payload, {expiresIn: '30m'});
-    return accessToken;
+    return  this.jwtService.sign(payload);
   }
 
-  async saveToken(userId, refreshToken) {
-    const tokenData = await this.tokenModel.findOne({userId});
-    if (tokenData) {
-      tokenData.refreshToken = refreshToken;
-      tokenData.save();
-      return tokenData
+  async verifyToken(token: string) {
+    try {
+      return this.jwtService.verify(token)
+    } catch (e) {
+      if (e instanceof Error) {
+        throw new HttpException("Неверный токен", HttpStatus.BAD_REQUEST)
+      }
     }
-    const token = await this.tokenModel.create({
-      userId: userId,
-      refreshToken,
-    });
-    return token;
-  }
-
-  async deleteToken(refreshToken) {
-    const token = await this.tokenModel.findOneAndDelete({refreshToken});
-    return token
-  }
-
-  async refreshToken(refreshToken) {
-    const token = await this.tokenModel.findOneAndUpdate({refreshToken}, {refreshToken});
-    return token
   }
 }

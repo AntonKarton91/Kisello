@@ -12,11 +12,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BoardGateway = void 0;
 const websockets_1 = require("@nestjs/websockets");
 const socket_io_1 = require("socket.io");
-const createColumn_dto_1 = require("../column/dto/createColumn.dto");
+const column_service_1 = require("../column/column.service");
 let BoardGateway = class BoardGateway {
+    constructor(columnService) {
+        this.columnService = columnService;
+    }
     async handleSendMessage(client, payload) {
-        console.log(payload);
-        this.server.emit('addNewColumn', payload);
+        const newColumn = await this.columnService.create(payload);
+        this.server.emit('addNewColumn', newColumn);
+    }
+    async handleChangeColumnName(client, payload) {
+        try {
+            await this.columnService.getByBoardIdAndRename(payload.columnId, payload.columnName);
+            this.server.emit('changeColumnName', payload);
+        }
+        catch (e) {
+            this.server.emit('changeColumnName', "error");
+        }
     }
     afterInit(server) {
         console.log(server);
@@ -35,11 +47,18 @@ __decorate([
 __decorate([
     (0, websockets_1.SubscribeMessage)('addNewColumn'),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [socket_io_1.Socket, createColumn_dto_1.CreateColumnDto]),
+    __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
     __metadata("design:returntype", Promise)
 ], BoardGateway.prototype, "handleSendMessage", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('changeColumnName'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
+    __metadata("design:returntype", Promise)
+], BoardGateway.prototype, "handleChangeColumnName", null);
 BoardGateway = __decorate([
-    (0, websockets_1.WebSocketGateway)({ cors: true })
+    (0, websockets_1.WebSocketGateway)({ cors: true }),
+    __metadata("design:paramtypes", [column_service_1.ColumnService])
 ], BoardGateway);
 exports.BoardGateway = BoardGateway;
 //# sourceMappingURL=gateway.js.map

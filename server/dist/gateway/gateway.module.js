@@ -9,11 +9,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GatewayModule = void 0;
 const common_1 = require("@nestjs/common");
 const gateway_1 = require("./gateway");
+const column_module_1 = require("../column/column.module");
 let GatewayModule = class GatewayModule {
 };
 GatewayModule = __decorate([
     (0, common_1.Module)({
-        providers: [gateway_1.BoardGateway]
+        providers: [gateway_1.BoardGateway],
+        imports: [
+            column_module_1.ColumnModule
+        ]
     })
 ], GatewayModule);
 exports.GatewayModule = GatewayModule;

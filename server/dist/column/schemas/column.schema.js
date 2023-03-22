@@ -15,13 +15,13 @@ const mongoose_2 = require("mongoose");
 let Column = class Column {
 };
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, mongoose_1.Prop)({ default: "Новая колонка" }),
     __metadata("design:type", String)
 ], Column.prototype, "name", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ type: [{ type: mongoose_2.default.Schema.Types.ObjectId, ref: 'cards' }] }),
     __metadata("design:type", Array)
-], Column.prototype, "cards", void 0);
+], Column.prototype, "cardList", void 0);
 Column = __decorate([
     (0, mongoose_1.Schema)()
 ], Column);

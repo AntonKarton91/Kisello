@@ -36,6 +36,12 @@ let BoardService = class BoardService {
     async findAndUpdate(id, update) {
         return this.boardModel.findOneAndUpdate({ id }, update);
     }
+    async findById(id) {
+        return this.boardModel.findById(id);
+    }
+    async getBoardList(userId) {
+        return this.boardModel.find({ users: { $elemMatch: { $eq: userId } } }).select("_id title");
+    }
 };
 BoardService = __decorate([
     (0, common_1.Injectable)(),

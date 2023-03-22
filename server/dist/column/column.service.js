@@ -26,13 +26,26 @@ let ColumnService = class ColumnService {
     async findAll() {
         return this.columnModel.find();
     }
-    async create(dto) {
-        const newColumn = await this.columnModel.create(Object.assign(Object.assign({}, dto), { cards: [] }));
+    async getByBoardId(id) {
+        return this.columnModel.find({ board: id }).select("id name cardList");
+    }
+    async getByBoardIdAndRename(id, name) {
+        return this.columnModel.findByIdAndUpdate(id, { name: name });
+    }
+    async create(boardId) {
+        const newColumn = await this.columnModel.create({
+            board: boardId,
+            cardList: [],
+        });
         if (!newColumn) {
             throw new common_1.HttpException("Ошибка сервера", common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        await this.boardService.findAndUpdate(dto.boardId, { $push: { columns: newColumn.id } });
-        return newColumn;
+        await this.boardService.findAndUpdate(boardId, { $push: { columns: newColumn.id } });
+        return {
+            id: newColumn.id,
+            name: newColumn.name,
+            cardList: newColumn.cardList
+        };
     }
 };
 ColumnService = __decorate([

@@ -9,14 +9,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserSchema = exports.User = exports.UserRoleType = void 0;
+exports.UserSchema = exports.User = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
-var UserRoleType;
-(function (UserRoleType) {
-    UserRoleType["ADMIN"] = "Administrator";
-    UserRoleType["WORKER"] = "Worker";
-})(UserRoleType = exports.UserRoleType || (exports.UserRoleType = {}));
+const types_1 = require("./types");
 let User = class User {
 };
 __decorate([
@@ -32,13 +28,29 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, mongoose_1.Prop)({ required: true, default: types_1.UserRoleType.WORKER }),
     __metadata("design:type", String)
 ], User.prototype, "role", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ type: [{ type: mongoose_2.default.Schema.Types.ObjectId, ref: 'boards' }] }),
     __metadata("design:type", Array)
 ], User.prototype, "boards", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, default: "" }),
+    __metadata("design:type", String)
+], User.prototype, "surname", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true, default: types_1.TypeEmployerPosition.Worker }),
+    __metadata("design:type", Number)
+], User.prototype, "position", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: "" }),
+    __metadata("design:type", String)
+], User.prototype, "phoneNumber", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: "" }),
+    __metadata("design:type", String)
+], User.prototype, "avatar", void 0);
 User = __decorate([
     (0, mongoose_1.Schema)()
 ], User);

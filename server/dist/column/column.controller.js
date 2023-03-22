@@ -26,6 +26,9 @@ let ColumnController = class ColumnController {
     createColumn(dto) {
         return this.columnService.create(dto);
     }
+    async getByBoardId(id) {
+        return this.columnService.getByBoardId(id);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -40,6 +43,13 @@ __decorate([
     __metadata("design:paramtypes", [createColumn_dto_1.CreateColumnDto]),
     __metadata("design:returntype", void 0)
 ], ColumnController.prototype, "createColumn", null);
+__decorate([
+    (0, common_1.Post)("/getbyboardid"),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ColumnController.prototype, "getByBoardId", null);
 ColumnController = __decorate([
     (0, common_1.Controller)('column'),
     __metadata("design:paramtypes", [column_service_1.ColumnService])

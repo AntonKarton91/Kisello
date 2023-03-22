@@ -21,7 +21,6 @@ let AuthController = class AuthController {
         this.authService = authService;
     }
     async register(dto, response) {
-        console.log(dto);
         return await this.authService.register(response, dto);
     }
     async login(dto, response) {
@@ -35,9 +34,12 @@ let AuthController = class AuthController {
             statusCode: 200
         };
     }
+    async getByToken(token, response) {
+        return await this.authService.getUserByToken(response, token);
+    }
 };
 __decorate([
-    (0, common_1.Post)('/register'),
+    (0, common_1.Post)("/register"),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
@@ -45,7 +47,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "register", null);
 __decorate([
-    (0, common_1.Post)('/login'),
+    (0, common_1.Post)("/login"),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
@@ -53,15 +55,23 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
 __decorate([
-    (0, common_1.Post)('/logout'),
+    (0, common_1.Post)("/logout"),
     __param(0, (0, common_1.Res)({ passthrough: true })),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "logout", null);
+__decorate([
+    (0, common_1.Post)("/getbytoken"),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)({ passthrough: true })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "getByToken", null);
 AuthController = __decorate([
-    (0, common_1.Controller)('auth'),
+    (0, common_1.Controller)("auth"),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);
 exports.AuthController = AuthController;

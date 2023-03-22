@@ -36,4 +36,10 @@ export declare class BoardService {
         _id: import("mongoose").Types.ObjectId;
     }>>;
     findAndUpdate(id: ObjectId, update: any): Promise<Board>;
+    findById(id: ObjectId): Promise<import("mongoose").Document<unknown, any, Board> & Omit<Board & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never> & Required<{
+        _id: import("mongoose").Types.ObjectId;
+    }>>;
+    getBoardList(userId: ObjectId): Promise<Board[]>;
 }
