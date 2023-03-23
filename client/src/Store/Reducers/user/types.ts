@@ -34,6 +34,7 @@ export interface IUserResponse{
 }
 
 export interface IUserState{
+    token: string | null
     id: string | null
     name: string
     email: string | null

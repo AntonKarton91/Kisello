@@ -1,5 +1,5 @@
 import * as React from "react";
-import {DetailedHTMLProps, HTMLAttributes} from "react";
+import {DetailedHTMLProps, HTMLAttributes, useEffect, useState} from "react";
 import styles from "./login.module.scss"
 import {Button,TextField} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../../../Store/hooks";
@@ -7,6 +7,9 @@ import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {loginUser} from "../../../Store/Reducers/user/thunks";
+import {redirect, useNavigate} from "react-router-dom";
+import {login} from "../../../Store/Reducers/user/userSlice";
+import axios from "axios";
 
 export interface AddCardProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     toRegister: ()=>void
@@ -14,8 +17,10 @@ export interface AddCardProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivEl
 
 
 export const LoginComponent = ({toRegister}: AddCardProps): React.ReactElement => {
-    const { loading, error } = useAppSelector(state => state.user)
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState("")
     const dispatch = useAppDispatch()
+    let navigate = useNavigate();
 
     const schema = yup.object().shape({
         email: yup
@@ -38,8 +43,20 @@ export const LoginComponent = ({toRegister}: AddCardProps): React.ReactElement =
         mode: "onSubmit"
     })
 
-    const onSubmit = async (data) => {
-        dispatch(loginUser(data))
+    const onSubmit = async ( userData ) => {
+        try {
+            setError("")
+            setLoading(true)
+            const { data } = await axios.post(process.env.REACT_APP_NEXT_PUBLIC_DOMAIN + "auth/login", userData)
+            await dispatch(login(data))
+            navigate("/")
+            setLoading(false)
+        } catch (e) {
+            if (e instanceof Error)
+                setError(e.message)
+        } finally {
+            setLoading(false)
+        }
     }
 
     const toRegisterHandler = (e: React.MouseEvent) => {

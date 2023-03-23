@@ -1,62 +1,51 @@
-import {createAsyncThunk} from "@reduxjs/toolkit";
-import {CreateUserDto, IAuthDataResponse, IUserResponse, LoginUserDto} from "./types";
-import axios from "axios";
-
-
-export const registerUser = createAsyncThunk<IAuthDataResponse, CreateUserDto, {rejectValue: string}>(
-    'user/register',
-// @ts-ignore
-    async function (userData, { rejectWithValue }) {
-        try {
-            const {data} = await axios.post("http://localhost:5000/auth/register", userData);
-            localStorage.setItem("accessToken", data.accessToken)
-            return {
-                ...data,
-            };
-        } catch (e) {
-            if (e instanceof Error){
-                return rejectWithValue(e.message);
-            }
-        }
-
-    }
-);
-
-export const loginUser = createAsyncThunk<IAuthDataResponse, LoginUserDto, {rejectValue: string}>(
-    'user/login',
-    async function (userData, { rejectWithValue }) {
-        try {
-            const {data} = await axios.post("http://localhost:5000/auth/login", userData);
-            localStorage.setItem("accessToken", data.accessToken)
-            return {
-                ...data
-            };
-        } catch (e) {
-            if (e instanceof Error){
-                return rejectWithValue(e.message);
-            }
-        }
-
-    }
-);
-
-export const fetchUserByToken = createAsyncThunk<IUserResponse, string, {rejectValue: string}>(
-    'user/fetchUserByToken',
-    async function (token, { rejectWithValue }) {
-        try {
-            const {data} = await axios.post("http://localhost:5000/auth/getbytoken", {token});
-            return {
-                ...data
-            };
-        } catch (e) {
-            if (e instanceof Error){
-                // @ts-ignore
-                if (e.response.status === 400) {
-                    localStorage.removeItem("accessToken")
-                }
-                return rejectWithValue(e.message);
-            }
-        }
-
-    }
-);
+// import {createAsyncThunk} from "@reduxjs/toolkit";
+// import {io, Socket} from "socket.io-client";
+// import {wsConnect, wsDisconnect} from "./webSocket.slice";
+// import {IColumn} from "../../../models/models";
+// import {addColumn, updateColumn} from "../board/boardSlice";
+// import {useAppDispatch} from "../../hooks";
+// import {AppState} from "../../types";
+//
+//
+// export const webSocketConnect = createAsyncThunk<Socket, Socket, {state: AppState }>(
+//     'webSocket/connect',
+//     // @ts-ignore
+//     async function (socket, {getState, dispatch}) {
+//         const state = getState()
+//         socket = io("ws://localhost:5000")
+//         const columns = state.board.columns
+//         console.log(state.board)
+//         function onConnect() {
+//             console.log("Соединение установлено")
+//         }
+//
+//         function onDisconnect() {
+//             console.log("Соединение разорвано")
+//             // dispatch(wsDisconnect())
+//         }
+//
+//         function onConnectError() {
+//             console.log("Ошибка соединения")
+//         }
+//
+//         function onAddNewColumn(column: IColumn): void {
+//             dispatch(addColumn(column))
+//         }
+//
+//         function columnChange(payload: {columnName: string, columnId: string}): void {
+//             console.log(payload)
+//             dispatch(updateColumn(payload))
+//         }
+//
+//
+//
+//         socket.on('connect', onConnect)
+//         socket.on('disconnect', onDisconnect)
+//         socket.on('connect_error', onConnectError)
+//         socket.on('addNewColumn', onAddNewColumn)
+//         socket.on('changeColumnName', columnChange)
+//
+//         return socket
+//
+//     }
+// );

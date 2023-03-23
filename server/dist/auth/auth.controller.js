@@ -35,6 +35,7 @@ let AuthController = class AuthController {
         };
     }
     async getByToken(token, response) {
+        console.log(token);
         return await this.authService.getUserByToken(response, token);
     }
 };

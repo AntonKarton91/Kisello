@@ -4,5 +4,4 @@ import {Socket} from "socket.io-client";
 
 export interface ColumnProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     columnData: IColumn
-    socket: Socket
 }

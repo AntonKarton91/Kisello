@@ -58,7 +58,6 @@ export class BoardGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 
     afterInit(server: Server) {
         console.log(server);
-        //Выполняем действия
     }
 
     handleDisconnect(client: Socket) {

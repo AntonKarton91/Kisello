@@ -4,20 +4,41 @@ import {store} from "./Store/store";
 import {Provider} from "react-redux";
 import LoginPage from "./Pages/LoginPage/login.page";
 import MainPage from "./Pages/MainPage/main.page";
-import {useEffect} from "react";
-import {useAppDispatch} from "./Store/hooks";
+import {useEffect, useState} from "react";
+import {useAppDispatch, useAppSelector} from "./Store/hooks";
 import {fetchUserByToken} from "./Store/Reducers/user/thunks";
+import {auth, login} from "./Store/Reducers/user/userSlice";
+import axios from "axios";
 
 function App() {
+    const [loading, setLoading] = useState(false)
+
     const dispatch = useAppDispatch()
     let token = localStorage.getItem("accessToken")
     // token = true
 
     useEffect(()=>{
-        if (token) {
-            dispatch(fetchUserByToken(token))
+        const authentication = async () => {
+            setLoading(true)
+            if (token) {
+                try {
+                    console.log(token)
+                    const { data } = await axios.post(process.env.REACT_APP_NEXT_PUBLIC_DOMAIN + "auth/getbytoken", {token})
+                    await dispatch(login({...data, accessToken: token}))
+                    setLoading(false)
+                } catch (e) {
+
+                }
+                finally {
+                    setLoading(false)
+                }
+            }
+            setLoading(false)
         }
+        authentication()
     }, [])
+
+    if (loading) return <div></div>
 
     return (
 
@@ -25,20 +46,12 @@ function App() {
                 <Routes>
                     <Route
                       path='/'
-                      element={
-                      !token
-                          ? (<Navigate replace to="/login" />)
-                          : (<MainPage/>)
-                      }
+                      element={<MainPage/>}
                     />
-                    <Route path='login' element={<LoginPage />} />
+                    <Route path='login' element={<LoginPage/>} />
                     <Route
                         path='/board/:id'
-                        element={
-                            !token
-                                ? (<Navigate replace to="/login" />)
-                                : (<BoardPage/>)
-                        }
+                        element={<BoardPage/>}
                     />
                 </Routes>
             </BrowserRouter>

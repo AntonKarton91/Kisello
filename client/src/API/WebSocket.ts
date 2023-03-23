@@ -1,0 +1,5 @@
+// socket.on('connect', onConnect)
+// socket.on('disconnect', onDisconnect)
+// socket.on('connect_error', onConnectError)
+// socket.on('addNewColumn', onAddNewColumn)
+// socket.on('changeColumnName', columnChange)

@@ -1,9 +1,12 @@
-import { configureStore } from '@reduxjs/toolkit'
+import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit'
 import boardReducer from "./Reducers/board/boardSlice"
 import {webSocketMiddleware} from "./middleware/websocket.middleware";
 import webSocketReducer from './Reducers/webSocket/webSocket.slice'
 import userReducer from './Reducers/user/userSlice'
 import {AppState} from "./types";
+import {authMiddleware} from "./middleware/auth.middleware";
+
+
 
 export const store = configureStore<AppState>({
     reducer: {
@@ -11,7 +14,13 @@ export const store = configureStore<AppState>({
         board: boardReducer,
         user: userReducer
     },
-    // middleware: [webSocketMiddleware],
+// @ts-ignore
+//     middleware: getDefaultMiddleware({
+//         serializableCheck: false,
+//     }),
+    middleware:  (getDefaultMiddleware) => {
+        return getDefaultMiddleware().concat([webSocketMiddleware, authMiddleware])
+    },
     devTools: true
 })
 

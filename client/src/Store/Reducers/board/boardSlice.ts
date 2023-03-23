@@ -21,8 +21,19 @@ export const boardSlice = createSlice({
     name: 'board',
     initialState,
     reducers: {
-        addColumn: (state, action: PayloadAction<IColumn>) => {
+        addColumn: (state, action) => {
             state.columns.push({...action.payload, cardList: []})
+        },
+
+        sendAddNewColumn: (state, action) => {},
+        sendUpdateColumn: (state, action) => {},
+
+        updateColumn: (state, action: PayloadAction<{columnName: string, columnId: string}>) => {
+            state.columns = state.columns.map(e=>{
+                if (e._id === action.payload.columnId) {
+                    return {...e, name:action.payload.columnName}
+                } else return e
+            })
         },
 
         addCard: (state, action: PayloadAction<{newCard: ICartPrev, columnId: string}>) => {
@@ -45,6 +56,6 @@ export const boardSlice = createSlice({
     }
 })
 
-export const { addCard, addColumn } = boardSlice.actions
+export const { addCard, addColumn, updateColumn, sendAddNewColumn, sendUpdateColumn } = boardSlice.actions
 
 export default boardSlice.reducer

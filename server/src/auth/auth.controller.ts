@@ -51,6 +51,7 @@ export class AuthController {
     @Body() token: { token: string },
     @Res({ passthrough: true }) response: Response
   ) {
+    console.log(token);
     return await this.authService.getUserByToken(response, token);
   }
 }
