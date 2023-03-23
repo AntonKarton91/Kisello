@@ -29,8 +29,14 @@ let ColumnService = class ColumnService {
     async getByBoardId(id) {
         return this.columnModel.find({ board: id }).select("id name cardList");
     }
-    async getByBoardIdAndRename(id, name) {
-        return this.columnModel.findByIdAndUpdate(id, { name: name });
+    async getAndUpdate(id, data) {
+        console.log(id, data);
+        try {
+            return this.columnModel.findOneAndUpdate({ _id: id }, data, { new: true });
+        }
+        catch (e) {
+            throw new Error(e);
+        }
     }
     async create(boardId) {
         const newColumn = await this.columnModel.create({

@@ -33,19 +33,6 @@ export class AuthController {
     return this.authService.login(response, dto);
   }
 
-  @Post("/logout")
-  async logout(
-    @Res({ passthrough: true }) response: Response,
-    @Req() request: Request
-  ) {
-    const { refreshToken } = request.cookies;
-    response.clearCookie("refreshToken");
-    await this.authService.logout(refreshToken);
-    return {
-      statusCode: 200
-    };
-  }
-
   @Post("/getbytoken")
   async getByToken(
     @Body() token: { token: string },

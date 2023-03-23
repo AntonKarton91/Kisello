@@ -28,12 +28,17 @@ export const boardSlice = createSlice({
         sendAddNewColumn: (state, action) => {},
         sendUpdateColumn: (state, action) => {},
 
-        updateColumn: (state, action: PayloadAction<{columnName: string, columnId: string}>) => {
-            state.columns = state.columns.map(e=>{
-                if (e._id === action.payload.columnId) {
-                    return {...e, name:action.payload.columnName}
-                } else return e
-            })
+        updateColumn: (state, action: PayloadAction<{data: any, columnId: string}>) => {
+            const column = state.columns.find(col => col._id === action.payload.columnId)
+            if (column) {
+                const updatedColumn = {...column, ...action.payload.data}
+                state.columns = state.columns.map(e=>{
+                    if (e._id === action.payload.columnId) {
+                        return updatedColumn
+                    } else return e
+                })
+            }
+
         },
 
         addCard: (state, action: PayloadAction<{newCard: ICartPrev, columnId: string}>) => {

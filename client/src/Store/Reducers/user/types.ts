@@ -1,5 +1,4 @@
-import {typeConnect} from "../../../types/typeConnect";
-import {ICartPrev, IColumn, ITagList, TypeEmployerPosition} from "../../../models/models";
+import {TypeEmployerPosition} from "../../../models/models";
 
 export interface CreateUserDto {
     name: string
@@ -14,11 +13,17 @@ export interface LoginUserDto {
 }
 
 
+
 export interface IAuthDataResponse {
     id: string
     name: string
     surname: string
     email: string
+    password: string
+    avatar: string
+    phoneNumber: string
+    boards: string[]
+    position: TypeEmployerPosition
     accessToken: string
 }
 
@@ -44,6 +49,4 @@ export interface IUserState{
     phoneNumber: string | null
     accessToken: string | null
     boards: string[]
-    loading: boolean
-    error: string | null
 }

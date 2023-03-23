@@ -22,33 +22,8 @@ export class UserService {
     });
   }
 
-  async getAllUsers() {
-    const userList = await this.userModel.find();
-    return userList;
-  }
-
   async getUserByEmail(email: string){
     return this.userModel.findOne({ email });
-  }
-
-  async getUserExtraData(id: string){
-    const user = await this.getUserById(id)
-    if (user) {
-      return  {
-        surname: user.surname,
-        position: user.position,
-        phoneNumber: user.phoneNumber
-      }
-    } else {
-      throw new HttpException("Нет такого пользователя", HttpStatus.BAD_REQUEST)
-    }
-  }
-
-
-
-
-  async getUserById(id: string): Promise<User> {
-    return this.userModel.findById(id);
   }
 
   async findAndUpdate(id: ObjectId, update): Promise<User> {

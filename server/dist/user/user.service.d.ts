@@ -25,7 +25,6 @@
 import { Model, ObjectId } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { CreateUserDto } from './dto/createUser.dto';
-import { TypeEmployerPosition } from "./schemas/types";
 import { TokenService } from "../token/token.service";
 export declare class UserService {
     private userModel;
@@ -36,21 +35,10 @@ export declare class UserService {
     }, never> & Required<{
         _id: import("mongoose").Types.ObjectId;
     }>>;
-    getAllUsers(): Promise<(import("mongoose").Document<unknown, any, User> & Omit<User & {
-        _id: import("mongoose").Types.ObjectId;
-    }, never> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }>)[]>;
     getUserByEmail(email: string): Promise<import("mongoose").Document<unknown, any, User> & Omit<User & {
         _id: import("mongoose").Types.ObjectId;
     }, never> & Required<{
         _id: import("mongoose").Types.ObjectId;
     }>>;
-    getUserExtraData(id: string): Promise<{
-        surname: string;
-        position: TypeEmployerPosition;
-        phoneNumber: string;
-    }>;
-    getUserById(id: string): Promise<User>;
     findAndUpdate(id: ObjectId, update: any): Promise<User>;
 }

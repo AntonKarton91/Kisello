@@ -8,7 +8,7 @@ export declare class BoardGateway implements OnGatewayInit, OnGatewayConnection,
     server: Server;
     handleSendMessage(client: Socket, payload: ObjectId): Promise<void>;
     handleChangeColumnName(client: Socket, payload: {
-        columnName: string;
+        data: any;
         columnId: ObjectId;
     }): Promise<void>;
     afterInit(server: Server): void;

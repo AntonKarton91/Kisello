@@ -31,6 +31,7 @@ let AuthService = class AuthService {
             avatar: user.avatar,
             phoneNumber: user.phoneNumber,
             boards: user.boards,
+            position: user.position,
             accessToken
         };
     }
@@ -50,10 +51,10 @@ let AuthService = class AuthService {
             password: user.password,
             avatar: user.avatar,
             phoneNumber: user.phoneNumber,
+            boards: user.boards,
+            position: user.position,
             accessToken
         };
-    }
-    async logout(refreshToken) {
     }
     async getUserByToken(res, token) {
         const { email } = await this.tokenService.verifyToken(token.token);
@@ -72,7 +73,6 @@ let AuthService = class AuthService {
         }
     }
     async validateUser(dto) {
-        console.log(dto.password);
         const user = await this.userService.getUserByEmail(dto.email);
         if (user) {
             const passEquals = await bcrypt.compare(dto.password, user.password);

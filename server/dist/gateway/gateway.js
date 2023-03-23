@@ -22,13 +22,8 @@ let BoardGateway = class BoardGateway {
         this.server.emit('addNewColumn', newColumn);
     }
     async handleChangeColumnName(client, payload) {
-        try {
-            await this.columnService.getByBoardIdAndRename(payload.columnId, payload.columnName);
-            this.server.emit('changeColumnName', payload);
-        }
-        catch (e) {
-            this.server.emit('changeColumnName', "error");
-        }
+        await this.columnService.getAndUpdate(payload.columnId, payload.data);
+        this.server.emit('columnUpdate', payload);
     }
     afterInit(server) {
         console.log(server);
@@ -51,7 +46,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BoardGateway.prototype, "handleSendMessage", null);
 __decorate([
-    (0, websockets_1.SubscribeMessage)('changeColumnName'),
+    (0, websockets_1.SubscribeMessage)('columnUpdate'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
     __metadata("design:returntype", Promise)

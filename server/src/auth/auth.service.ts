@@ -27,6 +27,7 @@ export class AuthService {
             avatar: user.avatar,
             phoneNumber: user.phoneNumber,
             boards: user.boards,
+            position: user.position,
             accessToken
         }
     }
@@ -48,11 +49,10 @@ export class AuthService {
             password: user.password,
             avatar: user.avatar,
             phoneNumber: user.phoneNumber,
+            boards: user.boards,
+            position: user.position,
             accessToken
         }
-    }
-
-    async logout(refreshToken) {
     }
 
     async getUserByToken(res: Response, token: { token: string }) {
@@ -72,19 +72,7 @@ export class AuthService {
         }
     }
 
-    // async refresh(req: Request, res: Response) {
-    //     const { refreshToken } = req.cookies;
-    //
-    //     const tokens = await this.tokenService.generateToken(user)
-    //     await this.tokenService.saveToken(user, tokens.refreshToken)
-    //     res.cookie('refreshToken', tokens.refreshToken, {maxAge: 30 * 60 * 60 * 1000, httpOnly: true})
-    //     return {
-    //         ...tokens
-    //     }
-    // }
-
     private async validateUser(dto: Partial<CreateUserDto>){
-        console.log(dto.password);
         const user = await this.userService.getUserByEmail(dto.email)
         if (user) {
             const passEquals = await bcrypt.compare(dto.password, user.password)

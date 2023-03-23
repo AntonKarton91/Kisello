@@ -27,28 +27,8 @@ let UserService = class UserService {
     async createUser(dto) {
         return await this.userModel.create(Object.assign(Object.assign({}, dto), { role: types_1.UserRoleType.WORKER, boards: [] }));
     }
-    async getAllUsers() {
-        const userList = await this.userModel.find();
-        return userList;
-    }
     async getUserByEmail(email) {
         return this.userModel.findOne({ email });
-    }
-    async getUserExtraData(id) {
-        const user = await this.getUserById(id);
-        if (user) {
-            return {
-                surname: user.surname,
-                position: user.position,
-                phoneNumber: user.phoneNumber
-            };
-        }
-        else {
-            throw new common_1.HttpException("Нет такого пользователя", common_1.HttpStatus.BAD_REQUEST);
-        }
-    }
-    async getUserById(id) {
-        return this.userModel.findById(id);
     }
     async findAndUpdate(id, update) {
         return this.userModel.findOneAndUpdate({ id }, update);

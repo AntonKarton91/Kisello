@@ -1,5 +1,4 @@
 import {
-    MessageBody,
     OnGatewayConnection, OnGatewayDisconnect,
     OnGatewayInit,
     SubscribeMessage,
@@ -15,27 +14,6 @@ import { ColumnService } from "../column/column.service";
 export class BoardGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect{
     constructor(private columnService: ColumnService) {
     }
-    //
-    // @WebSocketServer()
-    // server: Server
-    //
-    // onModuleInit(): any {
-    //     this.server.on("connection", (socket)=> {
-    //         console.log(socket.id)
-    //         this.server.emit("add1Column", {
-    //             msg: "Hello"
-    //         })
-    //     })
-    //
-    // }
-    //
-    // @SubscribeMessage("newColumn")
-    // onNewColumn(@MessageBody() body: any) {
-    //     console.log(111)
-    //     this.server.emit("addColumn", {
-    //         msg: "Hello"
-    //     })
-    // }
 
     @WebSocketServer() server: Server;
 
@@ -45,15 +23,10 @@ export class BoardGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
         this.server.emit('addNewColumn', newColumn);
     }
 
-    @SubscribeMessage('changeColumnName')
-    async handleChangeColumnName(client: Socket, payload: {columnName: string, columnId:ObjectId}): Promise<void> {
-        try {
-            await this.columnService.getByBoardIdAndRename(payload.columnId, payload.columnName)
-            this.server.emit('changeColumnName', payload);
-        } catch (e) {
-            this.server.emit('changeColumnName', "error");
-        }
-
+    @SubscribeMessage('columnUpdate')
+    async handleChangeColumnName(client: Socket, payload: {data: any, columnId:ObjectId}): Promise<void> {
+        await this.columnService.getAndUpdate(payload.columnId, payload.data)
+        this.server.emit('columnUpdate', payload);
     }
 
     afterInit(server: Server) {

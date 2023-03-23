@@ -1,16 +1,15 @@
 import * as React from "react";
-import {DetailedHTMLProps, HTMLAttributes} from "react";
+import {DetailedHTMLProps, HTMLAttributes, useState} from "react";
 import styles from "./register.module.scss"
 import {Button, Paper, TextField} from "@mui/material";
 import {SubmitHandler, useForm} from "react-hook-form";
+import axios from "axios";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {ErrorMessage} from '@hookform/error-message';
-import {UserApi} from "../../../API/UserApi/user.api";
-import {fetchBoardData} from "../../../Store/Reducers/board/thunks";
+
 import {useAppDispatch, useAppSelector} from "../../../Store/hooks";
-import {registerUser} from "../../../Store/Reducers/user/thunks";
-import {CreateUserDto} from "../../../Store/Reducers/user/types";
+import {login} from "../../../Store/Reducers/user/userSlice";
+import {useNavigate} from "react-router-dom";
 
 export interface AddCardProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     toLogin: () => void
@@ -23,7 +22,9 @@ export interface AddCardProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivEl
 
 
 export const RegisterComponent = ({toLogin}: AddCardProps): React.ReactElement => {
-    const { loading, error } = useAppSelector(state => state.user)
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState("")
+    let navigate = useNavigate();
     const dispatch = useAppDispatch()
 
     const schema = yup.object().shape({
@@ -53,8 +54,21 @@ export const RegisterComponent = ({toLogin}: AddCardProps): React.ReactElement =
         mode: "onSubmit"
     })
 
-    const onSubmit = async (data) => {
-        dispatch(registerUser(data))
+
+    const onSubmit = async ( userData ) => {
+        try {
+            setError("")
+            setLoading(true)
+            const { data } = await axios.post(process.env.REACT_APP_NEXT_PUBLIC_DOMAIN + "auth/register", userData)
+            await dispatch(login(data))
+            navigate("/")
+            setLoading(false)
+        } catch (e) {
+            if (e instanceof Error)
+                setError(e.message)
+        } finally {
+            setLoading(false)
+        }
     }
 
 

@@ -6,7 +6,6 @@ import {useAppDispatch, useAppSelector} from "../../../Store/hooks";
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {loginUser} from "../../../Store/Reducers/user/thunks";
 import {redirect, useNavigate} from "react-router-dom";
 import {login} from "../../../Store/Reducers/user/userSlice";
 import axios from "axios";

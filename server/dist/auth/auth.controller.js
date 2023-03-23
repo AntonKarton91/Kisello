@@ -26,14 +26,6 @@ let AuthController = class AuthController {
     async login(dto, response) {
         return this.authService.login(response, dto);
     }
-    async logout(response, request) {
-        const { refreshToken } = request.cookies;
-        response.clearCookie("refreshToken");
-        await this.authService.logout(refreshToken);
-        return {
-            statusCode: 200
-        };
-    }
     async getByToken(token, response) {
         console.log(token);
         return await this.authService.getUserByToken(response, token);
@@ -55,14 +47,6 @@ __decorate([
     __metadata("design:paramtypes", [createUser_dto_1.CreateUserDto, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
-__decorate([
-    (0, common_1.Post)("/logout"),
-    __param(0, (0, common_1.Res)({ passthrough: true })),
-    __param(1, (0, common_1.Req)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], AuthController.prototype, "logout", null);
 __decorate([
     (0, common_1.Post)("/getbytoken"),
     __param(0, (0, common_1.Body)()),

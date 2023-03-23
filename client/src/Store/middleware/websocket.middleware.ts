@@ -18,7 +18,7 @@ export const webSocketMiddleware: Middleware<{}, AppState> = store => next => ac
         store.dispatch(addColumn(message))
     }
 
-    const rename = (message: {columnName: string, columnId: string}) => {
+    const columnUpdate = (message: {data: any, columnId: string}) => {
         console.log(message)
         store.dispatch(updateColumn(message))
     }
@@ -34,7 +34,7 @@ export const webSocketMiddleware: Middleware<{}, AppState> = store => next => ac
                     console.log("Ошибка соединения")
                 })
                 socket.on('addNewColumn', add)
-                socket.on('changeColumnName', rename)
+                socket.on('columnUpdate', columnUpdate)
             }
 
 
@@ -52,7 +52,7 @@ export const webSocketMiddleware: Middleware<{}, AppState> = store => next => ac
 
         case 'board/sendUpdateColumn': {
             console.log(action.payload)
-            return socket.emit("changeColumnName", action.payload)
+            return socket.emit("columnUpdate", action.payload)
         }
 
     }

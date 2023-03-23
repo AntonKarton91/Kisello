@@ -7,7 +7,7 @@ import {useAppSelector} from "../../Store/hooks";
 import {AvatarPlaceholderComponent} from "../../UIComponents/AvatarPlaceholder/avatarPlaceholder.component";
 
 const HeaderComponent = ({children}: HeaderProps): React.ReactElement => {
-    const {name, surname, email, avatar, loading} = useAppSelector(state => state.user)
+    const {name, surname, email, avatar, } = useAppSelector(state => state.user)
     const location = useLocation()
     return (
         <div className={styles.container}>

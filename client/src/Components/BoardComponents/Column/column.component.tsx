@@ -10,7 +10,6 @@ import {sendUpdateColumn} from "../../../Store/Reducers/board/boardSlice";
 
 export const ColumnComponent = ({columnData}: ColumnProps): React.ReactElement => {
     const {_id: columnId, name, cardList} = columnData
-    const {columns} = useAppSelector(state => state.board)
     const { cardList: boardCardList, loading } = useAppSelector(state => state.board)
     const [columnName, setColumnName] = useState<string>(name)
     const [openedCard, setOpenedCard] = useState<string>("")
@@ -34,7 +33,8 @@ export const ColumnComponent = ({columnData}: ColumnProps): React.ReactElement =
     }
 
     function onSendColumnName() {
-        dispatch(sendUpdateColumn({columnName, columnId}))
+        const name = columnName
+        dispatch(sendUpdateColumn({data: {name}, columnId}))
     }
 
     return (

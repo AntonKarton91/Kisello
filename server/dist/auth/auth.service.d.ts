@@ -40,6 +40,7 @@ export declare class AuthService {
         avatar: string;
         phoneNumber: string;
         boards: import("../board/schemas/board.schema").Board[];
+        position: import("../user/schemas/types").TypeEmployerPosition;
         accessToken: string;
     }>;
     register(res: Response, dto: CreateUserDto): Promise<{
@@ -50,9 +51,10 @@ export declare class AuthService {
         password: string;
         avatar: string;
         phoneNumber: string;
+        boards: import("../board/schemas/board.schema").Board[];
+        position: import("../user/schemas/types").TypeEmployerPosition;
         accessToken: string;
     }>;
-    logout(refreshToken: any): Promise<void>;
     getUserByToken(res: Response, token: {
         token: string;
     }): Promise<{

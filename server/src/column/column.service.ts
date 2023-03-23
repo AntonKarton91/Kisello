@@ -22,8 +22,13 @@ export class ColumnService {
         return this.columnModel.find({board: id}).select("id name cardList");
     }
 
-    async getByBoardIdAndRename(id: ObjectId, name: string){
-        return this.columnModel.findByIdAndUpdate(id, {name: name})
+    async getAndUpdate(id: ObjectId, data: any){
+        console.log(id, data)
+        try {
+            return this.columnModel.findOneAndUpdate({_id: id}, data, {new: true})
+        } catch (e) {
+            throw new Error(e)
+        }
     }
 
     async create(boardId) {

@@ -35,7 +35,7 @@ export declare class ColumnService {
     }, never> & Required<{
         _id: import("mongoose").Types.ObjectId;
     }>)[]>;
-    getByBoardIdAndRename(id: ObjectId, name: string): Promise<import("mongoose").Document<unknown, any, Column> & Omit<Column & {
+    getAndUpdate(id: ObjectId, data: any): Promise<import("mongoose").Document<unknown, any, Column> & Omit<Column & {
         _id: import("mongoose").Types.ObjectId;
     }, never> & Required<{
         _id: import("mongoose").Types.ObjectId;

@@ -15,9 +15,6 @@ export const store = configureStore<AppState>({
         user: userReducer
     },
 // @ts-ignore
-//     middleware: getDefaultMiddleware({
-//         serializableCheck: false,
-//     }),
     middleware:  (getDefaultMiddleware) => {
         return getDefaultMiddleware().concat([webSocketMiddleware, authMiddleware])
     },

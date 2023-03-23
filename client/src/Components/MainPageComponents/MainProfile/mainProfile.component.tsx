@@ -25,7 +25,6 @@ export const MainProfileComponent = ({}: MainProfileProps): React.ReactElement =
         email,
         name,
         avatar,
-        loading
     } = useAppSelector(state => state.user)
 
     const downloadClickHandler = (e: React.MouseEvent) => {
@@ -87,7 +86,7 @@ export const MainProfileComponent = ({}: MainProfileProps): React.ReactElement =
             <Button
                 classes={{root: styles.submit}}
                 onClick={submitHandler}
-                disabled={loading}
+                // disabled={loading}
                 variant={"contained"}>
                 Изменить
             </Button>
