@@ -5,13 +5,15 @@ import {AddCardProps} from "./addCard.props";
 import {Button, IconButton, TextField} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import {useAppDispatch} from "../../../Store/hooks";
-import {addCard} from "../../../Store/Reducers/board/boardSlice";
+import {addCard, sendAddCardToColumn} from "../../../Store/Reducers/board/boardSlice";
 import {ICartPrev} from "../../../models/models";
 import { nanoid } from 'nanoid'
+import {useParams} from "react-router-dom";
 
 export const AddCardComponent = ({columnId}: AddCardProps): React.ReactElement => {
+    let { id: boardId } = useParams();
     const [isOpen, setIsOpen] = useState(false)
-    const [cardName, setCardName] = useState("")
+    const [title, setTitle] = useState("")
     const formRef = useRef<HTMLFormElement>(null)
     const dispatch = useAppDispatch()
 
@@ -29,24 +31,17 @@ export const AddCardComponent = ({columnId}: AddCardProps): React.ReactElement =
 
     const closeFormAddCard = () => {
         setIsOpen(false)
-        setCardName("")
+        setTitle("")
     }
 
     const changeCardName = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setCardName(e.target.value)
+        setTitle(e.target.value)
     }
 
     const addCardHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
-        const newCard: ICartPrev = {
-            id: nanoid(),
-            title: cardName,
-            tagList: [],
-            date: new Date().toString(),
-            participants: [],
-            completed: false
-        }
-        dispatch(addCard({newCard, columnId}))
+        dispatch(sendAddCardToColumn({title, columnId, boardId}))
+        setTitle("")
         setIsOpen(false)
     }
 
@@ -57,7 +52,7 @@ export const AddCardComponent = ({columnId}: AddCardProps): React.ReactElement =
                         <TextField
                             autoFocus={true}
                             placeholder={"Введите название карточки"}
-                            value={cardName}
+                            value={title}
                             sx={{backgroundColor: "white"}}
                             multiline
                             maxRows={4}

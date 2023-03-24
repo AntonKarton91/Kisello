@@ -21,6 +21,7 @@ const WebSocketSlice = createSlice({
         //     state.connect = typeConnect.Connected
         // },
         wsDisconnect ( state ) {
+
             state.socket = null
             state.connect = typeConnect.Disconnected
         },

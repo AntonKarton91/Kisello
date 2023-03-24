@@ -40,14 +40,19 @@ export const webSocketMiddleware: Middleware<{}, AppState> = store => next => ac
 
             break
         }
-        case 'webSocket/wsDisсonnect': {
-            socket.disconnect()
-            socket.off('addNewColumn', add)
-            console.log("Соединение разорвано")
-            break
-        }
+        // case 'webSocket/wsDisconnect': {
+        //     socket.disconnect()
+        //     socket.off('addNewColumn', add)
+        //     socket.off('columnUpdate', columnUpdate)
+        //     console.log("Соединение разорвано")
+        //     break
+        // }
         case 'board/sendAddNewColumn': {
             return socket.emit("addNewColumn",action.payload)
+        }
+
+        case 'board/sendAddCardToColumn': {
+            return socket.emit("sendAddCardToColumn",action.payload)
         }
 
         case 'board/sendUpdateColumn': {

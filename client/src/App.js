@@ -17,26 +17,26 @@ function App() {
     let token = localStorage.getItem("accessToken")
     // token = true
 
-    useEffect(()=>{
-        const authentication = async () => {
-            setLoading(true)
-            if (token) {
-                try {
-                    console.log(token)
-                    const { data } = await axios.post(process.env.REACT_APP_NEXT_PUBLIC_DOMAIN + "auth/getbytoken", {token})
-                    await dispatch(login({...data, accessToken: token}))
-                    setLoading(false)
-                } catch (e) {
-
-                }
-                finally {
-                    setLoading(false)
-                }
-            }
-            setLoading(false)
-        }
-        authentication()
-    }, [])
+    // useEffect(()=>{
+    //     const authentication = async () => {
+    //         setLoading(true)
+    //         if (token) {
+    //             try {
+    //                 console.log(token)
+    //                 const { data } = await axios.post(process.env.REACT_APP_NEXT_PUBLIC_DOMAIN + "auth/getbytoken", {token})
+    //                 await dispatch(login({...data, accessToken: token}))
+    //                 setLoading(false)
+    //             } catch (e) {
+    //
+    //             }
+    //             finally {
+    //                 setLoading(false)
+    //             }
+    //         }
+    //         setLoading(false)
+    //     }
+    //     authentication()
+    // }, [])
 
     if (loading) return <div></div>
 

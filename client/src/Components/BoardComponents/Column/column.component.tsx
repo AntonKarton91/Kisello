@@ -27,9 +27,10 @@ export const ColumnComponent = ({columnData}: ColumnProps): React.ReactElement =
     }
 
     const currentCardList = () => {
-        return boardCardList.filter(card=> {
-            return cardList.includes(card.id)
+        return  boardCardList.filter(card=> {
+            return cardList.includes(card._id)
         })
+
     }
 
     function onSendColumnName() {

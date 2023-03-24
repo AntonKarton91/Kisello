@@ -8,13 +8,15 @@ import {redirect, useNavigate} from "react-router-dom";
 const BoardPage = () => {
     const {isAuth, email} = useAuth();
     let navigate = useNavigate();
-    console.log(isAuth)
+    // console.log(isAuth)
+    //
+    // useEffect(()=> {
+    //     if (!isAuth) {
+    //         return navigate("/login")
+    //     }
+    // })
 
-    useEffect(()=> {
-        if (!isAuth) {
-            return navigate("/login")
-        }
-    })
+
 
     return (
         <LayoutComponent>

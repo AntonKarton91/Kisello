@@ -1,7 +1,7 @@
 import * as React from "react";
 import styles from "./boardField.module.scss"
 import {BoardFieldProps} from "./boardField.props";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import cn from "classnames"
 import {ColumnComponent} from "../Column/column.component";
 import {useAppDispatch, useAppSelector} from "../../../Store/hooks";
@@ -30,6 +30,7 @@ export const BoardFieldComponent = ({}: BoardFieldProps): React.ReactElement => 
             dispatch(fetchBoardData(boardId))
         }
         dispatch(wsConnect())
+
         }, [])
 
 

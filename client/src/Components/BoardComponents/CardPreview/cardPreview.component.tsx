@@ -39,7 +39,7 @@ export const CardPreview = ({data, openCard, closeCard, openedCard, columnData}:
 
     return (
         <>
-            <div className={styles.container} onClick={e=>openCardHandler(e, data.id)} ref={refContainer}>
+            <div className={styles.container} onClick={e=>openCardHandler(e, data._id)} ref={refContainer}>
                 {
                     currentTagList().length > 0 && <div className={styles.tagsContainer}>
                         {
@@ -97,7 +97,7 @@ export const CardPreview = ({data, openCard, closeCard, openedCard, columnData}:
                 </div>
 
             </div>
-                { data.id === openedCard && <CardPopupComponent
+                { data._id === openedCard && <CardPopupComponent
                     columnData={columnData}
                     closePopup={closeCard} data={data}/>}
         </>

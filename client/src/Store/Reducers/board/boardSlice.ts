@@ -27,6 +27,7 @@ export const boardSlice = createSlice({
 
         sendAddNewColumn: (state, action) => {},
         sendUpdateColumn: (state, action) => {},
+        sendAddCardToColumn: (state, action) => {},
 
         updateColumn: (state, action: PayloadAction<{data: any, columnId: string}>) => {
             const column = state.columns.find(col => col._id === action.payload.columnId)
@@ -43,7 +44,7 @@ export const boardSlice = createSlice({
 
         addCard: (state, action: PayloadAction<{newCard: ICartPrev, columnId: string}>) => {
             state.cardList.push(action.payload.newCard)
-            state.columns.find(c=> c._id === action.payload.columnId)?.cardList.push(action.payload.newCard.id)
+            state.columns.find(c=> c._id === action.payload.columnId)?.cardList.push(action.payload.newCard._id)
         },
     },
     extraReducers: (builder) => {
@@ -57,10 +58,18 @@ export const boardSlice = createSlice({
                 state.id = action.payload.id
                 state.columns = action.payload.columns
                 state.loading = false;
+                state.cardList = action.payload.cardList;
             })
     }
 })
 
-export const { addCard, addColumn, updateColumn, sendAddNewColumn, sendUpdateColumn } = boardSlice.actions
+export const {
+    addCard,
+    addColumn,
+    updateColumn,
+    sendAddNewColumn,
+    sendUpdateColumn,
+    sendAddCardToColumn,
+} = boardSlice.actions
 
 export default boardSlice.reducer

@@ -25,7 +25,7 @@ export const CardPopupComponent = ({data, closePopup, columnData}: CardPopupProp
                         />
                         <div className={styles.columnName}>в листе {columnData.name || ""}</div>
                     </div>
-                    <TagsMenuComponent cardId={data.id}/>
+                    <TagsMenuComponent cardId={data._id}/>
                 </div>
                 <div className={styles.rightMenu}>
                     <RightMenuComponent/>

@@ -20,7 +20,7 @@ export interface IColumn {
 }
 
 export interface ICartPrev {
-    id: string
+    _id: string
     title: string
     tagList: string[]
     date: string
