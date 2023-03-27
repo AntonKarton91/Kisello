@@ -21,30 +21,29 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
+/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Model, ObjectId } from 'mongoose';
-import { Column, ColumnDocument } from "./schemas/column.schema";
-import { BoardService } from "../board/board.service";
-import { Board } from "../board/schemas/board.schema";
-export declare class ColumnService {
-    private boardService;
-    private columnModel;
-    constructor(boardService: BoardService, columnModel: Model<ColumnDocument>);
-    findAll(): Promise<Column[]>;
-    getByBoardId(id: any): Promise<(import("mongoose").Document<unknown, any, Column> & Omit<Column & {
+import { CardService } from "./card.service";
+import { CreateCardDto } from "./dto/createCard.dto";
+export declare class CardController {
+    private cardService;
+    constructor(cardService: CardService);
+    getAllCards({ boardId }: {
+        boardId: any;
+    }): Promise<(import("mongoose").Document<unknown, any, import("./schemas/card.schema").Card> & Omit<import("./schemas/card.schema").Card & {
         _id: import("mongoose").Types.ObjectId;
     }, never> & Required<{
         _id: import("mongoose").Types.ObjectId;
     }>)[]>;
-    getAndUpdate(id: ObjectId, data: any): Promise<import("mongoose").Document<unknown, any, Column> & Omit<Column & {
-        _id: import("mongoose").Types.ObjectId;
-    }, never> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }>>;
-    create(boardId: any): Promise<{
-        _id: any;
-        name: string;
-        cardList: import("mongoose").Schema.Types.ObjectId[];
+    createColumn(dto: CreateCardDto): Promise<{
+        data: {
+            _id: import("mongoose").Types.ObjectId;
+            title: string;
+            tagList: import("mongoose").Schema.Types.ObjectId[];
+            date: Date;
+            participants: import("mongoose").Schema.Types.ObjectId[];
+            completed: boolean;
+        };
+        columnId: any;
     }>;
-    findAndAddCard(id: ObjectId, update: any): Promise<Board>;
 }

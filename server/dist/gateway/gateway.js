@@ -13,9 +13,11 @@ exports.BoardGateway = void 0;
 const websockets_1 = require("@nestjs/websockets");
 const socket_io_1 = require("socket.io");
 const column_service_1 = require("../column/column.service");
+const card_service_1 = require("../card/card.service");
 let BoardGateway = class BoardGateway {
-    constructor(columnService) {
+    constructor(columnService, cardService) {
         this.columnService = columnService;
+        this.cardService = cardService;
     }
     async handleSendMessage(client, payload) {
         const newColumn = await this.columnService.create(payload);
@@ -24,6 +26,14 @@ let BoardGateway = class BoardGateway {
     async handleChangeColumnName(client, payload) {
         await this.columnService.getAndUpdate(payload.columnId, payload.data);
         this.server.emit('columnUpdate', payload);
+    }
+    async handleAddCardToColumn(client, payload) {
+        const newCard = await this.cardService.create(payload);
+        this.server.emit('addCardToColumn', newCard);
+    }
+    async handleCardUpload(client, payload) {
+        await this.cardService.getAndUpdate(payload.cardId, payload.data);
+        this.server.emit('cardUpdate', payload);
     }
     afterInit(server) {
         console.log(server);
@@ -51,9 +61,22 @@ __decorate([
     __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
     __metadata("design:returntype", Promise)
 ], BoardGateway.prototype, "handleChangeColumnName", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('sendAddCardToColumn'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
+    __metadata("design:returntype", Promise)
+], BoardGateway.prototype, "handleAddCardToColumn", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('sendCardUpload'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
+    __metadata("design:returntype", Promise)
+], BoardGateway.prototype, "handleCardUpload", null);
 BoardGateway = __decorate([
     (0, websockets_1.WebSocketGateway)({ cors: true }),
-    __metadata("design:paramtypes", [column_service_1.ColumnService])
+    __metadata("design:paramtypes", [column_service_1.ColumnService,
+        card_service_1.CardService])
 ], BoardGateway);
 exports.BoardGateway = BoardGateway;
 //# sourceMappingURL=gateway.js.map

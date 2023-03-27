@@ -14,28 +14,19 @@ const WebSocketSlice = createSlice({
     initialState,
     reducers: {
         wsConnect ( state ) {
+        },
+
+        Connect ( state ) {
             state.connect = typeConnect.Connected
         },
-        // wsConnect ( state, action ) {
-        //     state.socket = action.payload.socket
-        //     state.connect = typeConnect.Connected
-        // },
-        wsDisconnect ( state ) {
 
-            state.socket = null
+        Disconnect ( state ) {
             state.connect = typeConnect.Disconnected
         },
+
+        wsDisconnect ( state ) {
+        },
     },
-    // extraReducers: (builder) => {
-    //     builder
-    //         .addCase(webSocketConnect.pending, (state) => {
-    //         })
-    //         .addCase(webSocketConnect.fulfilled, (state, action) => {
-    //             // @ts-ignore
-    //             state.socket = action.payload
-    //
-    //         })
-    // }
 })
-export const { wsConnect, wsDisconnect } = WebSocketSlice.actions
+export const { wsConnect, Connect, wsDisconnect, Disconnect } = WebSocketSlice.actions
 export default WebSocketSlice.reducer

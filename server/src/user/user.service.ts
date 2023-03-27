@@ -29,4 +29,10 @@ export class UserService {
   async findAndUpdate(id: ObjectId, update): Promise<User> {
     return this.userModel.findOneAndUpdate({id}, update);
   }
+
+  async getByBoardId(id: ObjectId){
+    return this.userModel
+      .find({boards : {$elemMatch: {$eq: id} }})
+      .select("_id name surname avatar");
+  }
 }

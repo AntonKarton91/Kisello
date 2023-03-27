@@ -8,12 +8,15 @@ import {
 import { Server, Socket } from "socket.io"
 import { ObjectId } from "mongoose";
 import { ColumnService } from "../column/column.service";
+import { CardService } from "../card/card.service";
 
 
 @WebSocketGateway({ cors: true })
 export class BoardGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect{
-    constructor(private columnService: ColumnService) {
-    }
+    constructor(
+      private columnService: ColumnService,
+      private cardService: CardService
+    ) {}
 
     @WebSocketServer() server: Server;
 
@@ -27,6 +30,18 @@ export class BoardGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
     async handleChangeColumnName(client: Socket, payload: {data: any, columnId:ObjectId}): Promise<void> {
         await this.columnService.getAndUpdate(payload.columnId, payload.data)
         this.server.emit('columnUpdate', payload);
+    }
+
+    @SubscribeMessage('sendAddCardToColumn')
+    async handleAddCardToColumn(client: Socket, payload: {data: any, columnId:ObjectId}): Promise<void> {
+        const newCard = await this.cardService.create(payload)
+        this.server.emit('addCardToColumn', newCard);
+    }
+
+    @SubscribeMessage('sendCardUpload')
+    async handleCardUpload(client: Socket, payload: {data: any, cardId:ObjectId}): Promise<void> {
+        await this.cardService.getAndUpdate(payload.cardId, payload.data)
+        this.server.emit('cardUpdate', payload);
     }
 
     afterInit(server: Server) {

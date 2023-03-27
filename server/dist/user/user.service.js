@@ -33,6 +33,11 @@ let UserService = class UserService {
     async findAndUpdate(id, update) {
         return this.userModel.findOneAndUpdate({ id }, update);
     }
+    async getByBoardId(id) {
+        return this.userModel
+            .find({ boards: { $elemMatch: { $eq: id } } })
+            .select("_id name surname avatar");
+    }
 };
 UserService = __decorate([
     (0, common_1.Injectable)(),

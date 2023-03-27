@@ -30,7 +30,6 @@ let ColumnService = class ColumnService {
         return this.columnModel.find({ board: id }).select("id name cardList");
     }
     async getAndUpdate(id, data) {
-        console.log(id, data);
         try {
             return this.columnModel.findOneAndUpdate({ _id: id }, data, { new: true });
         }
@@ -48,10 +47,13 @@ let ColumnService = class ColumnService {
         }
         await this.boardService.findAndUpdate(boardId, { $push: { columns: newColumn.id } });
         return {
-            id: newColumn.id,
+            _id: newColumn.id,
             name: newColumn.name,
             cardList: newColumn.cardList
         };
+    }
+    async findAndAddCard(id, update) {
+        return this.columnModel.findOneAndUpdate({ id }, update);
     }
 };
 ColumnService = __decorate([

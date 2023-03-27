@@ -58,6 +58,9 @@ export class AuthService {
     async getUserByToken(res: Response, token: { token: string }) {
         const { email } = await this.tokenService.verifyToken(token.token)
         const user = await this.userService.getUserByEmail(email)
+        if (!user) {
+            throw new HttpException("Ошибка авторизации", HttpStatus.BAD_REQUEST)
+        }
         if (user) {
             return {
                 id: user.id,

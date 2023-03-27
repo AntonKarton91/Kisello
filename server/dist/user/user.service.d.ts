@@ -41,4 +41,9 @@ export declare class UserService {
         _id: import("mongoose").Types.ObjectId;
     }>>;
     findAndUpdate(id: ObjectId, update: any): Promise<User>;
+    getByBoardId(id: ObjectId): Promise<(import("mongoose").Document<unknown, any, User> & Omit<User & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never> & Required<{
+        _id: import("mongoose").Types.ObjectId;
+    }>)[]>;
 }

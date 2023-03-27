@@ -1,20 +1,19 @@
 import {forwardRef, Module} from '@nestjs/common';
-import { ColumnController } from './column.controller';
-import { ColumnService } from './column.service';
+import { CardController } from './card.controller';
+import { CardService } from './card.service';
 import {MongooseModule} from "@nestjs/mongoose";
-import {Column, ColumnSchema} from "./schemas/column.schema";
-import {UserModule} from "../user/user.module";
-import {BoardModule} from "../board/board.module";
+import { Card, CardSchema } from "./schemas/card.schema";
+import { ColumnModule } from "../column/column.module";
 
 @Module({
   imports: [
-      MongooseModule.forFeature([{name: Column.name, schema: ColumnSchema}]),
-      BoardModule,
+      MongooseModule.forFeature([{name: Card.name, schema: CardSchema}]),
+      ColumnModule,
   ],
-  controllers: [ColumnController],
-  providers: [ColumnService],
+  controllers: [CardController],
+  providers: [CardService],
   exports: [
-      ColumnService,
+      CardService,
   ]
 })
-export class ColumnModule {}
+export class CardModule {}

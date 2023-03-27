@@ -10,7 +10,7 @@ export class Column {
     @Prop({default: "Новая колонка"})
     name: string;
 
-    @Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'cards'}]})
+    @Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'cardList'}]})
     cardList: ObjectId[];
 
     board: ObjectId

@@ -10,7 +10,6 @@ const initialState: IUserState= {
     surname: "",
     email: "",
     avatar: "",
-    accessToken: null,
     position: TypeEmployerPosition.Worker,
     phoneNumber: "",
     boards: [],

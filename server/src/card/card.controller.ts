@@ -1,26 +1,23 @@
-import {Body, Controller, Get, Post} from '@nestjs/common';
-import {ConfigService} from "@nestjs/config";
-import {ColumnService} from "./column.service";
+import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import {CardService} from "./card.service";
 import {CreateCardDto} from "./dto/createCard.dto";
+import { ObjectId } from "mongoose";
 
-@Controller('column')
-export class ColumnController {
+@Controller('card')
+export class CardController {
     constructor(
-        private columnService: ColumnService
+        private cardService: CardService
     ) {}
 
-    @Get()
-    getAllColumns() {
-        return this.columnService.findAll()
+    @Post("/getbyboardid")
+    getAllCards(@Body() { boardId }) {
+        console.log(1);
+        return this.cardService.getByBoardId(boardId)
     }
 
     @Post()
     createColumn(@Body() dto: CreateCardDto) {
-        return this.columnService.create(dto)
+        return this.cardService.create(dto)
     }
 
-    @Post("/getbyboardid")
-    async getByBoardId(@Body() id: string) {
-        return this.columnService.getByBoardId(id)
-    }
 }

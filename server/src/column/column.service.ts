@@ -5,6 +5,7 @@ import {CreateColumnDto} from './dto/createColumn.dto';
 import {Column, ColumnDocument} from "./schemas/column.schema";
 
 import {BoardService} from "../board/board.service";
+import { Board } from "../board/schemas/board.schema";
 
 @Injectable()
 export class ColumnService {
@@ -23,7 +24,6 @@ export class ColumnService {
     }
 
     async getAndUpdate(id: ObjectId, data: any){
-        console.log(id, data)
         try {
             return this.columnModel.findOneAndUpdate({_id: id}, data, {new: true})
         } catch (e) {
@@ -41,10 +41,14 @@ export class ColumnService {
         }
         await this.boardService.findAndUpdate(boardId, {$push: {columns: newColumn.id}})
         return {
-            id: newColumn.id,
+            _id: newColumn.id,
             name: newColumn.name,
             cardList: newColumn.cardList
         }
+    }
+
+    async findAndAddCard(id: ObjectId, update): Promise<Board> {
+        return this.columnModel.findOneAndUpdate({id}, update);
     }
 
 }

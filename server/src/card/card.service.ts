@@ -2,48 +2,52 @@ import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model, ObjectId} from 'mongoose';
 import {CreateCardDto} from './dto/createCard.dto';
-import {Column, ColumnDocument} from "./schemas/column.schema";
 
-import {BoardService} from "../board/board.service";
+import { Card, CardDocument } from "./schemas/card.schema";
+import { ColumnService } from "../column/column.service";
 
 @Injectable()
-export class ColumnService {
+export class CardService {
     constructor(
-        private boardService: BoardService,
-        @InjectModel(Column.name) private columnModel: Model<ColumnDocument>,
+        private columnService: ColumnService,
+        @InjectModel(Card.name) private cardModel: Model<CardDocument>,
     ) {
     }
 
-    async findAll(): Promise<Column[]> {
-        return this.columnModel.find();
+    async getByBoardId(id: ObjectId){
+        return this.cardModel.find({boardId: id});
     }
 
-    async getByBoardId(id){
-        return this.columnModel.find({board: id}).select("id name cardList");
+    async create(data) {
+        console.log(data);
+        const newCard = await this.cardModel.create({
+            title: data.title,
+            boardId: data.boardId
+        });
+        if (!newCard) {
+            throw new HttpException("Ошибка сервера", HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+        const cardId = newCard._id
+        await this.columnService.findAndAddCard(data.columnId, {$push: {cardList: cardId}})
+        return {
+            data: {
+                _id: newCard._id,
+                title: newCard.title,
+                tagList: newCard.tagList,
+                date: newCard.date,
+                participants: newCard.participants,
+                completed: false
+            },
+            columnId: data.columnId
+
+        }
     }
 
     async getAndUpdate(id: ObjectId, data: any){
-        console.log(id, data)
         try {
-            return this.columnModel.findOneAndUpdate({_id: id}, data, {new: true})
+            return this.cardModel.findOneAndUpdate({_id: id}, data, {new: true})
         } catch (e) {
             throw new Error(e)
-        }
-    }
-
-    async create(boardId) {
-        const newColumn = await this.columnModel.create({
-            board: boardId,
-            cardList: [],
-        });
-        if (!newColumn) {
-            throw new HttpException("Ошибка сервера", HttpStatus.INTERNAL_SERVER_ERROR)
-        }
-        await this.boardService.findAndUpdate(boardId, {$push: {columns: newColumn.id}})
-        return {
-            id: newColumn.id,
-            name: newColumn.name,
-            cardList: newColumn.cardList
         }
     }
 

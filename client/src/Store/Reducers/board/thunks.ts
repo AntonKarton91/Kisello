@@ -10,11 +10,14 @@ export const fetchBoardData = createAsyncThunk<IResponse, string, {rejectValue: 
         const { data: board } = await axios(`http://localhost:5000/board/${boardId}`);
         const { data: columns } = await axios.post("http://localhost:5000/column/getbyboardid", {boardId});
         const { data: cardList } = await axios.post(`http://localhost:5000/card/getbyboardid`, {boardId});
+        const { data: users } = await axios.post(`http://localhost:5000/user/getbyboardid`, {boardId});
+        console.log(users)
         return {
             id: board._id,
             title: board.title,
             columns,
-            cardList
+            cardList,
+            users
         };
     }
 );

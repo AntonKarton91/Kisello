@@ -28,6 +28,7 @@ export const boardSlice = createSlice({
         sendAddNewColumn: (state, action) => {},
         sendUpdateColumn: (state, action) => {},
         sendAddCardToColumn: (state, action) => {},
+        sendCardUpdate: (state, action) => {},
 
         updateColumn: (state, action: PayloadAction<{data: any, columnId: string}>) => {
             const column = state.columns.find(col => col._id === action.payload.columnId)
@@ -42,9 +43,23 @@ export const boardSlice = createSlice({
 
         },
 
-        addCard: (state, action: PayloadAction<{newCard: ICartPrev, columnId: string}>) => {
-            state.cardList.push(action.payload.newCard)
-            state.columns.find(c=> c._id === action.payload.columnId)?.cardList.push(action.payload.newCard._id)
+        cardUpdate: (state, action: PayloadAction<{data: any, cardId: string}>) => {
+                console.log(action.payload.data)
+            const card = state.cardList.find(card => card._id === action.payload.cardId)
+            if (card) {
+                const updatedCard = {...card, ...action.payload.data}
+                state.cardList = state.cardList.map(e=>{
+                    if (e._id === action.payload.cardId) {
+                        return updatedCard
+                    } else return e
+                })
+            }
+
+        },
+
+        addCardToColumn: (state, action: PayloadAction<{data: ICartPrev, columnId: string}>) => {
+            state.cardList.push(action.payload.data)
+            state.columns.find(c=> c._id === action.payload.columnId)?.cardList.push(action.payload.data._id)
         },
     },
     extraReducers: (builder) => {
@@ -59,17 +74,20 @@ export const boardSlice = createSlice({
                 state.columns = action.payload.columns
                 state.loading = false;
                 state.cardList = action.payload.cardList;
+                state.users = action.payload.users;
             })
     }
 })
 
 export const {
-    addCard,
     addColumn,
     updateColumn,
     sendAddNewColumn,
     sendUpdateColumn,
     sendAddCardToColumn,
+    addCardToColumn,
+    sendCardUpdate,
+    cardUpdate,
 } = boardSlice.actions
 
 export default boardSlice.reducer

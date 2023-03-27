@@ -5,9 +5,7 @@ import {AddCardProps} from "./addCard.props";
 import {Button, IconButton, TextField} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import {useAppDispatch} from "../../../Store/hooks";
-import {addCard, sendAddCardToColumn} from "../../../Store/Reducers/board/boardSlice";
-import {ICartPrev} from "../../../models/models";
-import { nanoid } from 'nanoid'
+import {sendAddCardToColumn} from "../../../Store/Reducers/board/boardSlice";
 import {useParams} from "react-router-dom";
 
 export const AddCardComponent = ({columnId}: AddCardProps): React.ReactElement => {

@@ -30,7 +30,7 @@ export declare class ColumnController {
     constructor(columnService: ColumnService);
     getAllColumns(): Promise<import("./schemas/column.schema").Column[]>;
     createColumn(dto: CreateColumnDto): Promise<{
-        id: any;
+        _id: any;
         name: string;
         cardList: import("mongoose").Schema.Types.ObjectId[];
     }>;

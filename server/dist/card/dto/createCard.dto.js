@@ -9,22 +9,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ColumnSchema = exports.Column = void 0;
-const mongoose_1 = require("@nestjs/mongoose");
-const mongoose_2 = require("mongoose");
-let Column = class Column {
-};
+exports.CreateCardDto = void 0;
+const class_validator_1 = require("class-validator");
+class CreateCardDto {
+}
 __decorate([
-    (0, mongoose_1.Prop)({ default: "Новая колонка" }),
+    (0, class_validator_1.IsString)({ message: 'Название должно быть строкой' }),
     __metadata("design:type", String)
-], Column.prototype, "name", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ type: [{ type: mongoose_2.default.Schema.Types.ObjectId, ref: 'cardList' }] }),
-    __metadata("design:type", Array)
-], Column.prototype, "cardList", void 0);
-Column = __decorate([
-    (0, mongoose_1.Schema)()
-], Column);
-exports.Column = Column;
-exports.ColumnSchema = mongoose_1.SchemaFactory.createForClass(Column);
-//# sourceMappingURL=column.schema.js.map
+], CreateCardDto.prototype, "title", void 0);
+exports.CreateCardDto = CreateCardDto;
+//# sourceMappingURL=createCard.dto.js.map

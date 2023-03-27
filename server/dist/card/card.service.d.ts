@@ -23,28 +23,31 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Model, ObjectId } from 'mongoose';
-import { Column, ColumnDocument } from "./schemas/column.schema";
-import { BoardService } from "../board/board.service";
-import { Board } from "../board/schemas/board.schema";
-export declare class ColumnService {
-    private boardService;
-    private columnModel;
-    constructor(boardService: BoardService, columnModel: Model<ColumnDocument>);
-    findAll(): Promise<Column[]>;
-    getByBoardId(id: any): Promise<(import("mongoose").Document<unknown, any, Column> & Omit<Column & {
+import { Card, CardDocument } from "./schemas/card.schema";
+import { ColumnService } from "../column/column.service";
+export declare class CardService {
+    private columnService;
+    private cardModel;
+    constructor(columnService: ColumnService, cardModel: Model<CardDocument>);
+    getByBoardId(id: ObjectId): Promise<(import("mongoose").Document<unknown, any, Card> & Omit<Card & {
         _id: import("mongoose").Types.ObjectId;
     }, never> & Required<{
         _id: import("mongoose").Types.ObjectId;
     }>)[]>;
-    getAndUpdate(id: ObjectId, data: any): Promise<import("mongoose").Document<unknown, any, Column> & Omit<Column & {
+    create(data: any): Promise<{
+        data: {
+            _id: import("mongoose").Types.ObjectId;
+            title: string;
+            tagList: import("mongoose").Schema.Types.ObjectId[];
+            date: Date;
+            participants: import("mongoose").Schema.Types.ObjectId[];
+            completed: boolean;
+        };
+        columnId: any;
+    }>;
+    getAndUpdate(id: ObjectId, data: any): Promise<import("mongoose").Document<unknown, any, Card> & Omit<Card & {
         _id: import("mongoose").Types.ObjectId;
     }, never> & Required<{
         _id: import("mongoose").Types.ObjectId;
     }>>;
-    create(boardId: any): Promise<{
-        _id: any;
-        name: string;
-        cardList: import("mongoose").Schema.Types.ObjectId[];
-    }>;
-    findAndAddCard(id: ObjectId, update: any): Promise<Board>;
 }

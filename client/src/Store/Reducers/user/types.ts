@@ -47,6 +47,5 @@ export interface IUserState{
     surname: string | null
     position: TypeEmployerPosition
     phoneNumber: string | null
-    accessToken: string | null
     boards: string[]
 }

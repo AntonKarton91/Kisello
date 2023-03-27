@@ -6,21 +6,27 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GatewayModule = void 0;
+exports.CardModule = void 0;
 const common_1 = require("@nestjs/common");
-const gateway_1 = require("./gateway");
+const card_controller_1 = require("./card.controller");
+const card_service_1 = require("./card.service");
+const mongoose_1 = require("@nestjs/mongoose");
+const card_schema_1 = require("./schemas/card.schema");
 const column_module_1 = require("../column/column.module");
-const card_module_1 = require("../card/card.module");
-let GatewayModule = class GatewayModule {
+let CardModule = class CardModule {
 };
-GatewayModule = __decorate([
+CardModule = __decorate([
     (0, common_1.Module)({
-        providers: [gateway_1.BoardGateway],
         imports: [
+            mongoose_1.MongooseModule.forFeature([{ name: card_schema_1.Card.name, schema: card_schema_1.CardSchema }]),
             column_module_1.ColumnModule,
-            card_module_1.CardModule
+        ],
+        controllers: [card_controller_1.CardController],
+        providers: [card_service_1.CardService],
+        exports: [
+            card_service_1.CardService,
         ]
     })
-], GatewayModule);
-exports.GatewayModule = GatewayModule;
-//# sourceMappingURL=gateway.module.js.map
+], CardModule);
+exports.CardModule = CardModule;
+//# sourceMappingURL=card.module.js.map

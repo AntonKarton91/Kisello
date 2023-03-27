@@ -26,6 +26,7 @@ export interface IResponse {
     title: string
     columns: IColumn[]
     cardList: ICartPrev[]
+    users: IBoardUser[]
 }
 
 export interface IBoardList {

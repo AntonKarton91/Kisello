@@ -4,8 +4,9 @@ import { io, Socket } from "socket.io-client";
 import { AppState } from "../types";
 import { typeConnect } from '../../types/typeConnect';
 import {IBoardState} from "../Reducers/board/types";
-import {addColumn, updateColumn} from "../Reducers/board/boardSlice";
-import {IColumn} from "../../models/models";
+import {addCardToColumn, addColumn, cardUpdate, updateColumn} from "../Reducers/board/boardSlice";
+import {ICartPrev, IColumn} from "../../models/models";
+import {Connect, Disconnect} from "../Reducers/webSocket/webSocket.slice";
 let socket: Socket
 //
 
@@ -23,9 +24,18 @@ export const webSocketMiddleware: Middleware<{}, AppState> = store => next => ac
         store.dispatch(updateColumn(message))
     }
 
+    const addCardToCol = (message: {data: ICartPrev, columnId: string}) => {
+        console.log(message)
+        store.dispatch(addCardToColumn(message))
+    }
+    const cardUploadHandler = (message: {data: ICartPrev, cardId: string}) => {
+        console.log(message)
+        store.dispatch(cardUpdate(message))
+    }
+
     switch (action.type) {
         case 'webSocket/wsConnect': {
-            if (webSocketState.connect === typeConnect.Disconnected && !socket) {
+            if (webSocketState.connect === typeConnect.Disconnected && !socket?.connected) {
                 socket = io("ws://localhost:5000")
                 socket.on('connect', () => {
                     console.log("Соединение установлено")
@@ -35,20 +45,28 @@ export const webSocketMiddleware: Middleware<{}, AppState> = store => next => ac
                 })
                 socket.on('addNewColumn', add)
                 socket.on('columnUpdate', columnUpdate)
+                socket.on('addCardToColumn', addCardToCol)
+                socket.on('cardUpdate', cardUploadHandler)
+                socket.on('disconnect', ()=> {
+                    console.log("Соединение разорвано")
+                })
+                store.dispatch(Connect())
             }
-
-
             break
         }
-        // case 'webSocket/wsDisconnect': {
-        //     socket.disconnect()
-        //     socket.off('addNewColumn', add)
-        //     socket.off('columnUpdate', columnUpdate)
-        //     console.log("Соединение разорвано")
-        //     break
-        // }
+        case 'webSocket/wsDisconnect': {
+            if (socket){
+                socket.disconnect()
+                store.dispatch(Disconnect())
+                break
+            }
+        }
         case 'board/sendAddNewColumn': {
             return socket.emit("addNewColumn",action.payload)
+        }
+
+        case 'board/sendCardUpdate': {
+            return socket.emit("sendCardUpload",action.payload)
         }
 
         case 'board/sendAddCardToColumn': {
