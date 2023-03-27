@@ -9,7 +9,7 @@ import {useAppDispatch} from "../../../../Store/hooks";
 
 export interface ICardDescriptionProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     valueProp: string
-    changeValue: (value: string) => void
+    changeValue: () => void
     restrictOpen: () => void
     cardId: string
 }
@@ -32,6 +32,10 @@ export const CardDescriptionComponent = ({
         setValue(e.target.value)
     }
 
+    useEffect(()=> {
+        setValue(valueProp)
+    }, [valueProp])
+
     const editActivateHandler = () => {
         restrictOpen()
         setIsMenuVisible(false)
@@ -43,7 +47,7 @@ export const CardDescriptionComponent = ({
         const currentValue = value.length > 0 ? value : "Задача"
         setValue(currentValue)
         dispatch(sendCardUpdate({cardId, data: {title: currentValue}}))
-        changeValue(currentValue)
+        changeValue()
     }
 
     useEffect(() => {

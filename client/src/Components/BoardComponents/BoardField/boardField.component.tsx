@@ -19,12 +19,9 @@ export const BoardFieldComponent = ({}: BoardFieldProps): React.ReactElement => 
 
 
     useEffect(()=> {
-        if (boardId) {
-            dispatch(fetchBoardData(boardId))
-        }
+        if (boardId) dispatch(fetchBoardData(boardId))
         dispatch(wsConnect())
-
-        }, [])
+    }, [])
 
 
 

@@ -4,7 +4,7 @@ import {CardPreviewProps} from "./cardPreview.props";
 import {CardTagComponent, ImageComponent, TooltipComponent} from "../../../UIComponents";
 import {ITagList, IUser} from "../../../models/models";
 import {DateTagComponent} from "../../../UIComponents/DateTag/dateTag.component";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {CardDescriptionComponent} from "./cardDescription/cardDescription.component";
 import {CardPopupComponent} from "../CardPopup/cardPopup.component";
 import {useAppSelector} from "../../../Store/hooks";
@@ -18,15 +18,12 @@ export const CardPreview = ({
                                 openedCard,
                                 columnData
                             }: CardPreviewProps): React.ReactElement => {
-    const [stateData, setStateData] = useState(data)
+    // const [stateData, setStateData] = useState(data)
     const [isOpenAllow, setIsOpenAllow] = useState(true)
     const refContainer = useRef<HTMLDivElement>(null)
     const {cardTags, users, loading} = useAppSelector(state => state.board)
 
-    const changeDescription = (e: string) => {
-        setStateData(prevState => {
-            return {...prevState, title: e}
-        })
+    const changeDescription = () => {
         setTimeout(() => setIsOpenAllow(true), 500)
     }
 
@@ -38,6 +35,7 @@ export const CardPreview = ({
             }
         }
     }
+
 
     const currentTagList = (): ITagList[] => {
         return cardTags.filter(tag => {
@@ -79,7 +77,7 @@ export const CardPreview = ({
                     <CardDescriptionComponent
                         cardId={data._id}
                         restrictOpen={() => setIsOpenAllow(false)}
-                        valueProp={stateData.title}
+                        valueProp={data.title}
                         changeValue={changeDescription}
                     />
                 </div>
