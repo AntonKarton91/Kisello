@@ -20,7 +20,7 @@ export const PopupContainerComponent = ({children, closePopup}: PopupContainerPr
 
     return (
         <div ref={ref} className={styles.wrapper} onClick={e=>closeHandler(e)}>
-            <div className={styles.container}>
+            <div className={styles.container} id={"cardPopupContainer"}>
                 {children}
                 <IconButton classes={{root: styles.closePopupButton}} onClick={closePopup}>
                     <CloseIcon/>

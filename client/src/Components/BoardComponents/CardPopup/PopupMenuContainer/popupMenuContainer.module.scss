@@ -1,5 +1,14 @@
 @import "src/styles/styleConstants";
 
 .container {
+  padding: 8px;
+  border-radius: 3px;
 
+  position: fixed;
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  background-color: rgba(#eb5a46, 0.5);
 }

@@ -21,6 +21,7 @@ export const TagsMenuComponent = ({cardData, forwardedRef}: TagsMenuProps): Reac
     const {cardTags} = useAppSelector(state => state.board)
 
     const openMenuHandler = () => {
+
         // @ts-ignore
         if (ref.current && forwardedRef.current) {
             setXCoord(ref.current.getBoundingClientRect().x-50)
@@ -64,10 +65,15 @@ export const TagsMenuComponent = ({cardData, forwardedRef}: TagsMenuProps): Reac
                         </TextButtonComponent>
                     </div>
             </div>
-            <PopupMenuContainerComponent/>
-            <div className={styles.menu} style={{top: 50 + "px", left: xCoord + "px", height: menuHeight + 30 + "px"}}>
-                MENU
-            </div>
+            {
+                menuIsOpen &&
+                    <PopupMenuContainerComponent
+                        title={"Метки"}
+                        addButtonRef={ref}
+                    >
+                        <div>Menu</div>
+                    </PopupMenuContainerComponent>
+            }
         </div>
     );
 };
