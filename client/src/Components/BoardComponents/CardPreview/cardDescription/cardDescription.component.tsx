@@ -32,7 +32,7 @@ export const CardDescriptionComponent = ({
         setValue(e.target.value)
     }
 
-    useEffect(()=> {
+    useEffect(() => {
         setValue(valueProp)
     }, [valueProp])
 
@@ -106,6 +106,4 @@ export const CardDescriptionComponent = ({
 
         </div>
     );
-}
-
-
+};

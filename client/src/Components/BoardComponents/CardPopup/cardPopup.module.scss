@@ -5,6 +5,8 @@
   grid-template-columns: auto 140px;
   grid-template-areas: "content rightMenu";
 
+  height: 100%;
+
   .content {
     //grid-area: content;
     //

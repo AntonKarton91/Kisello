@@ -12,6 +12,7 @@ import {useAppDispatch} from "../../../Store/hooks";
 export const CardPopupComponent = ({data, closePopup, columnData}: CardPopupProps): React.ReactElement => {
     const dispatch = useAppDispatch()
     const [title, setTitle] = useState<string>(data.title)
+    const popupRef = useRef<HTMLDivElement>(null)
 
     const onBlurHandler = () => {
         const currentValue = title.length > 0 ? title : "Задача"
@@ -24,7 +25,7 @@ export const CardPopupComponent = ({data, closePopup, columnData}: CardPopupProp
 
     return (
         <PopupContainerComponent closePopup={closePopup}>
-            <div className={styles.container}>
+            <div ref={popupRef} className={styles.container}>
                 <div className={styles.content}>
                     <div className={styles.titleContainer}>
                         <input
@@ -35,7 +36,7 @@ export const CardPopupComponent = ({data, closePopup, columnData}: CardPopupProp
                         />
                         <div className={styles.columnName}>в листе {columnData.name || ""}</div>
                     </div>
-                    <TagsMenuComponent cardId={data._id}/>
+                    <TagsMenuComponent forwardedRef={popupRef} cardData={data}/>
                 </div>
                 <div className={styles.rightMenu}>
                     <RightMenuComponent/>

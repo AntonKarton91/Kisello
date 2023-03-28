@@ -31,6 +31,9 @@ let CardTagService = class CardTagService {
         await this.boardService.findAndUpdate(dto.boardId, { $push: { cardTags: newTag.id } });
         return newTag;
     }
+    async getByBoardId(id) {
+        return this.cardTagModel.find({ boardId: id });
+    }
 };
 CardTagService = __decorate([
     (0, common_1.Injectable)(),

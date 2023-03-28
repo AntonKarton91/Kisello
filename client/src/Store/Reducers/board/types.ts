@@ -27,6 +27,7 @@ export interface IResponse {
     columns: IColumn[]
     cardList: ICartPrev[]
     users: IBoardUser[]
+    cardTags: ITagList[]
 }
 
 export interface IBoardList {

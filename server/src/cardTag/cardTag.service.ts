@@ -1,6 +1,6 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import {Model, Schema} from 'mongoose';
+import { Model, ObjectId, Schema } from "mongoose";
 import {BoardService} from "../board/board.service";
 import {CardTag, CardTagDocument} from "./schemas/cardTag.schema";
 import {CreateCardTagDto} from "./dto/createCardTag.dto";
@@ -21,5 +21,9 @@ export class CardTagService {
     }
     await this.boardService.findAndUpdate(dto.boardId, {$push: {cardTags: newTag.id}})
     return newTag
+  }
+
+  async getByBoardId(id: ObjectId){
+    return this.cardTagModel.find({boardId: id});
   }
 }

@@ -22,7 +22,7 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Model } from 'mongoose';
+import { Model, ObjectId } from "mongoose";
 import { BoardService } from "../board/board.service";
 import { CardTag, CardTagDocument } from "./schemas/cardTag.schema";
 import { CreateCardTagDto } from "./dto/createCardTag.dto";
@@ -35,4 +35,9 @@ export declare class CardTagService {
     }, never> & Required<{
         _id: import("mongoose").Types.ObjectId;
     }>>;
+    getByBoardId(id: ObjectId): Promise<(import("mongoose").Document<unknown, any, CardTag> & Omit<CardTag & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never> & Required<{
+        _id: import("mongoose").Types.ObjectId;
+    }>)[]>;
 }

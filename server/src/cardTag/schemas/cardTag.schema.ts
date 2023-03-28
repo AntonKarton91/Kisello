@@ -12,6 +12,9 @@ export class CardTag {
 
     @Prop({required: true})
     color: string;
+
+    @Prop({type: mongoose.Schema.Types.ObjectId})
+    boardId: ObjectId;
 }
 
 export const CardTagSchema = SchemaFactory.createForClass(CardTag);

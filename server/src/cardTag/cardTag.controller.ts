@@ -14,4 +14,9 @@ export class CardTagController {
         return this.cardTagService.create(dto)
     }
 
+    @Post("/getbyboardid")
+    getAllCards(@Body() { boardId }) {
+        return this.cardTagService.getByBoardId(boardId)
+    }
+
 }

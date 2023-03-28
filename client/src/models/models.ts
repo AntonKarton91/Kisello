@@ -29,7 +29,7 @@ export interface ICartPrev {
 }
 
 export interface ITagList {
-    id: string
+    _id: string
     title: string
     color: string
 }

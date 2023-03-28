@@ -33,4 +33,11 @@ export declare class CardTagController {
     }, never> & Required<{
         _id: import("mongoose").Types.ObjectId;
     }>>;
+    getAllCards({ boardId }: {
+        boardId: any;
+    }): Promise<(import("mongoose").Document<unknown, any, import("./schemas/cardTag.schema").CardTag> & Omit<import("./schemas/cardTag.schema").CardTag & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never> & Required<{
+        _id: import("mongoose").Types.ObjectId;
+    }>)[]>;
 }

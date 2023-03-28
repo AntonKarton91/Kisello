@@ -75,6 +75,7 @@ export const boardSlice = createSlice({
                 state.loading = false;
                 state.cardList = action.payload.cardList;
                 state.users = action.payload.users;
+                state.cardTags = action.payload.cardTags;
             })
     }
 })

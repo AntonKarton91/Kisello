@@ -23,6 +23,9 @@ let CardTagController = class CardTagController {
     createProduct(dto) {
         return this.cardTagService.create(dto);
     }
+    getAllCards({ boardId }) {
+        return this.cardTagService.getByBoardId(boardId);
+    }
 };
 __decorate([
     (0, common_1.Post)('/create'),
@@ -31,6 +34,13 @@ __decorate([
     __metadata("design:paramtypes", [createCardTag_dto_1.CreateCardTagDto]),
     __metadata("design:returntype", void 0)
 ], CardTagController.prototype, "createProduct", null);
+__decorate([
+    (0, common_1.Post)("/getbyboardid"),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], CardTagController.prototype, "getAllCards", null);
 CardTagController = __decorate([
     (0, common_1.Controller)('cardtag'),
     __metadata("design:paramtypes", [cardTag_service_1.CardTagService])

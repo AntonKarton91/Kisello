@@ -1,10 +1,7 @@
 @import "src/styles/styleConstants";
 
 .container {
-  display: flex;
-  flex-wrap: wrap;
 
-  background-color: #eb5a46;
 }
 
 .buttonContainer{
@@ -14,7 +11,7 @@
 
   border-radius: 5px;
 
-  background-color: $buttonsGray;
+  background-color: rgba(9, 30, 66, 0.04);
 
   width: 25px;
   height: 25px;
@@ -24,4 +21,23 @@
   fill: #5B5B5B!important;
   width: 17px!important;
   height: 17px!important;
+}
+
+.title {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 20px;
+  color: #848c9b;
+}
+
+.list {
+  display: flex;
+  gap: 3px;
+}
+
+.menu {
+  position: fixed;
+  width: 100px;
+  height: 200px;
+  background-color: #eb5a46;
 }

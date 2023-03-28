@@ -39,8 +39,11 @@ export const CardPreview = ({
 
     const currentTagList = (): ITagList[] => {
         return cardTags.filter(tag => {
-            return data.tagList.includes(tag.id)
+            return data.tagList.includes(tag._id)
         })
+            .sort((a, b) => {
+                return b.title.length - a.title.length
+            })
     }
 
     const currentParticipants = () => {
@@ -56,14 +59,11 @@ export const CardPreview = ({
                     currentTagList().length > 0 && <div className={styles.tagsContainer}>
                         {
                             currentTagList()
-                                .sort((a, b) => {
-                                    return b.title.length - a.title.length
-                                })
                                 .map(tag => {
                                     return (
                                         <CardTagComponent
-                                            key={tag.id}
-                                            id={tag.id}
+                                            key={tag._id}
+                                            id={tag._id}
                                             title={tag.title}
                                             color={tag.color}
                                         />
