@@ -5,39 +5,73 @@ import styles from "./popupMenuContainer.module.scss"
 export interface PopupMenuContainerProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     title: string
     addButtonRef: RefObject<HTMLDivElement>
+    closeWindow: ()=>void
+    isOpen: boolean
 }
 
-export const PopupMenuContainerComponent = ({children, title, addButtonRef}: PopupMenuContainerProps): React.ReactElement => {
+export const PopupMenuContainerComponent = ({children, title, addButtonRef, closeWindow, isOpen}: PopupMenuContainerProps): React.ReactElement => {
     const ref = useRef<HTMLDivElement>(null)
     const [xCoord, setXCoord] = useState<number>(0)
-
-
+    const [yCoord, setYCoord] = useState<number>(0)
+    const [height, setHeight] = useState<number>(0)
+    const [display, setDisplay] = useState("none")
+    //
     useEffect(()=> {
-        if (addButtonRef.current) {
+        if (addButtonRef.current && ref.current) {
             const popupWindow = addButtonRef.current.closest("#cardPopupContainer")
             if (popupWindow) {
+                setYCoord(popupWindow.getBoundingClientRect().y)
+                setHeight(popupWindow.getBoundingClientRect().height)
                 const popupWindowStart = popupWindow.getBoundingClientRect().x
-                const popupWindowEnd = popupWindow.getBoundingClientRect().width + popupWindowStart
-                setXCoord(popupWindowStart)
+                const buttonXCoord = ref.current.getBoundingClientRect().x
+                if ((buttonXCoord-230/2)<popupWindowStart) setXCoord(popupWindowStart)
+                else setXCoord(buttonXCoord-230/2)
+                setDisplay("flex")
+
             }
         }
     }, [])
-    // @ts-ignore
-
+    //
+    // const closeHandler = (e: MouseEvent) => {
+    //     if (e.target && ref.current) {
+    //     console.log(ref.current)
+    //         // @ts-ignore
+    //         if (!ref.current.contains(e.target)) {
+    //             closeWindow()
+    //         }
+    //     }
+    // }
+    //
+    // useEffect(()=> {
+    //     if (isOpen) {
+    //         window.addEventListener("click", closeHandler)
+    //     }
+    //
+    //     // return ()=>window.removeEventListener("click", closeHandler)
+    // }, [isOpen])
+    //
+    // useEffect(()=> {
+    //     return ()=>window.removeEventListener("click", closeHandler)
+    // }, [])
+    //
     const inlineStyles = {
         left: xCoord + "px",
-        // top: yCoord ? yCoord + "px" : "",
-        // width: width ? width + "px" : "",
-        // height: height ? height + "px" : "",
+        top: yCoord + "px",
+        height: height + "px",
+        display
+    }
+
+    if (!isOpen) {
+        if (!isOpen) return <div></div>
     }
 
     return (
-        <div className={styles.container} style={inlineStyles} ref={ref}>
-            <div>{title}</div>
-            <div className={styles.content}>
-                {children}
+            <div className={styles.container} style={inlineStyles} ref={ref}>
+                <div>{title}</div>
+                <div className={styles.content}>
+                    {children}
+                </div>
             </div>
-        </div>
     );
 };
 
