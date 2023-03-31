@@ -41,6 +41,10 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Card.prototype, "completed", void 0);
 __decorate([
+    (0, mongoose_1.Prop)({ default: "" }),
+    __metadata("design:type", String)
+], Card.prototype, "description", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ type: mongoose_2.default.Schema.Types.ObjectId }),
     __metadata("design:type", Object)
 ], Card.prototype, "boardId", void 0);

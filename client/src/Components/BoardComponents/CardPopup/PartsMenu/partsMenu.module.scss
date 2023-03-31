@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: center;
 
-  border-radius: 5px;
+  border-radius: 50%;
 
   background-color: rgba(9, 30, 66, 0.04);
 
@@ -39,12 +39,18 @@
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
+  position: relative;
 
   &:hover .checkBox {
     color: #b2b2b2;
   }
   &:hover .cardTag {
     box-shadow: 1px 1px rgba(black, 0.4);
+  }
+  .checkBox {
+    position: absolute;
+    top: 3px;
+    left: 4px;
   }
 }
 
@@ -54,13 +60,6 @@
   width: 17px!important;
   height: 17px!important;
 }
-
-.editIcon {
-  fill: #5B5B5B!important;
-  width: 17px!important;
-  height: 17px!important;
-}
-
 
 .title {
   font-size: 15px;
@@ -83,7 +82,9 @@
 
 .list {
   display: flex;
+  flex-wrap: wrap;
   gap: 3px;
+
 }
 
 .menu {

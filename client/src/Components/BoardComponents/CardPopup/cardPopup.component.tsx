@@ -7,6 +7,9 @@ import {PopupContainerComponent} from "./PopupContainer/popupContainer.component
 import {TagsMenuComponent} from "./TagsMenu/tagsMenu.component";
 import {sendCardUpdate} from "../../../Store/Reducers/board/boardSlice";
 import {useAppDispatch} from "../../../Store/hooks";
+import {PartsMenuComponent} from "./PartsMenu/partsMenu.component";
+import {DateMenuComponent} from "./DateMenu/dateMenu.component";
+import {PopupDescriptionComponent} from "./PopupDescription/popupDescription.component";
 
 
 export const CardPopupComponent = ({data, closePopup, columnData}: CardPopupProps): React.ReactElement => {
@@ -36,7 +39,15 @@ export const CardPopupComponent = ({data, closePopup, columnData}: CardPopupProp
                         />
                         <div className={styles.columnName}>в листе {columnData.name || ""}</div>
                     </div>
+
+                    <div className={styles.attributes}>
                         <TagsMenuComponent cardData={data}/>
+                        <PartsMenuComponent cardData={data}/>
+                        <DateMenuComponent cardData={data}/>
+                    </div>
+                    <div className={styles.description}>
+                        <PopupDescriptionComponent cardData={data}/>
+                    </div>
                 </div>
                 <div className={styles.rightMenu}>
                     <RightMenuComponent/>

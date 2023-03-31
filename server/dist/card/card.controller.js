@@ -21,7 +21,6 @@ let CardController = class CardController {
         this.cardService = cardService;
     }
     getAllCards({ boardId }) {
-        console.log(1);
         return this.cardService.getByBoardId(boardId);
     }
     createColumn(dto) {

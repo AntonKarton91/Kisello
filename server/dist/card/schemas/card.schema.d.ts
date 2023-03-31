@@ -7,6 +7,7 @@ export declare class Card {
     date: Date;
     participants: ObjectId[];
     completed: boolean;
+    description: string;
     boardId: ObjectId;
 }
 export declare const CardSchema: mongoose.Schema<Card, mongoose.Model<Card, any, any, any, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, Card>;

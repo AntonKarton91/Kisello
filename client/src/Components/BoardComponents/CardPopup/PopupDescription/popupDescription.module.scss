@@ -1,0 +1,41 @@
+@import "src/styles/styleConstants";
+
+.container {
+
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.buttonContainer {
+  font-size: 14px;
+  background-color: #091e420a;
+}
+
+.body {
+  margin: 15px 30px;
+}
+
+.toolbar {
+  width: 100%;
+}
+
+.wrapper {
+  width: 100%;
+
+}
+
+.wrapperEditable {
+  background-color: white;
+  border: 2px solid #0079BF;
+  border-radius: 3px;
+}
+
+.editor {
+  font-size: 14px;
+  padding: 5px;
+  width: 100%;
+}

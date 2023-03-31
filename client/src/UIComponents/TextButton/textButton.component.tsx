@@ -29,8 +29,8 @@ export const TextButtonComponent = ({
 
     const clickHandler = onClick ? onClick : ()=>{}
     const buttonStyle = {
-        minWidth: width + "px",
-        minHeight: height + "px",
+        width: width + "px",
+        height: height + "px",
     }
 
     return (

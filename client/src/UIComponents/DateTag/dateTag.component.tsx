@@ -10,7 +10,7 @@ import {useAppDispatch, useAppSelector} from "../../Store/hooks";
 import {sendCardUpdate} from "../../Store/Reducers/board/boardSlice";
 
 export interface IDateTagProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-    selectDate: Date
+    selectDate: string
     isDone?: boolean
     cardId: string
 }
@@ -20,7 +20,6 @@ export interface IDateTagProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivE
 export const DateTagComponent = ({className, selectDate, isDone=false, cardId, ...attrs}:IDateTagProps):React.ReactElement => {
     const [isMouseOver, setIsMouseOver] = useState(false)
     const dispatch = useAppDispatch()
-    const { cardList } = useAppSelector(state => state.board)
 
     const mouseEnterHandler = (e: React.MouseEvent) => {
         setIsMouseOver(true)
@@ -29,13 +28,17 @@ export const DateTagComponent = ({className, selectDate, isDone=false, cardId, .
         setIsMouseOver(false)
     }
 
+    const getFullDate = (): Date => {
+        return new Date(selectDate)
+    }
+
     function getColor() {
         if (isDone) return "#61bd4f"
         // @ts-ignore
         const currentDate = selectDate - new Date()
         if (currentDate > 86400000) return "transparent"
         if (currentDate < 86400000 && currentDate > 0) return "yellow"
-        return "red"
+        return "#EB5A46"
     }
 
     const isCompleteChange = () => {
@@ -61,7 +64,7 @@ export const DateTagComponent = ({className, selectDate, isDone=false, cardId, .
             onMouseLeave={mouseLeaveHandler}
         >
             <Icon/>
-            <div>{selectDate.getDate()} {monthArray[selectDate.getMonth()].slice(0,3)}</div>
+            <div>{getFullDate().getDate()} {monthArray[getFullDate().getMonth()].slice(0,3)}</div>
         </div>
     );
 };

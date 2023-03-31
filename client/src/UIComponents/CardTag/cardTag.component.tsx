@@ -5,13 +5,21 @@ import styles from "./cardTag.module.scss"
 
 export interface ICartTagProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     id: string
-    title: string,
+    title: string
     color: string
 }
 
 export const CardTagComponent = ({className, id, title, color, ...attrs}:ICartTagProps):React.ReactElement => {
+
+    const classes = cn(
+        [
+            styles.container,
+            className
+        ]
+    )
+
     return (
-        <div {...attrs} className={styles.container} style={{backgroundColor: color}}>
+        <div {...attrs} className={classes} style={{backgroundColor: color}}>
             {title}
         </div>
     );

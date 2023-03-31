@@ -30,6 +30,9 @@ export class Card {
   @Prop({ default: false })
   completed: boolean;
 
+  @Prop({ default: "" })
+  description: string;
+
   @Prop({type: mongoose.Schema.Types.ObjectId})
   boardId: ObjectId;
 }

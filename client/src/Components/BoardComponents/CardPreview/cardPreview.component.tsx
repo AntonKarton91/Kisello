@@ -86,7 +86,7 @@ export const CardPreview = ({
                     <div className={styles.date} id={"date-tag"}>
                         <DateTagComponent
                             isDone={data.completed}
-                            selectDate={new Date(2023, 2, 1)}
+                            selectDate={data.date}
                             cardId={data._id}
                         />
                     </div>

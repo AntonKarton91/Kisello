@@ -38,7 +38,7 @@ export class BoardGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
         this.server.emit('addCardToColumn', newCard);
     }
 
-    @SubscribeMessage('sendCardUpload')
+    @SubscribeMessage('sendCardUpdate')
     async handleCardUpload(client: Socket, payload: {data: any, cardId:ObjectId}): Promise<void> {
         await this.cardService.getAndUpdate(payload.cardId, payload.data)
         this.server.emit('cardUpdate', payload);

@@ -68,7 +68,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BoardGateway.prototype, "handleAddCardToColumn", null);
 __decorate([
-    (0, websockets_1.SubscribeMessage)('sendCardUpload'),
+    (0, websockets_1.SubscribeMessage)('sendCardUpdate'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
     __metadata("design:returntype", Promise)

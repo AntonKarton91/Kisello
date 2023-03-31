@@ -1,7 +1,7 @@
 @import "src/styles/styleConstants";
 
 .container {
-  width: 230px;
+  width: 280px;
 
   padding: 8px;
   border-radius: 3px;
@@ -11,5 +11,7 @@
   flex-direction: column;
   gap: 5px;
 
-  background-color: rgba(#eb5a46, 0.5);
+  background-color: #ffffff;
+
+  box-shadow: 0 8px 16px -4px rgba(9, 30, 66, 0.25);
 }

@@ -5,16 +5,9 @@
   grid-template-columns: auto 140px;
   grid-template-areas: "content rightMenu";
 
-  height: 100%;
+  //height: 100%;
 
   .content {
-    //grid-area: content;
-    //
-    //display: grid;
-    //grid-template-columns: auto minmax(100px, 1fr);
-    //grid-template-rows: auto auto auto;
-    //grid-template-areas: "titleContainer" ;
-
     .titleContainer {
       grid-area: titleContainer;
 
@@ -30,12 +23,19 @@
       }
 
       .columnName {
+        margin-top: 8px;
         color: $lightText;
         font-size: 12px;
         cursor: default;
       }
     }
+  }
 
+  .attributes {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
   }
 
   .rightMenu {
@@ -47,4 +47,13 @@
     color: $lightText;
     font-weight: 500;
   }
+}
+
+.description {
+  margin-top: 20px;
+
+  font-size: 16px;
+  line-height: 20px;
+
+  color: #172b4d;
 }

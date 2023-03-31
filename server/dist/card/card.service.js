@@ -27,7 +27,6 @@ let CardService = class CardService {
         return this.cardModel.find({ boardId: id });
     }
     async create(data) {
-        console.log(data);
         const newCard = await this.cardModel.create({
             title: data.title,
             boardId: data.boardId
@@ -44,7 +43,7 @@ let CardService = class CardService {
                 tagList: newCard.tagList,
                 date: newCard.date,
                 participants: newCard.participants,
-                completed: false
+                completed: false,
             },
             columnId: data.columnId
         };

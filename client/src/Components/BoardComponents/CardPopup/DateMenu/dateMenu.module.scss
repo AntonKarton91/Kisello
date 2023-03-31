@@ -13,7 +13,6 @@
 
   background-color: rgba(9, 30, 66, 0.04);
 
-  width: 25px;
   height: 25px;
 
   &:hover {
@@ -39,6 +38,7 @@
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
+  position: relative;
 
   &:hover .checkBox {
     color: #b2b2b2;
@@ -47,6 +47,9 @@
     box-shadow: 1px 1px rgba(black, 0.4);
   }
 }
+.checkBox {
+  padding: 0!important;
+}
 
 
 .addIcon {
@@ -54,13 +57,6 @@
   width: 17px!important;
   height: 17px!important;
 }
-
-.editIcon {
-  fill: #5B5B5B!important;
-  width: 17px!important;
-  height: 17px!important;
-}
-
 
 .title {
   font-size: 15px;
@@ -83,7 +79,9 @@
 
 .list {
   display: flex;
+  flex-wrap: wrap;
   gap: 3px;
+
 }
 
 .menu {

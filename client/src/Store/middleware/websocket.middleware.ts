@@ -66,7 +66,7 @@ export const webSocketMiddleware: Middleware<{}, AppState> = store => next => ac
         }
 
         case 'board/sendCardUpdate': {
-            return socket.emit("sendCardUpload",action.payload)
+            return socket.emit("sendCardUpdate",action.payload)
         }
 
         case 'board/sendAddCardToColumn': {

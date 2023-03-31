@@ -11,7 +11,6 @@ export class CardController {
 
     @Post("/getbyboardid")
     getAllCards(@Body() { boardId }) {
-        console.log(1);
         return this.cardService.getByBoardId(boardId)
     }
 

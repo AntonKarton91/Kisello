@@ -26,6 +26,7 @@ export interface ICartPrev {
     date: string
     participants: string[]
     completed: boolean
+    description: string
 }
 
 export interface ITagList {
