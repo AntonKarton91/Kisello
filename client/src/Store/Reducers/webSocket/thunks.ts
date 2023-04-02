@@ -2,7 +2,7 @@
 // import {io, Socket} from "socket.io-client";
 // import {wsConnect, wsDisconnect} from "./webSocket.slice";
 // import {IColumn} from "../../../models/models";
-// import {addColumn, updateColumn} from "../board/boardSlice";
+// import {addColumn, updateColumn} from "../board/commnetSlice";
 // import {useAppDispatch} from "../../hooks";
 // import {AppState} from "../../types";
 //

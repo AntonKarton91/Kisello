@@ -19,6 +19,14 @@ export interface IColumn {
     cardList: string[]
 }
 
+export interface IComment {
+    _id: string
+    userId: string
+    cardId: string
+    body: string
+    createdAt: string
+}
+
 export interface ICartPrev {
     _id: string
     title: string

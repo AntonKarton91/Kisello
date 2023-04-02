@@ -21,6 +21,7 @@ const board_module_1 = require("./board/board.module");
 const cardTag_module_1 = require("./cardTag/cardTag.module");
 const column_module_1 = require("./column/column.module");
 const gateway_module_1 = require("./gateway/gateway.module");
+const cardComment_module_1 = require("./cardComment/cardComment.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -34,6 +35,7 @@ AppModule = __decorate([
             cardTag_module_1.CardTagModule,
             column_module_1.ColumnModule,
             gateway_module_1.GatewayModule,
+            cardComment_module_1.CardCommentModule,
             user_module_1.UserModule,
             file_module_1.FileModule,
             board_module_1.BoardModule,

@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import {ICartPrev, IColumn, ITagList, IUser} from "../../../models/models";
+import {ICartPrev, IColumn, IComment, ITagList, IUser} from "../../../models/models";
 import {IBoardState} from "./types";
 import {fetchBoardData} from "./thunks";
 

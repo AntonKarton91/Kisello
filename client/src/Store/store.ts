@@ -5,6 +5,7 @@ import webSocketReducer from './Reducers/webSocket/webSocket.slice'
 import userReducer from './Reducers/user/userSlice'
 import {AppState} from "./types";
 import {authMiddleware} from "./middleware/auth.middleware";
+import commentReducer from "./Reducers/comment/commentSlice";
 
 
 
@@ -12,6 +13,7 @@ export const store = configureStore<AppState>({
     reducer: {
         webSocket: webSocketReducer,
         board: boardReducer,
+        comments: commentReducer,
         user: userReducer
     },
 // @ts-ignore

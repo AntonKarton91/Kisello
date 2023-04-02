@@ -12,6 +12,7 @@ import {BoardModule} from "./board/board.module";
 import {CardTagModule} from "./cardTag/cardTag.module";
 import {ColumnModule} from "./column/column.module";
 import {GatewayModule} from "./gateway/gateway.module";
+import { CardCommentModule } from "./cardComment/cardComment.module";
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import {GatewayModule} from "./gateway/gateway.module";
       CardTagModule,
       ColumnModule,
       GatewayModule,
+      CardCommentModule,
       UserModule,
       FileModule,
       BoardModule,
