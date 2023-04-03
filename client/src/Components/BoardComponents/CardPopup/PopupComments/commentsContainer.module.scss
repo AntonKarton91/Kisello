@@ -3,3 +3,25 @@
 .container {
 
 }
+
+.header {
+  display: grid;
+  align-items: center;
+  justify-items: start;
+  gap: 8px;
+  grid-template-columns: auto 1fr auto;
+  margin-bottom: 10px;
+}
+
+.buttonContainer {
+  white-space: nowrap;
+  text-wrap: none;
+  font-size: 14px;
+  background-color: #091e420a;
+}
+
+.title {
+  font-weight: 600;
+  color: #656575;
+}
+

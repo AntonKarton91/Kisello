@@ -1,0 +1,44 @@
+.container {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
+}
+
+.ava {
+
+}
+
+.header {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+}
+
+.body {
+
+}
+
+.comment {
+  background-color: white;
+
+  min-height: 30px;
+
+  padding: 5px;
+
+  box-shadow: 2px 2px 2px #091e4214;
+}
+
+.name {
+  font-weight: 600;
+  color: #656575;
+}
+
+.date {
+  font-weight: 500;
+  color: #656575;
+  font-size: 15px;
+}
+
+

@@ -15,7 +15,7 @@ export const commentSlice = createSlice({
     name: 'comment',
     initialState,
     reducers: {
-
+        sendAddComment: (state, action) => {},
     },
     extraReducers: (builder) => {
         builder
@@ -32,7 +32,7 @@ export const commentSlice = createSlice({
 })
 
 export const {
-
+    sendAddComment
 } = commentSlice.actions
 
 export default commentSlice.reducer

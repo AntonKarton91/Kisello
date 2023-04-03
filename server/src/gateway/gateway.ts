@@ -9,12 +9,15 @@ import { Server, Socket } from "socket.io"
 import { ObjectId } from "mongoose";
 import { ColumnService } from "../column/column.service";
 import { CardService } from "../card/card.service";
+import { CreateCardCommentDto } from "../cardComment/dto/createCardComment.dto";
+import { CardCommentService } from "../cardComment/cardComment.service";
 
 
 @WebSocketGateway({ cors: true })
 export class BoardGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect{
     constructor(
       private columnService: ColumnService,
+      private commentService: CardCommentService,
       private cardService: CardService
     ) {}
 
@@ -42,6 +45,12 @@ export class BoardGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
     async handleCardUpload(client: Socket, payload: {data: any, cardId:ObjectId}): Promise<void> {
         await this.cardService.getAndUpdate(payload.cardId, payload.data)
         this.server.emit('cardUpdate', payload);
+    }
+
+    @SubscribeMessage('sendAddComment')
+    async addComment(client: Socket, payload: CreateCardCommentDto): Promise<void> {
+        const newComment = await this.commentService.create(payload)
+        this.server.emit('addComment', payload);
     }
 
     afterInit(server: Server) {

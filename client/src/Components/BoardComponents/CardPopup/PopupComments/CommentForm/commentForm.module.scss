@@ -1,5 +1,28 @@
 @import "../../../../../styles/styleConstants";
 
 .container {
-
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 5px;
+  align-items: start;
 }
+
+.commentBox {
+  background-color: white;
+  box-shadow: 2px 2px 2px #091e4214;
+
+  padding: 5px;
+
+  textarea {
+    height: auto;
+    line-height: 1;
+    padding: 8px 2px 0 2px;
+    font-size: 15px;
+    color: #656575;
+    width: 100%;
+    outline: none;
+    resize: none;
+    border: none;
+  }
+}
+

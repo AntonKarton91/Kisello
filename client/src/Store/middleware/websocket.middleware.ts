@@ -73,6 +73,10 @@ export const webSocketMiddleware: Middleware<{}, AppState> = store => next => ac
             return socket.emit("sendAddCardToColumn",action.payload)
         }
 
+        case 'comment/sendAddComment': {
+            return socket.emit("sendAddComment",action.payload)
+        }
+
         case 'board/sendUpdateColumn': {
             console.log(action.payload)
             return socket.emit("columnUpdate", action.payload)

@@ -2,7 +2,7 @@ import * as React from "react";
 import {DetailedHTMLProps, FormEvent, HTMLAttributes, useRef, useState} from "react";
 import styles from "./popupDescription.module.scss"
 import {ICartPrev} from "../../../../models/models";
-import ListIcon from '@mui/icons-material/List';
+import NotesIcon from '@mui/icons-material/Notes';
 import {TextButtonComponent} from "../../../../UIComponents/TextButton/textButton.component";
 import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
 import {Editor} from 'react-draft-wysiwyg';
@@ -68,7 +68,7 @@ export const PopupDescriptionComponent = ({cardData}: PopupDescriptionProps): Re
     return (
         <div className={styles.container}>
             <div className={styles.head}>
-                <ListIcon/>
+                <NotesIcon/>
                 <div className={styles.title}>Описание</div>
                 <div onClick={e=>enableEditHandler(e)}>
                     <TextButtonComponent
