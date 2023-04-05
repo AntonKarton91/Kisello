@@ -27,6 +27,11 @@ export const CardPopupComponent = ({data, closePopup, columnData}: CardPopupProp
         setIsEdit(false)
     }
 
+    useEffect(()=>{
+        localStorage.setItem("openedCard", data._id)
+        return ()=>localStorage.removeItem("openedCard")
+    }, [])
+
     return (
         <PopupContainerComponent closePopup={closePopup}>
             <div ref={popupRef} className={styles.container}>

@@ -13,7 +13,7 @@
   display: flex;
   gap: 10px;
   align-items: center;
-
+  margin-bottom: 5px;
 }
 
 .body {
@@ -39,6 +39,21 @@
   font-weight: 500;
   color: #656575;
   font-size: 15px;
+}
+
+.footer {
+  margin-top: 3px;
+}
+
+.footerButton {
+  color: #656575;
+  text-decoration: underline;
+  font-size: 12px;
+  cursor: pointer;
+
+  &:hover {
+    color: #21212a;
+  }
 }
 
 

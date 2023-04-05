@@ -50,7 +50,13 @@ export class BoardGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
     @SubscribeMessage('sendAddComment')
     async addComment(client: Socket, payload: CreateCardCommentDto): Promise<void> {
         const newComment = await this.commentService.create(payload)
-        this.server.emit('addComment', payload);
+        this.server.emit('addComment', newComment);
+    }
+
+    @SubscribeMessage('sendDeleteComment')
+    async deleteComment(client: Socket, payload: string): Promise<void> {
+        const deletedComment = await this.commentService.delete(payload)
+        this.server.emit('deleteComment', deletedComment);
     }
 
     afterInit(server: Server) {

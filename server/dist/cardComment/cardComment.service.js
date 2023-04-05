@@ -33,18 +33,29 @@ let CardCommentService = class CardCommentService {
         }
     }
     async create(data) {
-        const newComment = await this.commentModel.create(data);
+        const newComment = await this.commentModel.create(Object.assign(Object.assign({}, data), { createdAt: new Date() }));
         if (!newComment) {
             throw new common_1.HttpException("Ошибка сервера", common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return {
-            data: {
-                _id: newComment._id,
-                body: newComment.body,
-                userId: newComment.userId,
-                cratedAt: newComment.createdAt,
-                cardId: newComment.cardId,
-            },
+            _id: newComment._id,
+            body: newComment.body,
+            userId: newComment.userId,
+            createdAt: newComment.createdAt,
+            cardId: newComment.cardId,
+        };
+    }
+    async delete(data) {
+        const deletedComment = await this.commentModel.findByIdAndDelete(data);
+        if (!deletedComment) {
+            throw new common_1.HttpException("Ошибка сервера", common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return {
+            _id: deletedComment._id,
+            body: deletedComment.body,
+            userId: deletedComment.userId,
+            createdAt: deletedComment.createdAt,
+            cardId: deletedComment.cardId,
         };
     }
 };

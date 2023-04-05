@@ -18,10 +18,9 @@ export interface MainFieldProps extends DetailedHTMLProps<HTMLAttributes<HTMLDiv
 export const CommentsContainerComponent = ({cardData}: MainFieldProps): React.ReactElement => {
     const [isDetailsVisible, setIsDetailsVisible] = useState(true)
     const dispatch = useAppDispatch()
-    const { loading, comments } = useAppSelector(state => state.comments)
+    const {loading, comments} = useAppSelector(state => state.comments)
 
-
-    useEffect(()=> {
+    useEffect(() => {
         dispatch(fetchComments(cardData._id))
     }, [])
 
@@ -30,9 +29,10 @@ export const CommentsContainerComponent = ({cardData}: MainFieldProps): React.Re
             <div className={styles.header}>
                 <ListIcon/>
                 <div className={styles.title}>Действия</div>
-                <div onClick={e=>{}}>
+                <div onClick={e => {
+                }}>
                     <TextButtonComponent
-                        onClick={()=>setIsDetailsVisible(!isDetailsVisible)}
+                        onClick={() => setIsDetailsVisible(!isDetailsVisible)}
                         className={styles.buttonContainer}
                         height={32}
                     >
@@ -46,14 +46,19 @@ export const CommentsContainerComponent = ({cardData}: MainFieldProps): React.Re
             {
                 isDetailsVisible &&
                 <div className={styles.list}>
-                    {   loading
-                        ? <div>Загрузка</div>
-                        : comments.map(comment => {
-                            return (
-                                <CommentItemComponent key={comment._id} commentData={comment}/>
-                            )
-                        })
+                    {
+                        loading
+                            ? <div>Загрузка</div>
+                            : [...comments]
+                                .sort((a, b) => {
+                                    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime() >= 0
+                                        ? -1
+                                        : 1
+                                    }
+                                )
+                                .map(comment => <CommentItemComponent key={comment._id} commentData={comment}/>)
                     }
+
                 </div>
             }
         </div>

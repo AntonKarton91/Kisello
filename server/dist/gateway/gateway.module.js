@@ -11,6 +11,7 @@ const common_1 = require("@nestjs/common");
 const gateway_1 = require("./gateway");
 const column_module_1 = require("../column/column.module");
 const card_module_1 = require("../card/card.module");
+const cardComment_module_1 = require("../cardComment/cardComment.module");
 let GatewayModule = class GatewayModule {
 };
 GatewayModule = __decorate([
@@ -18,7 +19,8 @@ GatewayModule = __decorate([
         providers: [gateway_1.BoardGateway],
         imports: [
             column_module_1.ColumnModule,
-            card_module_1.CardModule
+            card_module_1.CardModule,
+            cardComment_module_1.CardCommentModule
         ]
     })
 ], GatewayModule);

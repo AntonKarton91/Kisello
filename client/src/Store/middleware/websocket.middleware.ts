@@ -5,8 +5,10 @@ import { AppState } from "../types";
 import { typeConnect } from '../../types/typeConnect';
 import {IBoardState} from "../Reducers/board/types";
 import {addCardToColumn, addColumn, cardUpdate, updateColumn} from "../Reducers/board/boardSlice";
-import {ICartPrev, IColumn} from "../../models/models";
+import {ICartPrev, IColumn, IComment} from "../../models/models";
 import {Connect, Disconnect} from "../Reducers/webSocket/webSocket.slice";
+import {addComment, deleteComment} from "../Reducers/comment/commentSlice";
+import {ICommentState} from "../Reducers/comment/types";
 let socket: Socket
 //
 
@@ -20,17 +22,31 @@ export const webSocketMiddleware: Middleware<{}, AppState> = store => next => ac
     }
 
     const columnUpdate = (message: {data: any, columnId: string}) => {
-        console.log(message)
         store.dispatch(updateColumn(message))
     }
 
     const addCardToCol = (message: {data: ICartPrev, columnId: string}) => {
-        console.log(message)
         store.dispatch(addCardToColumn(message))
     }
+
     const cardUploadHandler = (message: {data: ICartPrev, cardId: string}) => {
-        console.log(message)
         store.dispatch(cardUpdate(message))
+    }
+
+    const addCommentToCard = (message: IComment) => {
+        if (localStorage.getItem("openedCard")) {
+            if (localStorage.getItem("openedCard") === message.cardId) {
+                store.dispatch(addComment(message))
+            }
+        }
+    }
+
+    const deleteCommentFromCard = (message: IComment) => {
+        if (localStorage.getItem("openedCard")) {
+            if (localStorage.getItem("openedCard") === message.cardId) {
+                store.dispatch(deleteComment(message))
+            }
+        }
     }
 
     switch (action.type) {
@@ -46,6 +62,8 @@ export const webSocketMiddleware: Middleware<{}, AppState> = store => next => ac
                 socket.on('addNewColumn', add)
                 socket.on('columnUpdate', columnUpdate)
                 socket.on('addCardToColumn', addCardToCol)
+                socket.on('addComment', addCommentToCard)
+                socket.on('deleteComment', deleteCommentFromCard)
                 socket.on('cardUpdate', cardUploadHandler)
                 socket.on('disconnect', ()=> {
                     console.log("Соединение разорвано")
@@ -77,8 +95,11 @@ export const webSocketMiddleware: Middleware<{}, AppState> = store => next => ac
             return socket.emit("sendAddComment",action.payload)
         }
 
+        case 'comment/sendDeleteComment': {
+            return socket.emit("sendDeleteComment",action.payload)
+        }
+
         case 'board/sendUpdateColumn': {
-            console.log(action.payload)
             return socket.emit("columnUpdate", action.payload)
         }
 

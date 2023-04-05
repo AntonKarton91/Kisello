@@ -14,9 +14,12 @@ const websockets_1 = require("@nestjs/websockets");
 const socket_io_1 = require("socket.io");
 const column_service_1 = require("../column/column.service");
 const card_service_1 = require("../card/card.service");
+const createCardComment_dto_1 = require("../cardComment/dto/createCardComment.dto");
+const cardComment_service_1 = require("../cardComment/cardComment.service");
 let BoardGateway = class BoardGateway {
-    constructor(columnService, cardService) {
+    constructor(columnService, commentService, cardService) {
         this.columnService = columnService;
+        this.commentService = commentService;
         this.cardService = cardService;
     }
     async handleSendMessage(client, payload) {
@@ -34,6 +37,14 @@ let BoardGateway = class BoardGateway {
     async handleCardUpload(client, payload) {
         await this.cardService.getAndUpdate(payload.cardId, payload.data);
         this.server.emit('cardUpdate', payload);
+    }
+    async addComment(client, payload) {
+        const newComment = await this.commentService.create(payload);
+        this.server.emit('addComment', newComment);
+    }
+    async deleteComment(client, payload) {
+        const deletedComment = await this.commentService.delete(payload);
+        this.server.emit('deleteComment', deletedComment);
     }
     afterInit(server) {
         console.log(server);
@@ -73,9 +84,22 @@ __decorate([
     __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
     __metadata("design:returntype", Promise)
 ], BoardGateway.prototype, "handleCardUpload", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('sendAddComment'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [socket_io_1.Socket, createCardComment_dto_1.CreateCardCommentDto]),
+    __metadata("design:returntype", Promise)
+], BoardGateway.prototype, "addComment", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('sendDeleteComment'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [socket_io_1.Socket, String]),
+    __metadata("design:returntype", Promise)
+], BoardGateway.prototype, "deleteComment", null);
 BoardGateway = __decorate([
     (0, websockets_1.WebSocketGateway)({ cors: true }),
     __metadata("design:paramtypes", [column_service_1.ColumnService,
+        cardComment_service_1.CardCommentService,
         card_service_1.CardService])
 ], BoardGateway);
 exports.BoardGateway = BoardGateway;

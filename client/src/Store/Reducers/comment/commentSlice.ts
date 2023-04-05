@@ -1,11 +1,11 @@
-import {createSlice} from '@reduxjs/toolkit'
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {ICommentState} from "./types";
 import {fetchComments} from "./thunks";
+import {IComment} from "../../../models/models";
 
 
 const initialState: ICommentState = {
     comments: [],
-    openedCard: "",
     loading: false,
     error: null
 }
@@ -16,6 +16,13 @@ export const commentSlice = createSlice({
     initialState,
     reducers: {
         sendAddComment: (state, action) => {},
+        sendDeleteComment: (state, action) => {},
+        addComment: (state, action:PayloadAction<IComment>) => {
+            state.comments.push(action.payload)
+        },
+        deleteComment: (state, action:PayloadAction<IComment>) => {
+            state.comments = state.comments.filter(c=>c._id !== action.payload._id)
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -25,13 +32,15 @@ export const commentSlice = createSlice({
             })
             .addCase(fetchComments.fulfilled, (state, action) => {
                 state.comments = action.payload.comments
-                state.openedCard = action.payload.cardId
                 state.loading = false
             })
     }
 })
 
 export const {
+    deleteComment,
+    sendDeleteComment,
+    addComment,
     sendAddComment
 } = commentSlice.actions
 

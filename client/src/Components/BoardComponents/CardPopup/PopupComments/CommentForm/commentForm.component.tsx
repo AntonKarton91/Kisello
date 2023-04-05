@@ -36,12 +36,14 @@ export const CommentFormComponent = ({cardData}: CommentFormProps): React.ReactE
         document.addEventListener("click", closeHandler)
     }
 
-    const submitHandler = () => {
+    const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
         dispatch(sendAddComment({
             cardId: cardData._id,
             userId: id,
             body: value
         }))
+        setValue("")
         setIsEdit(false)
         return document.removeEventListener("click", closeHandler)
     }
@@ -72,14 +74,12 @@ export const CommentFormComponent = ({cardData}: CommentFormProps): React.ReactE
                                                   title={name ? name : ""}
                                                   fontSize={18}/>
             }
-            <form className={inputClasses} onSubmit={submitHandler} onClick={()=>openCloseHandler()}>
+            <form className={inputClasses} onSubmit={e=>submitHandler(e)} onClick={()=>openCloseHandler()}>
                 <textarea
                     ref={textAreaRef}
                     placeholder={"Напишите комментарий..."}
                     value={value}
                     onChange={(e)=>inputHandler(e)}/>
-                {
-                    isEdit &&
                     <Button
                         disabled={!value}
                         type={"submit"}
@@ -89,12 +89,11 @@ export const CommentFormComponent = ({cardData}: CommentFormProps): React.ReactE
                         sx={{
                             fontWeight: "600",
                             fontSize: "12px",
+                            display: isEdit ? "block" : "none"
                         }}
                     >
                         Сохранить
                     </Button>
-                }
-
             </form>
         </div>
     )

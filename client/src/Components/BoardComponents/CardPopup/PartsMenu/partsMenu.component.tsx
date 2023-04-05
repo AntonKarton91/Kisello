@@ -61,7 +61,9 @@ export const PartsMenuComponent = ({cardData}: PartsMenuProps): React.ReactEleme
                                         src={user.avatar}
                                         key={user._id} description={`${user.surname} ${user.name}`}
                                     />
-                                    : <AvatarPlaceholderComponent circle size={25}
+                                    : <AvatarPlaceholderComponent circle
+                                                                  size={25}
+                                                                  key={user._id}
                                                                   title={user.name ? user.name : ""}
                                                                   fontSize={15}/>
                             )
@@ -86,12 +88,9 @@ export const PartsMenuComponent = ({cardData}: PartsMenuProps): React.ReactEleme
                             users.map(user => {
 
                                 return (
-                                    <div className={styles.tagItem} onClick={() => addRemoveHandler(user._id)}>
-                                        {
-                                            isSelected(user._id) &&
-                                                <Checkbox checked={true} size={"small"}
-                                                          classes={{root: styles.checkBox}}/>
-                                        }
+                                    <div key={user._id + user.name}
+                                         className={styles.tagItem}
+                                         onClick={() => addRemoveHandler(user._id)}>
                                         {
                                             user.avatar
                                                 ? <ImageComponent
@@ -101,9 +100,16 @@ export const PartsMenuComponent = ({cardData}: PartsMenuProps): React.ReactEleme
                                                     src={user.avatar}
                                                     key={user._id} description={`${user.surname} ${user.name}`}
                                                 />
-                                                : <AvatarPlaceholderComponent circle size={30}
+                                                : <AvatarPlaceholderComponent circle
+                                                                              key={user._id}
+                                                                              size={30}
                                                                               title={user.name ? user.name : ""}
                                                                               fontSize={20}/>
+                                        }
+                                        {
+                                            isSelected(user._id) &&
+                                                <Checkbox checked={true} size={"small"}
+                                                          classes={{root: styles.checkBox}}/>
                                         }
                                     </div>
                                 )
