@@ -2,8 +2,7 @@
 
 .columnWrapper {
   height: 100%;
-  max-width: 280px;
-  min-width: 150px;
+  width: 260px;
 }
 
 .container {
@@ -18,13 +17,15 @@
   gap: 5px;
 
   display: grid;
-  grid-template-rows: 20px 1fr auto;
-  grid-template-areas: "columnName" "cardList" "addMenu";
+  grid-template-rows: 20px 1fr auto auto;
+  grid-template-areas: "columnName" "cardList" "dnd" "addMenu";
 
   ::-webkit-scrollbar {
     width: 0;
   }
 }
+
+
 
 .columnName {
   grid-area: columnName;
@@ -47,11 +48,20 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 8px;
 }
 
 .addMenuContainer {
   width: 100%;
-
+  position: relative;
   grid-area: addMenu;
+
+  .post {
+    z-index: 1000;
+    position: absolute;
+    top: -20px;
+    left: 0;
+    right: 0;
+    height: 40px;
+  }
 }

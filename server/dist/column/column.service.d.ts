@@ -25,7 +25,6 @@
 import { Model, ObjectId } from 'mongoose';
 import { Column, ColumnDocument } from "./schemas/column.schema";
 import { BoardService } from "../board/board.service";
-import { Board } from "../board/schemas/board.schema";
 export declare class ColumnService {
     private boardService;
     private columnModel;
@@ -46,5 +45,9 @@ export declare class ColumnService {
         name: string;
         cardList: import("mongoose").Schema.Types.ObjectId[];
     }>;
-    findAndAddCard(id: ObjectId, update: any): Promise<Board>;
+    findAndAddCard(id: ObjectId, update: any): Promise<import("mongoose").Document<unknown, any, Column> & Omit<Column & {
+        _id: import("mongoose").Types.ObjectId;
+    }, never> & Required<{
+        _id: import("mongoose").Types.ObjectId;
+    }>>;
 }

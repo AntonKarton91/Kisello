@@ -17,7 +17,8 @@ export declare class BoardGateway implements OnGatewayInit, OnGatewayConnection,
         columnId: ObjectId;
     }): Promise<void>;
     handleAddCardToColumn(client: Socket, payload: {
-        data: any;
+        title: string;
+        boardId: string;
         columnId: ObjectId;
     }): Promise<void>;
     handleCardUpload(client: Socket, payload: {

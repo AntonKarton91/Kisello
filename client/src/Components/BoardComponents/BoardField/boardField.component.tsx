@@ -10,6 +10,8 @@ import {sendAddNewColumn} from "../../../Store/Reducers/board/boardSlice";
 import {wsConnect} from "../../../Store/Reducers/webSocket/webSocket.slice";
 import {useParams} from "react-router-dom";
 import AddIcon from '@mui/icons-material/Add';
+import {DndProvider} from "react-dnd";
+import {HTML5Backend} from "react-dnd-html5-backend";
 
 
 export const BoardFieldComponent = ({}: BoardFieldProps): React.ReactElement => {
@@ -32,7 +34,8 @@ export const BoardFieldComponent = ({}: BoardFieldProps): React.ReactElement => 
     return (
         loading
             ? <CircularProgress />
-            : <div className={styles.container}>
+            : <DndProvider backend={HTML5Backend}>
+                <div className={styles.container}>
                 {
                     columns.map((columnData, index) => {
                         return <ColumnComponent
@@ -46,6 +49,7 @@ export const BoardFieldComponent = ({}: BoardFieldProps): React.ReactElement => 
                     <div>Добавьте еще одну колонку</div>
                 </div>
                 </div>
+            </DndProvider>
     );
 };
 

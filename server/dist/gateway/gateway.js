@@ -24,27 +24,27 @@ let BoardGateway = class BoardGateway {
     }
     async handleSendMessage(client, payload) {
         const newColumn = await this.columnService.create(payload);
-        this.server.emit('addNewColumn', newColumn);
+        this.server.emit("addNewColumn", newColumn);
     }
     async handleChangeColumnName(client, payload) {
         await this.columnService.getAndUpdate(payload.columnId, payload.data);
-        this.server.emit('columnUpdate', payload);
+        this.server.emit("columnUpdate", payload);
     }
     async handleAddCardToColumn(client, payload) {
         const newCard = await this.cardService.create(payload);
-        this.server.emit('addCardToColumn', newCard);
+        this.server.emit("addCardToColumn", newCard);
     }
     async handleCardUpload(client, payload) {
         await this.cardService.getAndUpdate(payload.cardId, payload.data);
-        this.server.emit('cardUpdate', payload);
+        this.server.emit("cardUpdate", payload);
     }
     async addComment(client, payload) {
         const newComment = await this.commentService.create(payload);
-        this.server.emit('addComment', newComment);
+        this.server.emit("addComment", newComment);
     }
     async deleteComment(client, payload) {
         const deletedComment = await this.commentService.delete(payload);
-        this.server.emit('deleteComment', deletedComment);
+        this.server.emit("deleteComment", deletedComment);
     }
     afterInit(server) {
         console.log(server);
@@ -61,37 +61,37 @@ __decorate([
     __metadata("design:type", socket_io_1.Server)
 ], BoardGateway.prototype, "server", void 0);
 __decorate([
-    (0, websockets_1.SubscribeMessage)('addNewColumn'),
+    (0, websockets_1.SubscribeMessage)("addNewColumn"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
     __metadata("design:returntype", Promise)
 ], BoardGateway.prototype, "handleSendMessage", null);
 __decorate([
-    (0, websockets_1.SubscribeMessage)('columnUpdate'),
+    (0, websockets_1.SubscribeMessage)("columnUpdate"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
     __metadata("design:returntype", Promise)
 ], BoardGateway.prototype, "handleChangeColumnName", null);
 __decorate([
-    (0, websockets_1.SubscribeMessage)('sendAddCardToColumn'),
+    (0, websockets_1.SubscribeMessage)("sendAddCardToColumn"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
     __metadata("design:returntype", Promise)
 ], BoardGateway.prototype, "handleAddCardToColumn", null);
 __decorate([
-    (0, websockets_1.SubscribeMessage)('sendCardUpdate'),
+    (0, websockets_1.SubscribeMessage)("sendCardUpdate"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
     __metadata("design:returntype", Promise)
 ], BoardGateway.prototype, "handleCardUpload", null);
 __decorate([
-    (0, websockets_1.SubscribeMessage)('sendAddComment'),
+    (0, websockets_1.SubscribeMessage)("sendAddComment"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [socket_io_1.Socket, createCardComment_dto_1.CreateCardCommentDto]),
     __metadata("design:returntype", Promise)
 ], BoardGateway.prototype, "addComment", null);
 __decorate([
-    (0, websockets_1.SubscribeMessage)('sendDeleteComment'),
+    (0, websockets_1.SubscribeMessage)("sendDeleteComment"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [socket_io_1.Socket, String]),
     __metadata("design:returntype", Promise)

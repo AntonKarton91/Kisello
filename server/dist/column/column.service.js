@@ -53,7 +53,7 @@ let ColumnService = class ColumnService {
         };
     }
     async findAndAddCard(id, update) {
-        return this.columnModel.findOneAndUpdate({ id }, update);
+        return this.columnModel.findOneAndUpdate({ _id: id }, update);
     }
 };
 ColumnService = __decorate([

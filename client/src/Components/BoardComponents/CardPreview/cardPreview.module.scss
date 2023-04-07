@@ -1,6 +1,8 @@
 @import "src/styles/styleConstants";
 
 .container {
+  position: relative;
+
   -webkit-user-select: none;
 
   min-width: 210px;
@@ -16,7 +18,8 @@
   box-shadow: 1px 1px 1px rgba(128, 128, 128, 0.76);
 
   gap: 5px;
-
+}
+.drag {
   &:hover {
     background-color: #f3f2f2;
   }
@@ -65,4 +68,13 @@
   &:first-child {
     margin: 0!important;
   }
+}
+
+.pre {
+  z-index: 1000;
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 20px;
 }

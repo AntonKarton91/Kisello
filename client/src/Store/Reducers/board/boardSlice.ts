@@ -29,6 +29,9 @@ export const boardSlice = createSlice({
         sendUpdateColumn: (state, action) => {},
         sendAddCardToColumn: (state, action) => {},
         sendCardUpdate: (state, action) => {},
+        sendDNDCard: (state, action) => {},
+
+
 
         updateColumn: (state, action: PayloadAction<{data: any, columnId: string}>) => {
             const column = state.columns.find(col => col._id === action.payload.columnId)
@@ -40,11 +43,14 @@ export const boardSlice = createSlice({
                     } else return e
                 })
             }
+        },
 
+        DNDCard: (state, action: PayloadAction<IColumn[]>) => {
+
+            state.columns = action.payload
         },
 
         cardUpdate: (state, action: PayloadAction<{data: any, cardId: string}>) => {
-                console.log(action.payload.data)
             const card = state.cardList.find(card => card._id === action.payload.cardId)
             if (card) {
                 const updatedCard = {...card, ...action.payload.data}
@@ -81,6 +87,8 @@ export const boardSlice = createSlice({
 })
 
 export const {
+    DNDCard,
+    sendDNDCard,
     addColumn,
     updateColumn,
     sendAddNewColumn,

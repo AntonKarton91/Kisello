@@ -4,7 +4,7 @@ import { io, Socket } from "socket.io-client";
 import { AppState } from "../types";
 import { typeConnect } from '../../types/typeConnect';
 import {IBoardState} from "../Reducers/board/types";
-import {addCardToColumn, addColumn, cardUpdate, updateColumn} from "../Reducers/board/boardSlice";
+import {addCardToColumn, addColumn, boardSlice, cardUpdate, DNDCard, updateColumn} from "../Reducers/board/boardSlice";
 import {ICartPrev, IColumn, IComment} from "../../models/models";
 import {Connect, Disconnect} from "../Reducers/webSocket/webSocket.slice";
 import {addComment, deleteComment} from "../Reducers/comment/commentSlice";
@@ -49,6 +49,10 @@ export const webSocketMiddleware: Middleware<{}, AppState> = store => next => ac
         }
     }
 
+    const DNDCardHandler = (message: IColumn[]) => {
+        store.dispatch(DNDCard(message))
+    }
+
     switch (action.type) {
         case 'webSocket/wsConnect': {
             if (webSocketState.connect === typeConnect.Disconnected && !socket?.connected) {
@@ -62,6 +66,7 @@ export const webSocketMiddleware: Middleware<{}, AppState> = store => next => ac
                 socket.on('addNewColumn', add)
                 socket.on('columnUpdate', columnUpdate)
                 socket.on('addCardToColumn', addCardToCol)
+                socket.on('DNDCard', DNDCardHandler)
                 socket.on('addComment', addCommentToCard)
                 socket.on('deleteComment', deleteCommentFromCard)
                 socket.on('cardUpdate', cardUploadHandler)
@@ -101,6 +106,36 @@ export const webSocketMiddleware: Middleware<{}, AppState> = store => next => ac
 
         case 'board/sendUpdateColumn': {
             return socket.emit("columnUpdate", action.payload)
+        }
+
+        case 'board/sendDNDCard': {
+            const {columns} = boardState
+            const {item , option, data, columnData} = action.payload
+            console.log(" ")
+            const a = columns.find(c=>c._id===item.columnFrom._id)
+            if (a) {
+                const cardsFrom = a.cardList.filter(c=>c !== item.cardFrom)
+                let newState = columns.map(c=>{
+                    if (c._id === item.columnFrom._id) {
+                        return {...c, cardList: cardsFrom}
+                    } else return c
+                })
+                const newSState = newState.map(c=> {
+                    if (c._id !== columnData._id) return c
+                    else {
+                        const index = c.cardList.indexOf(data._id)
+                        const newCards = [...c.cardList]
+                        if (option === "prev") {
+                            newCards.splice(index, 0, item.cardFrom)
+                        } else newCards.splice(index+1, 0, item.cardFrom)
+                        return {...c, cardList: newCards}
+                    }
+                })
+                store.dispatch(DNDCard(newSState))
+
+            }
+            //
+            // return socket.emit("sendDNDCard", action.payload)
         }
 
     }
