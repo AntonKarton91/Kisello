@@ -9,6 +9,8 @@ import {ICartPrev, IColumn, IComment} from "../../models/models";
 import {Connect, Disconnect} from "../Reducers/webSocket/webSocket.slice";
 import {addComment, deleteComment} from "../Reducers/comment/commentSlice";
 import {ICommentState} from "../Reducers/comment/types";
+import {IDndState} from "../Reducers/dnd/types";
+import {removeDnd} from "../Reducers/dnd/dndSlice";
 let socket: Socket
 //
 
@@ -16,6 +18,7 @@ let socket: Socket
 export const webSocketMiddleware: Middleware<{}, AppState> = store => next => action => {
     const webSocketState: WebSocketState = store.getState().webSocket
     const boardState: IBoardState = store.getState().board
+    const dndState: IDndState = store.getState().dnd
 
     const add = (message: IColumn) => {
         store.dispatch(addColumn(message))
@@ -110,29 +113,34 @@ export const webSocketMiddleware: Middleware<{}, AppState> = store => next => ac
 
         case 'board/sendDNDCard': {
             const {columns} = boardState
-            const {item , option, data, columnData} = action.payload
-            console.log(" ")
-            const a = columns.find(c=>c._id===item.columnFrom._id)
+            const {cardFrom, columnFrom} = dndState
+            const {item , option, cardTo, columnData} = action.payload
+            const a = columns.find(c=>c._id===columnFrom)
+
             if (a) {
-                const cardsFrom = a.cardList.filter(c=>c !== item.cardFrom)
+                const cardsFrom = a.cardList.filter(c=>c !== cardFrom)
                 let newState = columns.map(c=>{
-                    if (c._id === item.columnFrom._id) {
+                    if (c._id === columnFrom) {
                         return {...c, cardList: cardsFrom}
                     } else return c
                 })
+
                 const newSState = newState.map(c=> {
-                    if (c._id !== columnData._id) return c
+                    if (c._id !== columnData) return c
                     else {
-                        const index = c.cardList.indexOf(data._id)
+                        const index = c.cardList.indexOf(cardTo)
                         const newCards = [...c.cardList]
                         if (option === "prev") {
-                            newCards.splice(index, 0, item.cardFrom)
-                        } else newCards.splice(index+1, 0, item.cardFrom)
+                            newCards.splice(index, 0, cardFrom)
+                        } else {
+                            newCards.splice(index+1, 0, cardFrom)
+                            console.log(newCards)
+                        }
                         return {...c, cardList: newCards}
                     }
                 })
                 store.dispatch(DNDCard(newSState))
-
+                store.dispatch(removeDnd())
             }
             //
             // return socket.emit("sendDNDCard", action.payload)

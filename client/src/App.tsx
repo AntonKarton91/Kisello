@@ -5,6 +5,8 @@ import {theme} from "./styles/themes";
 import MainPage from "./Pages/MainPage/main.page";
 import LoginPage from "./Pages/LoginPage/login.page";
 import BoardPage from "./Pages/BoardPage/board.page";
+import {HTML5Backend} from "react-dnd-html5-backend";
+import {DndProvider} from "react-dnd";
 
 
 
@@ -17,9 +19,8 @@ function App() {
     if (loading) return <div></div>
 
     return (
-
+        <DndProvider backend={HTML5Backend}>
             <BrowserRouter>
-
                 <ThemeProvider theme={theme}>
                 <Routes>
                     <Route
@@ -34,6 +35,8 @@ function App() {
                 </Routes>
                 </ThemeProvider>
             </BrowserRouter>
+        </DndProvider>
+
     );
 }
 

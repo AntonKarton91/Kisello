@@ -6,6 +6,7 @@ import userReducer from './Reducers/user/userSlice'
 import {AppState} from "./types";
 import {authMiddleware} from "./middleware/auth.middleware";
 import commentReducer from "./Reducers/comment/commentSlice";
+import dndReducer from "./Reducers/dnd/dndSlice";
 
 
 
@@ -14,7 +15,8 @@ export const store = configureStore<AppState>({
         webSocket: webSocketReducer,
         board: boardReducer,
         comments: commentReducer,
-        user: userReducer
+        user: userReducer,
+        dnd: dndReducer
     },
 // @ts-ignore
     middleware:  (getDefaultMiddleware) => {

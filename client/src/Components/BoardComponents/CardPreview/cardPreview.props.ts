@@ -7,4 +7,5 @@ export interface CardPreviewProps extends DetailedHTMLProps<HTMLAttributes<HTMLD
     openCard: (cardId: string) => void
     closeCard: () => void
     openedCard: string
+    column: string
 }

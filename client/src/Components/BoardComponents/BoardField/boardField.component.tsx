@@ -34,7 +34,7 @@ export const BoardFieldComponent = ({}: BoardFieldProps): React.ReactElement => 
     return (
         loading
             ? <CircularProgress />
-            : <DndProvider backend={HTML5Backend}>
+            :
                 <div className={styles.container}>
                 {
                     columns.map((columnData, index) => {
@@ -49,7 +49,6 @@ export const BoardFieldComponent = ({}: BoardFieldProps): React.ReactElement => 
                     <div>Добавьте еще одну колонку</div>
                 </div>
                 </div>
-            </DndProvider>
     );
 };
 
