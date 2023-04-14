@@ -6,6 +6,8 @@ export interface CardPreviewProps extends DetailedHTMLProps<HTMLAttributes<HTMLD
     data: ICartPrev
     openCard: (cardId: string) => void
     closeCard: () => void
+    dragChecking: (isDragging: boolean) => void
+    isDrag: boolean
     openedCard: string
     column: string
 }

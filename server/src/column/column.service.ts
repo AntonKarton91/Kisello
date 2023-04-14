@@ -1,54 +1,74 @@
-import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
-import {InjectModel} from '@nestjs/mongoose';
-import {Model, ObjectId} from 'mongoose';
-import {CreateColumnDto} from './dto/createColumn.dto';
-import {Column, ColumnDocument} from "./schemas/column.schema";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model, ObjectId } from "mongoose";
+import { CreateColumnDto } from "./dto/createColumn.dto";
+import { Column, ColumnDocument } from "./schemas/column.schema";
 
-import {BoardService} from "../board/board.service";
+import { BoardService } from "../board/board.service";
 import { Board } from "../board/schemas/board.schema";
 
 @Injectable()
 export class ColumnService {
-    constructor(
-        private boardService: BoardService,
-        @InjectModel(Column.name) private columnModel: Model<ColumnDocument>,
-    ) {
-    }
+  constructor(
+    private boardService: BoardService,
+    @InjectModel(Column.name) private columnModel: Model<ColumnDocument>
+  ) {
+  }
 
-    async findAll(): Promise<Column[]> {
-        return this.columnModel.find();
-    }
+  async findAll(): Promise<Column[]> {
+    return this.columnModel.find();
+  }
 
-    async getByBoardId(id){
-        return this.columnModel.find({board: id}).select("id name cardList");
-    }
+  async getByBoardId(id) {
+    return this.columnModel.find({ board: id }).select("id name cardList");
+  }
 
-    async getAndUpdate(id: ObjectId, data: any){
-        try {
-            return this.columnModel.findOneAndUpdate({_id: id}, data, {new: true})
-        } catch (e) {
-            throw new Error(e)
-        }
+  async getAndUpdate(id: ObjectId, data: any) {
+    try {
+      return this.columnModel.findOneAndUpdate({ _id: id }, data, { new: true });
+    } catch (e) {
+      throw new Error(e);
     }
+  }
 
-    async create(boardId) {
-        const newColumn = await this.columnModel.create({
-            board: boardId,
-            cardList: [],
-        });
-        if (!newColumn) {
-            throw new HttpException("Ошибка сервера", HttpStatus.INTERNAL_SERVER_ERROR)
-        }
-        await this.boardService.findAndUpdate(boardId, {$push: {columns: newColumn.id}})
-        return {
-            _id: newColumn.id,
-            name: newColumn.name,
-            cardList: newColumn.cardList
-        }
+  async create(boardId) {
+    const newColumn = await this.columnModel.create({
+      board: boardId,
+      cardList: []
+    });
+    if (!newColumn) {
+      throw new HttpException("Ошибка сервера", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    await this.boardService.findAndUpdate(boardId, { $push: { columns: newColumn.id } });
+    return {
+      _id: newColumn.id,
+      name: newColumn.name,
+      cardList: newColumn.cardList
+    };
+  }
 
-    async findAndAddCard(id: ObjectId, update) {
-        return  this.columnModel.findOneAndUpdate({_id: id}, update);
-    }
+  async findAndAddCard(id: ObjectId, update) {
+    return this.columnModel.findOneAndUpdate({ _id: id }, update);
+  }
+
+  async dndCard({ columnFrom, cardsFrom, columnTo, cardsTo }: {
+    columnFrom: ObjectId,
+    cardsFrom: ObjectId[],
+    columnTo: ObjectId,
+    cardsTo: ObjectId[]
+  }) {
+    const serverColumnFrom = await this.columnModel.findOneAndUpdate(
+      { _id: columnFrom },
+      { $set: { cardList: cardsFrom }}
+    );
+    if (serverColumnFrom) {
+      const serverColumnTo = await this.columnModel.findOneAndUpdate(
+        { _id: columnTo },
+        { $set: { cardList: cardsTo }}
+      );
+      return !!serverColumnTo;
+    } else return false
+
+  }
 
 }

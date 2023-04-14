@@ -46,6 +46,12 @@ let BoardGateway = class BoardGateway {
         const deletedComment = await this.commentService.delete(payload);
         this.server.emit("deleteComment", deletedComment);
     }
+    async DNDCard(client, payload) {
+        const response = await this.columnService.dndCard(payload);
+        !!response
+            ? this.server.emit("DNDCard", payload)
+            : this.server.emit("DNDCard", false);
+    }
     afterInit(server) {
         console.log(server);
     }
@@ -96,6 +102,12 @@ __decorate([
     __metadata("design:paramtypes", [socket_io_1.Socket, String]),
     __metadata("design:returntype", Promise)
 ], BoardGateway.prototype, "deleteComment", null);
+__decorate([
+    (0, websockets_1.SubscribeMessage)("sendDNDCard"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
+    __metadata("design:returntype", Promise)
+], BoardGateway.prototype, "DNDCard", null);
 BoardGateway = __decorate([
     (0, websockets_1.WebSocketGateway)({ cors: true }),
     __metadata("design:paramtypes", [column_service_1.ColumnService,

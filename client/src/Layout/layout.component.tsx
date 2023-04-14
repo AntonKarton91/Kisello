@@ -9,7 +9,7 @@ const LayoutComponent = ({children}: HeaderProps): React.ReactElement => {
     return (
         <div
             className={styles.container}
-            style={{backgroundImage: "url('https://images.wallpaperscraft.ru/image/single/listia_rastenie_zelenyj_118405_1920x1080.jpg')"}}
+            style={{backgroundImage: "url('https://img3.goodfon.ru/wallpaper/nbig/7/4e/dodge-challenger-srt-mopar.jpg')"}}
         >
             <div className={styles.header}>
                 <HeaderComponent/>

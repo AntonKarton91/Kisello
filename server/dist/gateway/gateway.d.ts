@@ -27,6 +27,12 @@ export declare class BoardGateway implements OnGatewayInit, OnGatewayConnection,
     }): Promise<void>;
     addComment(client: Socket, payload: CreateCardCommentDto): Promise<void>;
     deleteComment(client: Socket, payload: string): Promise<void>;
+    DNDCard(client: Socket, payload: {
+        columnFrom: ObjectId;
+        cardsFrom: ObjectId[];
+        columnTo: ObjectId;
+        cardsTo: ObjectId[];
+    }): Promise<void>;
     afterInit(server: Server): void;
     handleDisconnect(client: Socket): void;
     handleConnection(client: Socket, ...args: any[]): void;

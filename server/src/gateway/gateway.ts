@@ -38,10 +38,10 @@ export class BoardGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 
   @SubscribeMessage("sendAddCardToColumn")
   async handleAddCardToColumn(client: Socket, payload: {
-                                                        title: string,
-                                                        boardId: string,
-                                                        columnId: ObjectId
-                                                      }): Promise<void> {
+    title: string,
+    boardId: string,
+    columnId: ObjectId
+  }): Promise<void> {
     const newCard = await this.cardService.create(payload);
     this.server.emit("addCardToColumn", newCard);
   }
@@ -62,6 +62,20 @@ export class BoardGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
   async deleteComment(client: Socket, payload: string): Promise<void> {
     const deletedComment = await this.commentService.delete(payload);
     this.server.emit("deleteComment", deletedComment);
+  }
+
+  @SubscribeMessage("sendDNDCard")
+  async DNDCard(client: Socket, payload: {
+                                          columnFrom: ObjectId,
+                                          cardsFrom: ObjectId[],
+                                          columnTo: ObjectId,
+                                          cardsTo: ObjectId[]
+                                        }): Promise<void> {
+    const response = await this.columnService.dndCard(payload);
+    !!response
+      ? this.server.emit("DNDCard", payload)
+      : this.server.emit("DNDCard", false)
+
   }
 
   afterInit(server: Server) {

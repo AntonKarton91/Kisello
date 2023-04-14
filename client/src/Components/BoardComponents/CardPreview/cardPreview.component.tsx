@@ -14,8 +14,10 @@ import {useDrag, useDragDropManager, useDrop} from "react-dnd";
 import {DndTypes} from "../../../DND/types";
 import cn from "classnames";
 import {sendDNDCard} from "../../../Store/Reducers/board/boardSlice";
-import {updateDnd} from "../../../Store/Reducers/dnd/dndSlice";
+import {removeDnd, updateDnd} from "../../../Store/Reducers/dnd/dndSlice";
 import {getEmptyImage} from "react-dnd-html5-backend";
+import {CardPreviewParts} from "./CardPreviewParts/cardPreviewParts";
+import {useCardDrag} from "../../../DND/hooks";
 
 
 export const CardPreview = ({
@@ -25,27 +27,24 @@ export const CardPreview = ({
                                 openCard,
                                 closeCard,
                                 openedCard,
-                                columnData
+                                columnData,
+                                isDrag,
+                                dragChecking
                             }: CardPreviewProps): React.ReactElement => {
     const [isOpenAllow, setIsOpenAllow] = useState(true)
     const cardRef = useRef<HTMLDivElement>(null)
     const pre = useRef<HTMLDivElement>(null)
     const post = useRef<HTMLDivElement>(null)
     const {cardTags, users} = useAppSelector(state => state.board)
+    const {cardFrom} = useAppSelector(state => state.dnd)
     const dispatch = useAppDispatch()
-
-
     // @ts-ignore
-    const [{isDragging}, drag, preview] = useDrag(() => ({
-        type: DndTypes.CARD,
-        item: {cardFrom: data._id, columnFrom: columnData},
-        collect: monitor => ({
-            isDragging: monitor.isDragging(),
-        }),
-        previewOptions: {
-            visible: false
-        }
-    }))
+    const [{isDragging}, drag, preview] = useCardDrag(DndTypes.CARD, {cardFrom: id, columnFrom: columnData})
+
+
+    useEffect(() => {
+        dragChecking(isDragging)
+    }, [isDragging])
 
     useEffect(() => {
         preview(getEmptyImage(),)
@@ -62,24 +61,23 @@ export const CardPreview = ({
         collect: (monitor) => ({
             isOverCard: monitor.isOver(),
         }),
-
-
         drop: (item, monitor) => {
-
-            // @ts-ignore
-            // console.log(item.columnFrom.cardList)
             if (cardRef.current) {
                 const rect = cardRef.current.getBoundingClientRect()
                 const middleRect = rect.top + ((rect.bottom - rect.top) / 2)
                 // @ts-ignore
                 const diff = monitor.getClientOffset().y - middleRect
-                dispatch(sendDNDCard({item, option: diff >= 0 ? 'post' : 'prev', cardTo: id, columnData: column}))
+                dispatch(sendDNDCard({
+                    item,
+                    options: {type: "filled", position: diff >= 0 ? 'post' : 'prev'},
+                    cardTo: id,
+                    columnData: column
+                }))
             }
+
+            dispatch(removeDnd())
         },
-
-
         hover: (item, monitor) => {
-            // @ts-ignore
             if (cardRef.current && pre.current && post.current) {
                 // @ts-ignore
                 if (item.cardFrom === data._id) {
@@ -107,6 +105,8 @@ export const CardPreview = ({
     }))
 
     drag(drop(cardRef))
+
+
 
     useEffect(() => {
         if (cardRef.current && !isOverCard && pre.current && post.current) {
@@ -150,94 +150,67 @@ export const CardPreview = ({
 
     const classes = cn(
         styles.container,
-        {[styles.drag]: !isDragging}
+        {[styles.drag]: !isDrag}
     )
 
     return (
-        <div ref={cardRef}
-             style={{
-                 cursor: isDragging ? 'move' : "auto",
-                 display: isDragging ? "none" : "block",
-                 transition: "1s all"
-             }}
-        >
-            <div ref={pre} style={{width: "100%", backgroundColor: "#d2d0d0", borderRadius: "5px"}}></div>
-            <div
-                className={classes}
-                onClick={e => openCardHandler(e, data._id)}
+        <>
+            <div ref={cardRef}
+                 style={{
+                     padding: "4px",
+                     cursor: isDragging ? 'move' : "auto",
+                     display: cardFrom === id ? "none" : "block",
+                 }}
             >
-                {
-                    currentTagList().length > 0 && <div className={styles.tagsContainer}>
-                        {
-                            currentTagList()
-                                .map(tag => {
-                                    return (
-                                        <CardTagComponent
-                                            key={tag._id}
-                                            id={tag._id}
-                                            title={tag.title}
-                                            color={tag.color}
-                                        />
-                                    )
-                                })
-                        }
-                    </div>
-                }
-                <div className={styles.description}>
-                    <CardDescriptionComponent
-                        cardId={data._id}
-                        restrictOpen={() => setIsOpenAllow(false)}
-                        valueProp={data.title}
-                        changeValue={changeDescription}
-                    />
-                </div>
-
-                <div className={styles.partsDateContainer}>
-                    <div className={styles.date} id={"date-tag"}>
-                        <DateTagComponent
-                            isDone={data.completed}
-                            selectDate={data.date}
+                <div ref={pre} style={{width: "100%", backgroundColor: "#d2d0d0", borderRadius: "5px"}}></div>
+                <div className={classes} onClick={e => openCardHandler(e, data._id)}>
+                    {
+                        currentTagList().length > 0 && <div className={styles.tagsContainer}>
+                            {
+                                currentTagList()
+                                    .map(tag => {
+                                        return (
+                                            <CardTagComponent
+                                                key={tag._id}
+                                                id={tag._id}
+                                                title={tag.title}
+                                                color={tag.color}
+                                            />
+                                        )
+                                    })
+                            }
+                        </div>
+                    }
+                    <div className={styles.description}>
+                        <CardDescriptionComponent
                             cardId={data._id}
+                            restrictOpen={() => setIsOpenAllow(false)}
+                            valueProp={data.title}
+                            changeValue={changeDescription}
                         />
                     </div>
-                    <div className={styles.parts}>
-                        {
-                            (currentParticipants() || [] as IBoardUser[])
-                                .map((user, index, array) => {
-                                    const gap = index !== 0 ? -array.length * 2 : 0
-                                    return (
-                                        <TooltipComponent
-                                            key={`${user.surname} ${index}`}
-                                            description={`${user.surname} ${user.name}`}
-                                        >
-                                            {
-                                                user.avatar
-                                                    ? <ImageComponent
-                                                        style={{marginLeft: gap + "px"}}
-                                                        height={30}
-                                                        width={30}
-                                                        circle
-                                                        src={user.avatar}
-                                                        key={user._id} description={`${user.surname} ${user.name}`}
-                                                    />
-                                                    : <AvatarPlaceholderComponent circle size={30}
-                                                                                  title={user.name ? user.name : ""}
-                                                                                  fontSize={20}/>
-                                            }
 
-                                        </TooltipComponent>
-                                    )
-                                })
-                        }
+                    <div className={styles.partsDateContainer}>
+                        <div className={styles.date} id={"date-tag"}>
+                            <DateTagComponent
+                                isDone={data.completed}
+                                selectDate={data.date}
+                                cardId={data._id}
+                            />
+                        </div>
+                        <CardPreviewParts currentParticipants={currentParticipants}/>
                     </div>
+
                 </div>
+                <div ref={post} style={{width: "100%", backgroundColor: "#d2d0d0", borderRadius: "5px"}}></div>
 
             </div>
-            <div ref={post} style={{width: "100%", backgroundColor: "#d2d0d0", borderRadius: "5px"}}></div>
-            {data._id === openedCard && <CardPopupComponent
-                columnData={columnData}
-                closePopup={closeCard} data={data}/>}
-        </div>
+            {
+                data._id === openedCard && <CardPopupComponent
+                    columnData={columnData}
+                    closePopup={closeCard} data={data}/>
+            }
+        </>
     );
 };
 

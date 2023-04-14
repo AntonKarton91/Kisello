@@ -22,7 +22,7 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Model, ObjectId } from 'mongoose';
+import { Model, ObjectId } from "mongoose";
 import { Column, ColumnDocument } from "./schemas/column.schema";
 import { BoardService } from "../board/board.service";
 export declare class ColumnService {
@@ -50,4 +50,10 @@ export declare class ColumnService {
     }, never> & Required<{
         _id: import("mongoose").Types.ObjectId;
     }>>;
+    dndCard({ columnFrom, cardsFrom, columnTo, cardsTo }: {
+        columnFrom: ObjectId;
+        cardsFrom: ObjectId[];
+        columnTo: ObjectId;
+        cardsTo: ObjectId[];
+    }): Promise<boolean>;
 }

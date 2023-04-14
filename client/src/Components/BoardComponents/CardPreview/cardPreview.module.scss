@@ -62,15 +62,6 @@
   grid-area: date;
 }
 
-.parts{
-  grid-area: parts;
-  display: flex;
-
-  &:first-child {
-    margin: 0!important;
-  }
-}
-
 .pre {
   z-index: 1000;
   position: absolute;

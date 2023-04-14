@@ -40,7 +40,7 @@ let ColumnService = class ColumnService {
     async create(boardId) {
         const newColumn = await this.columnModel.create({
             board: boardId,
-            cardList: [],
+            cardList: []
         });
         if (!newColumn) {
             throw new common_1.HttpException("Ошибка сервера", common_1.HttpStatus.INTERNAL_SERVER_ERROR);
@@ -54,6 +54,15 @@ let ColumnService = class ColumnService {
     }
     async findAndAddCard(id, update) {
         return this.columnModel.findOneAndUpdate({ _id: id }, update);
+    }
+    async dndCard({ columnFrom, cardsFrom, columnTo, cardsTo }) {
+        const serverColumnFrom = await this.columnModel.findOneAndUpdate({ _id: columnFrom }, { $set: { cardList: cardsFrom } });
+        if (serverColumnFrom) {
+            const serverColumnTo = await this.columnModel.findOneAndUpdate({ _id: columnTo }, { $set: { cardList: cardsTo } });
+            return !!serverColumnTo;
+        }
+        else
+            return false;
     }
 };
 ColumnService = __decorate([

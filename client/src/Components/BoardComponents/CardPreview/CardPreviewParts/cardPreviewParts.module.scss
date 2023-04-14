@@ -1,0 +1,10 @@
+@import "src/styles/styleConstants";
+
+.parts{
+  grid-area: parts;
+  display: flex;
+
+  &:first-child {
+    margin: 0!important;
+  }
+}

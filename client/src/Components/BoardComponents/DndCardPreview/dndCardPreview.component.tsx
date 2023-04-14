@@ -7,6 +7,7 @@ import {DetailedHTMLProps, HTMLAttributes, useEffect, useRef, useState} from "re
 import {useAppDispatch, useAppSelector} from "../../../Store/hooks";
 import {IBoardUser} from "../../../Store/Reducers/board/types";
 import {AvatarPlaceholderComponent} from "../../../UIComponents/AvatarPlaceholder/avatarPlaceholder.component";
+import {CardPreviewParts} from "../CardPreview/CardPreviewParts/cardPreviewParts";
 
 
 export interface DndCardPreviewProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
@@ -15,7 +16,7 @@ export interface DndCardPreviewProps extends DetailedHTMLProps<HTMLAttributes<HT
 
 
 export const DndCardPreview = ({item}: DndCardPreviewProps): React.ReactElement => {
-    const {columns, cardList, cardTags, users} = useAppSelector(state => state.board)
+    const {cardList, cardTags, users} = useAppSelector(state => state.board)
     const [card] = useState(() => {
             const card = cardList.find(c => c._id === item?.cardFrom)
             return card ? card : {} as ICartPrev
@@ -69,36 +70,9 @@ export const DndCardPreview = ({item}: DndCardPreviewProps): React.ReactElement 
                             cardId={card._id}
                         />
                     </div>
-                    <div className={styles.parts}>
-                        {
-                            (currentParticipants() || [] as IBoardUser[])
-                                .map((user, index, array) => {
-                                    const gap = index !== 0 ? -array.length * 2 : 0
-                                    return (
-                                        <TooltipComponent
-                                            key={`${user.surname} ${index}`}
-                                            description={`${user.surname} ${user.name}`}
-                                        >
-                                            {
-                                                user.avatar
-                                                    ? <ImageComponent
-                                                        style={{marginLeft: gap + "px"}}
-                                                        height={30}
-                                                        width={30}
-                                                        circle
-                                                        src={user.avatar}
-                                                        key={user._id} description={`${user.surname} ${user.name}`}
-                                                    />
-                                                    : <AvatarPlaceholderComponent circle size={30}
-                                                                                  title={user.name ? user.name : ""}
-                                                                                  fontSize={20}/>
-                                            }
 
-                                        </TooltipComponent>
-                                    )
-                                })
-                        }
-                    </div>
+
+                    <CardPreviewParts currentParticipants={currentParticipants}/>
                 </div>
 
             </div>
